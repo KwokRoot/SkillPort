@@ -1,0 +1,17 @@
+一、Eclipse 编码格式：
+	① 修改平台项目默认编码：
+		Window → Preferences → General → Workspace → Text file encoding 设置为 UTF-8。
+	② 修改单个项目(文件)默认编码：
+		项目(文件)右键 → Properties → Text file encoding 设置为 UTF-8。
+	③ 修改平台某类型文件的编码：
+		Window → Preferences → General → Content Types → Text → JSP、Java Properties File、XML... → Update 为 UTF-8。
+		注：修改 JSP 文件模版中 page 标签编码： 
+		Window → Preferences → Web → JSP Files → Encoding 设置为 ISO 10646/Unicode(UTF-8)。
+
+二、Eclipse 工作空间字体设置：
+	Window → Preferences → Appearance → Colors and Fonts → Basic → Text Font → Edit。
+
+三、Eclipse 设置启动时使用的虚拟机（在升级 JDK 后，遇见 Eclipse 启动失败时，或许需要设置为原版本的虚拟机运行 Eclipse）：
+	在 eclipse.ini 文件中的虚拟机参数（-vmargs）之前设置虚拟机：
+		-vm
+		C:\Program Files\Java\jdk1.7.0_80\bin\javaw.exe。

@@ -1,0 +1,12 @@
+SublimeText3-常用插件：
+
+1、Package Control：插件控制。
+2、AutoBackups：文档备份。
+3、Emmet：HTML/CSS代码提示。
+4、ColorPicker：取色。
+5、diffy：对比文档不同。
+6、jQuery：jQuery代码提示。
+7、JsFormat：JS代码格式化。
+8、Git：Git插件。
+9、ConvertToUTF8：转换文档编码。
+10、ChineseLocalizations：汉化。

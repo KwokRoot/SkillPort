@@ -1,0 +1,27 @@
+SublimeText3-常用快捷键:
+
+1、Ctrl+N：快速创建。
+2、Ctrl+F：查找。  Ctrl+H：替换。
+3、Tab：向右缩进 或 自动完成。  Shift+Tab：向左缩进。
+4、Ctrl+D：选词（继续按 Ctrl+D 选择下个相同的词）。  Ctrl+Shift+D：复制当前行到下一行。
+5、Alt+F3：选中文本后按下快捷键，即可选中全部相同文本进行同时编辑。
+6、Ctrl+L：选中一行（继续按住 Ctrl+L 选择下行）。
+7、Shift+↑（↓）：向上（下）选中多行。
+8、Ctrl+鼠标左击：设置多个同时编辑点。
+9、Ctrl+Alt+↑（↓） 或 Shift+鼠标右键拖拽：列选择，向上（下）添加多行光标，可同时编辑多行。
+10、Ctrl+J：合并选中的多行代码为一行。
+11、Ctrl+Enter：在下一行插入新行。  Ctrl+Shift+Enter：在上一行插入新行。
+12、Ctrl+Shift+↑（↓）：将光标所在行和上一行（下一行）代码互换。
+13、Ctrl+X：剪切当前行。
+14、Ctrl+Shift+K：删除当前行。  Ctrl+KK：从光标处删除至行尾。  Ctrl+K+Backspace：从光标处删除至行首。
+15、Ctrl+G：跳转到第几行。
+16、Ctrl+M：跳转到对应括号。  Ctrl+Shift+M：选择括号内的内容（继续按住 Ctrl+Shift+M 选择父括号内容）。
+17、Alt+.：闭合当前标签。
+18、Ctrl+Shift+[ ：折叠代码。  Ctrl+Shift+] ：展开代码。
+19、Ctrl+/：注释单行。  Ctrl+Shift+/：注释多行。
+20、Ctrl+K+U：转换大写。  Ctrl+K+L：转换小写。
+21、Ctrl+F2：设置书签。  F2：依次遍历书签。  Shift+F2：上一个书签。  Ctrl+Shift+F2：删除所有书签。
+22、Ctrl+Shift+P：打开命令面板。
+23、Ctrl+P：搜索项目中的文件。
+24、Esc：退出光标多行选择，退出搜索框，命令框等。
+25、Alt+Shift+2：左右分屏-2列。

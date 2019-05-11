@@ -1,0 +1,123 @@
+1.cd  切换目录。 "/" 根目录。
+
+2.ls  查看目录列表。
+
+3.pwd  当前目录路径。
+
+4.mkdir  创建文件夹。"mkdir -p (级联创建目录) -v (显示创建信息)"。
+
+5.rmdir(rm)  删除文件夹。"rm -r(递归即子目录) -f(强行) -I(提示确认) fileName"。
+
+6.cp  复制文件或目录。
+	拓展：
+		scp(secure copy)：基于ssh的远程文件拷贝命令：
+		scp -r /usr/soft/program 192.168.3.93:/usr/soft/program 递归复制program整个目录到服务器192.168.3.93下的/usr/soft/program目录。参数：-r 递归复制整个目录。 -p 保留原文件的修改时间，访问时间和访问权限。 -q  不显示传输进度条。
+
+7.mv  重命名或者移动文件或目录。
+
+8.find  查找目录  "find /dir -name java" 从某目录中查找名为 java 的文件。
+
+9.cat  查看文件内容  "cat -n fileName" 显示行号及文件内容。 "cat fileName1 > (或 >>) fileName2" 把 fileName1 内容复制（或追加）到 fileName2。
+
+10.grep  "grep -i java fileName" 在某文件中忽略大小写搜索"java"。
+
+11.tail -n 100 -f out.log（tail -100f out.log）  输出文件最后n行的内容，同时监视文件的改变，循环读取文件。
+	拓展：
+	head命令： 用于显示文件的前n行，例如：head -n 100 out.log（或者 head -100 out.log）显示文件前10行数据。
+
+12.vi  纯文本编辑器。进入修改模式（i, a, o），按ESC键切换命令行模式。命令模式下输入"/"或者"?"查找，"n"查找下一个。编辑后，在命令模式下":w"保存文件，":q"退出vi，":q!"不保存文件强制退出vi。
+
+13."命令 --help"  命令帮助。
+
+14."Tab键"  输入提示。
+
+15.Linux用户操作：
+	adduser Sa  创建用户
+	userdel Sa  删除用户
+	passwd [Sa]  修改密码
+
+16.jdk环境变量设置：
+	①vi /etc/profile。
+	②添加：
+		export JAVA_HOME=/usr/java/jdk1.7.0_80
+		export JRE_HOME=/usr/java/jdk1.7.0_80/jre
+		export PATH=$JAVA_HOME/bin:$PATH
+		export CLASSPATH=./:/usr/java/jdk1.7.0_80/lib:/usr/java/jdk1.7.0_80/jre/lib
+	③ESC键（切换到命令行模式）。
+	④:wq（保存退出）。
+	⑤source /etc/profile（配置立即生效）。
+
+17.CentOS7 配置静态 IP：
+	①打开文件：
+		vi /etc/sysconfig/network-scripts/ifcfg-eno******
+
+	②编辑：
+		#修改
+		BOOTPROTO=static #这里将dhcp换成static
+		ONBOOT=yes #将no换成yes
+		
+		#新增
+		IPADDR=192.168.3.91 #静态IP
+		NETMASK=255.255.255.0 #子网掩码
+		GATEWAY=192.168.3.1 #默认网关
+
+	③重启网络服务
+		service network restart
+
+	④查看当前IP
+		ip addr
+
+
+18.vi 编辑器：
+	①插入模式：
+		a.按「i」切换进入插入模式「insert mode」，按“i”进入插入模式后是从光标当前位置开始输入文件；
+		b.按「a」进入插入模式后，是从目前光标所在位置的下一个位置开始输入文字；
+		c.按「o」进入插入模式后，是插入新的一行，从行首开始输入文字。
+	②命令模式：
+		: w filename （输入 「w filename」将内容以指定的文件名filename保存）
+		: wq (输入「wq」，存盘并退出vi)
+		: q! (输入q!， 不存盘强制退出vi)
+	③从插入模式切换为命令行模式按「ESC」键。
+
+19.date 查看时间和日期。cal 查看本月月历。
+
+20.ps -au 显示用户所有进程。
+
+21.Kill -9 PID 强制结束 PID 进程。
+
+22.echo "1" > myid  创建内容为1的 myid 文件。
+
+23.解压：
+	命令 tar  
+	参数：-x：解压  -z：有gzip属性的  -j：有bz2属性的  -Z：有compress属性的  -v：显示所有过程  -f: 使用档案名字，切记，这个参数是最后一个参数，后面只能接档案名。
+	常用：
+		tar -xzvf file.tar.gz    解压tar.gz
+		tar -xjvf file.tar.bz2   解压 tar.bz2
+		tar -xZvf file.tar.Z     解压tar.Z
+	拓展：
+		unzip *.zip   解压 .zip
+
+24.查看ip地址：ifconfig 或 ip address
+
+25.查看端口占用：
+	lsof -i:22 查看22端口被哪个进程占用（注：没有lsof命令时需要安装，yum install lsof）。
+	netstat -lnp|grep 22 查看22端口被哪个进程占用。（-l 选项列出正在监听的套接字，-n 选项禁用域名解析功能，-p 选项查看进程信息。）
+
+26.进程管理器：
+	命令：top
+	参数：运行top命令后，键入大写P，按进程的CPU使用率排序；键入大写M，按进程的内存使用率排序。
+
+27.nohup是永久执行，断开SSH连接不会影响该进程的运行；&是指在后台运行，退出终端连接，该进程也会退出；nohup COMMAND & 这样可以使命令永久的在后台执行。
+
+28.Ctrl+C 和 Ctrl+Z 都是中断命令，但作用不同：
+	Ctrl+C是发送SIGINT信号，终止一个进程。
+　　Ctrl+Z是发送SIGSTOP信号，挂起一个进程，将作业放置到后台（暂停状态）。与此同时，可以通过fg重启前台被中断的任务，也可以通过bg把中断的任务放到后台执行。
+
+29.yum 安装软件：
+	①yum list *jdk*  检索包含jdk的列表；
+	②yum install package  安装包。
+	拓展：
+		yum info installed 列出所有已安裝的软件包信息。
+		yum remove package 卸载软件。
+
+30.shutdown 安全的关机命令；reboot 重启命令；poweroff 在关闭计算机操作系统之后，最后还会发送ACPI指令，通知电源，切断电源供应。

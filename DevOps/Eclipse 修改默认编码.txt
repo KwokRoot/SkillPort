@@ -1,0 +1,19 @@
+1、方式一：(可视化窗口修改)
+
+Window --> Preferences --> General --> Workspace
+
+
+2、方式二：(Eclipse 配置文件修改)
+
+与 eclipse.exe 同目录下 eclipse.ini 在末尾加入一句   -Dfile.encoding=UTF-8  
+
+
+3、拓展一：局部修改某种类型的文件编码
+
+Window --> Preferences --> Genera --> Content Types
+
+
+4、拓展二：局部修改某个项目的文件编码
+
+该项目右键 --> Properties --> Resource
+

@@ -1,0 +1,41 @@
+①Eclipse中使用注释模版(Java 文件)：
+
+快捷键：Alt+Shift+J
+
+
+②设置注释模版：
+
+注释方法：
+
+windows → preference → Java → Code Style → Code Templates → Comments → Methods
+
+格式：
+
+/**
+  * @MethodName ${enclosing_method}
+  * @Description 
+  * ${tags} ${return_type} 
+  * @throws 
+  * @date ${date} ${time}
+  * @author Kwok
+  **/
+
+注：记得把作者Kwok修改为自己的英文代号。
+
+
+注释实现方法：
+
+windows → preference → Java → Code Style → Code Templates → Comments → Overriding methods
+
+格式：
+
+/** @MethodName ${enclosing_method}
+  * ${see_to_overridden}
+  * @throws 
+  * @date ${date} ${time}
+  * @author Kwok
+  **/
+
+注：记得把作者Kwok修改为自己的英文代号。
+
+

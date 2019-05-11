@@ -1,0 +1,30 @@
+1.查看类和函数源代码：按Ctrl键单击鼠标
+2.提示：Alt+/
+3.语句注释(//)：Ctrl+/   或者： Ctrl+Shift+C
+4.块注释（/*...*/）:Ctrl+Shift+/  取消时：Ctrl+Shift+\
+5.输入主函数：main+Alt+/
+6.输入打印语句：syso+Alt+/
+7.代码格式化：Ctrl+Shift+F
+8.代码交换位置：Alt+↑ 或 Alt+↓
+9.查看快捷键：Ctrl+Shift+L
+10.窗口的调出：菜单Window → Show View 
+11.字体的调整：菜单Window → Preferences → General Appearance → Colors and Fonts
+12.窗体的重置：菜单Window →Reset Perspective
+
+
+补充:
+
+1.JAVA文件中同一变量集中更换名称：Alt+Shift+R(或者 右键→Refactor→Rename)
+2.列选择(块选择)：Alt+Shift+A  退出：Alt+Shift+A ( 在EditPlus编辑器中：Alt+C 或者 菜单中点击编辑→选择→按列选择 )
+3.字符选择：Shift+←(↑、→、↓)  单词选择：Ctrl+Shift+←(↑、→、↓)
+4.①导入未引用的包：Ctrl+Shift+M  ②导入未引用的包并删除未使用的包（即组织整理导入的包）：Ctrl+Shift+O
+5.添加 Javadoc 文档注释： Alt+Shift+J
+6.光标快速定位到与之匹配的另一半标签：
+	①Java文件中：Ctrl+Shift+P 
+	②XML、HTML、JSP文件中：Ctrl+Shift+.(即 Ctrl+> )
+       (③在EditPlus编辑器中：①搜索匹配的 HTML 标签：Ctrl+[   ②搜索匹配的括号：ctrl+] )
+7.在同一文件下查找和置换字符：Ctrl+F（可以直接选中所查找的字符按下快捷键）
+  查找并打开资源文件：Ctrl+Shift+R（可以直接选中所查找的文件名按下快捷键）
+8.复制当前行代码：Ctrl+Alt+↑ 或 Ctrl+Alt+↓(在EditPlus编辑器中：Ctrl+J )
+
+
