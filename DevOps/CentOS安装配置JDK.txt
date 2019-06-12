@@ -1,4 +1,12 @@
 1.yum 命令安装 openjdk。
+	① yum list *jdk*
+		结果：
+			可安装的软件包
+			java-1.6.0-openjdk.x86_64
+			java-1.7.0-openjdk.x86_64
+			java-1.8.0-openjdk.x86_64
+			......
+	② yum install java-1.8.0-openjdk.x86_64
 
 2.查找安装的目录：
 	① rpm -qa|grep java
