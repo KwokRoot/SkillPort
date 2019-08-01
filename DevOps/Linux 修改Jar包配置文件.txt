@@ -1,0 +1,55 @@
+Linux 修改Jar包配置文件：
+
+方式一：使用 jar 命令
+	1.搜索 jar 包里的配置文件
+		jar tvf SpringBoot.jar | grep properties
+	2.提取需要修改的配置文件
+		jar xvf SpringBoot.jar BOOT-INF/classes/system.properties
+	3.编辑配置文件
+		vim BOOT-INF/classes/system.properties
+	4.将新文件替换到jar包中
+		jar uvf SpringBoot.jar BOOT-INF/classes/system.properties
+
+方式二：使用 vim 命令
+	1.打开 jar 文件
+		vim SpringBoot.jar
+	2.搜索并打开需要配置的文件
+		vim 通过 "/" 搜索配置文件，"n" 检索下一个，回车打开该文件。
+	3.编辑并退出
+		vim 通过 "i|o|a" 进入编辑模式，编辑后 ":wq"保存退出 或者 ":q!"不保存退出。
+
+
+注：
+	jar 命令：
+		用法: jar {ctxui}[vfmn0PMe] [jar-file] [manifest-file] [entry-point] [-C dir] files ...
+		选项:
+		    -c  创建新档案
+		    -t  列出档案目录
+		    -x  从档案中提取指定的 (或所有) 文件
+		    -u  更新现有档案
+		    -v  在标准输出中生成详细输出
+		    -f  指定档案文件名
+		    -m  包含指定清单文件中的清单信息
+		    -n  创建新档案后执行 Pack200 规范化
+		    -e  为捆绑到可执行 jar 文件的独立应用程序
+		        指定应用程序入口点
+		    -0  仅存储; 不使用任何 ZIP 压缩
+		    -P  保留文件名中的前导 '/' (绝对路径) 和 ".." (父目录) 组件
+		    -M  不创建条目的清单文件
+		    -i  为指定的 jar 文件生成索引信息
+		    -C  更改为指定的目录并包含以下文件
+		如果任何文件为目录, 则对其进行递归处理。
+		清单文件名, 档案文件名和入口点名称的指定顺序
+		与 'm', 'f' 和 'e' 标记的指定顺序相同。
+
+		示例 1: 将两个类文件归档到一个名为 classes.jar 的档案中:
+		       jar cvf classes.jar Foo.class Bar.class
+		示例 2: 使用现有的清单文件 'mymanifest' 并
+		           将 foo/ 目录中的所有文件归档到 'classes.jar' 中:
+		       jar cvfm classes.jar mymanifest -C foo/ .
+
+
+
+扩展：
+	Windows 系统可以直接使用解压工具打开并修改，也可以使用 jar 命令进行提取，修改后写入。 
+
