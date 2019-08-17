@@ -1,0 +1,27 @@
+Linux-CentOS-设置静态IP：
+	当前系统版本：CentOS Linux release 7.6.1810 (Core)
+
+1.进入目录：
+	cd /etc/sysconfig/network-scripts
+2.查找 ifcfg-* 文件：
+	ls
+3.编辑 ifcfg-* 文件(例如：ifcfg-enp0s3)：
+	vim ifcfg-*
+	
+	①修改：
+		BOOTPROTO=dhcp(IP获取方式)
+		ONBOOT=no(重启网卡或服务器之后，该控制网卡是不是自启)
+  	  为：
+  		BOOTPROTO=static
+		ONBOOT=yes
+
+	②新增：
+  		IPADDR=192.168.3.91
+		NETMASK=255.255.255.0
+		GATEWAY=192.168.3.1
+		DNS1=192.168.3.1
+
+4.保存后，重启网络：service network restart
+5.查看当前IP:
+	ip addr(address)
+
