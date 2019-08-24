@@ -28,3 +28,8 @@
 8.复制当前行代码：Ctrl+Alt+↑ 或 Ctrl+Alt+↓(在EditPlus编辑器中：Ctrl+J )
 
 
+补充：
+
+1.Ctrl + T	显示类的继承关系，接口的实现关系等
+2.Ctrl + Shift + T	搜索类(包括Jar包里的类)，可以使用“*”、“？”等通配符
+
