@@ -1,0 +1,443 @@
+1、MyBatis
+<![CDATA[ <= ]]> 
+主键冲突不报错 insert ignore into
+
+2、jQuery SDN
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+3、JS判断输入的字符是否是合法数字
+if(isNaN(Number($("#xx").val())){
+	console.log("输入不合法");
+}
+
+4、MySQL中导出数据字典
+SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMEN T FROM information_schema. COLUMNS WHERE TABLE_SCHEMA = 'ucanm2' AND TABLE_NAME = 't_broker'
+
+5、SpringMVC框架中service层获取 request参数。
+方式1：
+	直接在Controller层调用Service层方法时，传入request参数。
+方式2：
+	HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+
+6、利用逻辑或（||）的执行过程改善代码：
+	
+	if(user==null || user.getId()!=uid){
+		result.type=Type.error;
+		return result;
+	}
+	等效：
+	if(user!=null){
+		if(user.getId()!=uid){
+			result.type=Type.error;
+			return result;
+		}
+	}else{
+		result.type=Type.error;
+		return result;
+	}
+
+7、权限验证，防止用户发送欺骗请求 2种解决方案：
+	①用户发送请求的 CRUD 操作执行时，SQL语句都添加 AND HttpSession中用户的 Id 的条件。
+	②用户发送的请求传入用户 Id 与 HttpSession中用户的 Id 比较，不一致时直接阻止CRUD 操作。
+
+8、数据库中查询 sex 字段 int(1：男；2：女；3：未知)类型转化为字符串（男、女、未知）在结果集中显示:
+	(CASE sy_top_contacts_sex WHEN 1 THEN "男" WHEN 2 THEN '女' ELSE '未知' END) as sexstr
+
+9、SpringMVC对传入输出JSON数据的处理：
+	@DateTimeFormat(pattern="yyyy-MM-dd") //前台向后台传递数据时，把该格式的字符串转化为 Date 类型。
+    @JsonFormat(pattern="yyyy-MM-dd")	// 后台向前台返回JSON数据时，把 Date 类型的该字段值格式化为该格式的字符串。
+    private Date birthday;
+
+10、JDK1.8 新特性之 forEach 循环遍历：
+	numbers.forEach((Integer integer) -> {
+	    System.out.println(integer);
+	});
+
+11、javascript 中利用 document.getElementById("id") 获取的标签与 jQuery 中$("#id")获取的标签区别：
+	例：<input name="file" type="file" id="file" style="display: none;"/>
+		①console.log($("#file"));
+			输出：Object { 0: <input#file>, length: 1, context: HTMLDocument → 1, selector: "#file" } 
+		②console.log(document.getElementById("file"));
+			输出：<input name="file" id="file" style="display: none;" type="file">
+		③标签对象转化：
+			1> jQuery 标签对象转 JS 标签对象：$("#file")[0];
+			2> JS 标签对象转 jQuery 标签对象: $(document.getElementById("file"));
+
+12、判断上传文件类型是否为常见图片类型：
+	if(!/.(gif|jpg|jpeg|png|bmp)$/i.test($("#file")[0].files[0].name)){
+		 alert("不接受此文件类型！");
+		 return false;
+	}
+
+13、MyBatis useGeneratedKeys="true" keyProperty="id"
+
+14、MySQL数据库查询字段加前缀：
+	CONCAT("http://shortrent-10011087.image.myqcloud.com/",sy_picture_url)。
+
+15、Java 日期时间的毫秒数long类型转为日期时间的秒数的long类型：new Date().getTime()/1000 。
+
+16、获取字符串中非汉字数：
+	
+	public static int getWordNumInString(String str){
+		int num = 0;
+		for (int i = 0; i < str.length(); i++) {
+			//System.out.println((int)str.charAt(i));
+			if(str.charAt(i) <= 127){
+				num ++;
+			}
+		}
+		return num;
+	}
+
+17、String.trim() 去除前后 Unicode 码不大于 '\u0020'的字符。（参考：https://msdn.microsoft.com/library/2yfce773）
+
+18、transient 关键字：用 transient 关键字标记的成员变量不参与序列化或反序列化过程。如 Gson 序列化或反序列化该类时，会排除此变量。
+
+19、程序中日期的比较，最好使用时间戳进行比较：
+	①JS 中使用 new Date().getTime() 获取 1970 年 1 月 1 日至今的毫秒数；
+	②Java 中 new Date().getTime() 获取 1970 年 1 月 1 日至今的毫秒数（ 或者 System.currentTimeMillis() ）；注：new Date(int year, int month, int date, int hour, int min, int sec)；year 为减 1900 的年份，month 为 0-11 之间的月份。
+		推荐使用：new Date(long date).after(Date when) 或 new Date(long date).before(Date when)。
+
+20、JS反转字符串的一种实现方式：message.split('').reverse().join('');
+
+
+补充：
+
+1.MyBatis 添加记录返回记录id：useGeneratedKeys="true" keyProperty="id"；
+
+2.Spring测试中获取ApplicationContext方式：
+	a.直接注入ApplicationContext；
+	b.实现 ApplicationContextAware接口；
+	c.使用ClassPathXmlApplicationContext 类读取配置文件。
+
+3.JSP绝对路径配置：
+	<%
+		String path = request.getContextPath();
+		String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()	+ path + "/";
+	%>
+	
+	<head>
+	<base href="<%=basePath%>"> 
+	</head>
+
+4.注：jQuery 事件 - change() 方法，该事件仅适用于文本域（text field），以及 textarea 和 select 元素。当用于 select 元素时，change 事件会在选择某个选项时发生。当用于 text field 或 text area 时，该事件会在元素失去焦点时发生。
+	当<input> 标签为文件类型时，调用改变事件的方法：
+		方式1：
+		$(document).on('change','#file', function () {
+			console.log($("#file").val())
+		});
+		
+		方式2：
+		<input type="file" id="file" class="hide" onchange="fileChange()"> 
+		
+		错误方式：
+		$("#file").on('change', function () {
+			console.log($("#file").val())
+    	});
+
+5. MyBatis 嵌套查询传递多个参数。
+	<association property="versionNumber" column="{pid=id,cid=t_cluster_id}" select="selectVersionNumberByClusterId">
+	</association>
+	
+6.Eclipse Neon(4.6)版本及以后版本<2018-12(4.10)>没有 JS 提示，可以安装 AngularJS Eclipse Plugin 。
+
+7.Sublime Text 格式化插件：HTML-CSS-JS Prettify（https://github.com/victorporof/Sublime-HTMLPrettify） 、Pretty JSON（https://github.com/dzhibas/SublimePrettyJson）。
+
+8.常用数据结构类型(java.util包下)：
+	Arrays、 ArrayList、 LinkedList、 HashSet、 TreeSet、 LinkedHashSet、 Vector、 Stack、 LinkedBlockingQueue、 HashMap、 TreeMap、 LinkedHashMap、 Hashtable 、ConcurrentHashMap。
+
+9.前端调试工具使用技巧：可以在开发者工具中的控制台查看变量的值及执行页面的方法。注：变量名、方法名提示方面：Google浏览器采用的模糊匹配（只要包含输入内容，就提示），火狐浏览器采用的精准匹配（只有变量名、与方法名首字符串与输入内容相匹配时，才会提示）。
+
+10.Spring 使用 jackson 返回 JSon 消息体时，定义返回时间类型的格式的实体注解：@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
+11.fastjson 格式化代码：JSON.toJSONString(Class, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue)；
+
+12.Eclipse 插件：AngularJS Eclipse 、 Subclipse 、 Enhanced Class Decompiler。
+
+13.建议用 $.ajax() 发送异步请求，$.get() 、 $.post() 无法回调请求失败的方法。
+		$.ajax({
+	        type: "POST",
+	        url: "urlpath",
+	        data: postData,
+	        dataType: "json",
+	        async : true,
+	        success: function(result){
+	        },
+	        error: function(){
+	        }
+	    })
+
+14.MySQL：
+	concat(str1,str2,…)
+	contcat_ws(separator,str1,str2,...)
+	group_concat（[distinct] field1,field2,field3... [order by field [asc/desc]][separator 'separator']
+
+15.checkBox 全选：
+
+	全选按钮事件：
+
+	$("#checkAll").click(function(){
+		$("#ListView :checkbox:enabled").map(function(index, item){
+			$(item).prop('checked', $("#checkAll").prop('checked'));
+		})
+	})
+
+	获取被选择的Id：
+
+	var Ids=[];
+	$("#OkBtn").click(function(){
+		Ids=[];
+		$("#ListView :checkbox:checked").map(function(index, item){
+			Ids.push($(item).val());
+		})
+	})
+
+16.数组遍历：
+
+	var array = ["a", "b", "c"];
+	array.map(function(value, index){
+		console.log(value);
+		console.log(index);
+	})
+
+17.Spring中使用 <context:property-placeholder />标签 加载属性文件，多个属性文件路径用逗号分隔。默认 Spring 只会加载第一个 <context:property-placeholder> 标签里的配置，在该标签中添加 ignore-unresolvable="true" 可以加载多个该标签。
+	例：方式一：(推荐)
+			<context:property-placeholder location="classpath:db.properties,classpath:cmdb.properties" />
+		方式二：
+			<context:property-placeholder order="1" ignore-unresolvable="true" location="classpath:db.properties" />
+			<context:property-placeholder order="2" ignore-unresolvable="true" location="classpath:cmdb.properties" />
+
+18.Spring定时任务在配置文件中设置调度时间：
+	方式一：
+		①使用 <context:property-placeholder /> 标签加载配置文件。
+		②使用 @Scheduled(cron= "${syncCron}") 设置 配置文件中 cron 表达式的调度时间。
+	方式二：
+		①使用 @PropertySource("classpath:cmdb.properties")注解加载配置文件。
+		②使用 @Scheduled(cron= "${syncCron}") 设置 配置文件中 cron 表达式的调度时间。
+
+
+19.URL传参中文乱码问题：
+	修改：Tomcat conf/server.xml
+	在：<Connector URIEncoding="UTF-8" connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443"/>
+	标签中添加：URIEncoding="UTF-8"。
+
+20.MyBatis模糊查询时使用 bind 标签：
+	例：参数使用 @Param 注解：@Param("searchText") String searchText 
+		<if test='searchText != ""'>
+	    	<bind name="searchTextPattern" value="'%' + searchText + '%'"/>
+	    	AND config_name LIKE  #{searchTextPattern,jdbcType=VARCHAR}
+	    	OR AppId LIKE #{searchTextPattern,jdbcType=VARCHAR}
+	    	OR user_name LIKE #{searchTextPattern,jdbcType=VARCHAR}
+	    </if>
+
+21.单选按钮组取值：
+	$("[name=radioname]:radio").click(function(){
+		alert($("[name=radioname]:radio:checked").val());
+	});
+
+22.slf4j-log4j使用：
+	①Maven 依赖：
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.26</version>
+		</dependency>
+	②定义变量：
+		private final static Logger logger = LoggerFactory.getLogger(ABC.class);
+	③使用：
+		logger.error("失败原因：{}", e.getMessage());
+
+23.在 Spring 项目中 Service层 或 普通类中 获取 HttpServletRequest(或HttpSession) 两种方式：
+	方式一：
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+	方式二（直接注入）：
+		@Autowired  
+		HttpServletRequest request; 
+	注：经测试，以注入方式注入的 HttpServletRequest 的 request 的 hashCode()虽然一样，但是每次请求会重新设置 request 对象里的属性值，所以注入方式可以正确获取每次请求的 request 对象（或session对象）。
+
+24.在 Spring 项目中获取 ServletContext 三种方式：
+	方式一（@since Servlet 3.0）：
+		ServletContext servletContext = request.getServletContext();
+	方式二：
+		ServletContext servletContext = ContextLoader.getCurrentWebApplicationContext().getServletContext();
+	方式三：
+		@Autowired
+		ServletContext servletContext;
+	
+	拓展：通过 ServletContext 获取 Spring 上下文 WebApplicationContext：
+		①WebApplicationContext wac = (WebApplicationContext)servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		②ApplicationContext wac =WebApplicationContextUtils.getWebApplicationContext(ServletContext sc);
+
+
+25.类中获取根路径和当前路径：
+	获取根路径：Thread.currentThread().getContextClassLoader().getResource("")
+	获取当前路径：类名.class.getResource("")
+
+26.配置 WEB-INF 目录下 /jsp/index.jsp 首页：
+	① 普通 Java Web 项目(注意 WEB-INF 前的“/”)：
+		<welcome-file-list>
+			<welcome-file>/WEB-INF/jsp/index.jsp</welcome-file>
+		</welcome-file-list>
+	② Spring MVC 项目：
+		@RequestMapping({"index", "/"})
+		public String index() {
+			return "index";
+		}
+
+27.	keypress 事件与 keydown 事件类似。当按钮被按下时，会发生该事件。与 keydown 事件不同的是，keypress 事件是每插入一个字符，才会发生 keypress 事件，即 Ctrl、Alt 等功能组合按键不会触发 keypress 事件。
+	注：若按键不松开，keypress 事件与 keydown 事件会一直被触发，可选用 keyup 事件 防止按键异常，事件请求被一直触发。
+
+28.Tomcat部署项目后用根路径访问：
+	出现问题：修改 D:\kwok\soft\apache-tomcat-7.0.92\conf\server.xml，直接在 <Host> 标签中 添加 <Context docBase="hello" path="/" reloadable="true" />标签，启动 Tomcat 会出现项目加载两次问题。即 Tomcat启动时 自动把 war包解压为一个项目目录(hello目录)和一个 ROOT目录，根路径 "\" 和 "\hello"路径都能访问。
+
+	方式一：
+		①war包放到 webapps 目录下，启动 Tomcat，注：启动 Tomcat 时，会自动解压该 war包。
+		②停止 Tomcat。
+		③删除 war包，把解压后的项目目录改名为 ROOT 目录（删除之前的ROOT目录），再次启动 Tomcat。
+	
+	方式二：
+		①在 Tomcat 根路径下新建 project 目录，把 war包(例：hello.war) 放在 project 目录中。
+		②修改 D:\kwok\soft\apache-tomcat-7.0.92\conf\server.xml，在 <Host> 标签中 添加 <Context docBase="D:\kwok\soft\apache-tomcat-7.0.92\project\hello" path="/" reloadable="true" />标签。
+		③启动 Tomcat。注：启动 Tomcat 时，会自动解压该 war包到 webapps 目录下，并改名为 ROOT 目录。
+
+29.开发JS、jQuery Click() 事件时，可以调用其他元素的 Click() 事件，有时可以减少事件触发时元素状态改变逻辑，达到简化代码的目的。
+	例：点击上一版本(下一版本)按钮时，直接触发下拉列表当前被选版本的下一项(上一项)标签的 click() 事件，这样可以不用再重复开发选择版本所要触发的事件及下拉列表状态改变事件。
+
+		/* 上一版本下一版本按钮事件 */
+		$("#prevVersionBtn").click(function(){
+			$("#version_dropdown .dropdown-chose").next().click();
+		});
+
+		$("#nextVersionBtn").click(function(){
+			$("#version_dropdown .dropdown-chose").prev().click();
+		})
+		/* 上一版本下一版本按钮事件 END */
+
+30.SpringBoot 不继承
+		<parent>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-parent</artifactId>
+			<version>2.1.2.RELEASE</version>
+		</parent>
+	依赖及打包问题的处理：
+		
+		<!-- 解决 SpringBoot 依赖继承的问题 -->
+		<dependencyManagement>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-dependencies</artifactId>
+					<version>2.1.2.RELEASE</version>
+					<type>pom</type>
+					<scope>import</scope>
+				</dependency>
+			</dependencies>
+		</dependencyManagement>
+		<!-- 解决 SpringBoot 依赖继承的问题 END -->
+
+		<!-- 解决 SpringBoot 打包的问题 -->
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<configuration>
+						<mainClass>org.kwok.StartServer</mainClass>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>repackage</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+		<!-- 解决 SpringBoot 打包的问题 END -->
+
+31.lambda 表达式常用操作：
+
+	① List<T> 转为 Map<id, T> 结构：
+		topologyInfoList.stream().collect(Collectors.toMap(TopologyInfo::getName, topologyInfo -> topologyInfo));
+
+	② List<T> 转为 List<T.属性 || T.操作结果> 结构：
+		List<String> names = personList.stream().map(Person::getName()).collect(Collectors.toList());
+
+	③ List<T> 转为 Map<T.属性, List<T>> 结构(根据某字段分组)：
+		例：
+			List<ParamModel> 根据 paramModel 实例的 hbase_table_name 字段进行分组，返回 Map<表名， List<ParamModel>> ：
+			Map<String, List<ParamModel>> tableListMap = paramModelList.stream().filter(paramModel -> paramModel.getHbase_table_name() != null).collect(Collectors.groupingBy(ParamModel::getHbase_table_name));
+
+32.“+”优先级高于“条件运算符 ?: ”
+	错误示例：
+		commonResult.setData(nowCommonResult.getData() == null?"":nowCommonResult.getData() + "@#$@#$" + hisCommonResult.getData()== null?"":hisCommonResult.getData());
+	正确示例：
+		commonResult.setData((nowCommonResult.getData() == null?"":nowCommonResult.getData()) + "@#$@#$" + (hisCommonResult.getData()== null?"":hisCommonResult.getData()));
+
+33.com.alibaba.fastjson.JSON 美化 + 排序
+	JSON.toJSONString(properties, SerializerFeature.PrettyFormat, SerializerFeature.MapSortField)
+
+34.使用 Jedis 连接 Redis 时，无论是否使用连接池，都需要关闭： jedis.close()（JedisPool.returnResource(final Jedis resource)已过时，统一用 jedis.close()），否则连接数达到 maxTotal 时，会出现连接错误。注：使用完就可以立即关闭 Jedis，不必等待方法内逻辑代码执行完再关闭，否则方法执行耗时会影响 Jedis 的回收。
+
+35.测试 SpringBoot、或者Eclipse导出的可执行JAR包中有主方法的某个类， 修改 META-INF/MANIFEST.MF 文件中 Start-Class（SpringBoot项目jar包）、Rsrc-Main-Class（Eclipse导出的可运行jar包）为测试类的全名。
+
+36.Runtime.getRuntime().availableProcessors() 获取 CPU 核数，耗 CPU 的程序，线程数最好不要高于 CPU 核数，否则可能适得其反。对于 IO 读写频繁（IO密集）的程序，线程数可以高于该核心数。
+
+37.SpringBoot @PropertySource 注解：
+@PropertySource(value = {"classpath:system.properties"，"file:system.properties"}, ignoreResourceNotFound = true)
+顺序加载配置文件，相同属性名(包括不同配置文件的相同属性名)会覆盖，即：file(即：user.dir，jar包所在目录)下 system.properties 配置优先级高于 classpath 下 system.properties 配置。
+
+拓展：
+	深入理解 SpringBoot 默认配置文件 application.properties 优先级：
+	内部实现等同于：@PropertySource(value = {"classpath:application.properties"，"classpath:config/application.properties"，"file:application.properties","file:config/application.properties"}, ignoreResourceNotFound = true)
+	所以：user.dir(即：jar包所在目录)下 config/application.properties > user.dir(即：jar包所在目录)下 application.properties > classpath 下 config/application.properties > classpath 下 application.properties
+
+38.System.getProperty("user.dir") 与 System.getProperty("user.home")区别：
+	System.getProperty("user.dir")	当前项目目录
+	System.getProperty("user.home")	当前用户目录
+
+39.异常处理技巧：
+当 service层、util层等类中捕获到的异常，没有更好的处理方式 或者 说不知道怎么处理时，可以把异常及详细信息向上层抛出，最终在业务层处理。
+
+40.Spring @Value() 注解中可以使用 "${}" 与 "#{}" 占位符，"#{}" 中使用 SpEL 表达式。
+	例：
+		@Value("#{${stat.data.savemin} * 60 * 1000}")
+		long statDataSaveMs;
+
+41.SpringBoot 服务正常关闭时的执行事件，Linux 系统 “kill 进程号”时执行，“kill -9 进程号”不执行！
+
+		ConfigurableApplicationContext springApplicationContext = SpringApplication.run(StartServer.class, args);
+		springApplicationContext.addApplicationListener(new ApplicationListener<ContextClosedEvent>() {
+			@Override
+			public void onApplicationEvent(ContextClosedEvent event) {
+				System.out.println("系统关闭！");
+			}
+		});
+
+	或：
+
+		SpringApplication springApplication = new SpringApplication(StartServer.class);
+		springApplication.addListeners(new ApplicationListener<ContextClosedEvent>() {
+			@Override
+			public void onApplicationEvent(ContextClosedEvent event) {
+				System.out.println("系统关闭！");
+			}
+		});
+		springApplication.run(args);
+
+42.SpringBoot 设置指定包的日志级别，注：经测试，不能指定具体类的日志级别。
+	logging.level.root=INFO
+	logging.file=/opt/devops/storm/logs/log.txt
+	logging.level.org.apache.kafka.shaded.clients.consumer=WARN
+
+43.Double.valueOf("-1D")、Float.valueOf("-1F")字符串参数中包含D、d、F、f不报错，Long.valueOf("-1L") 报错，JDK版本：1.8.0_201，详情可参考源码。
+
+44.MySQL 优化：
+	EXPLAIN EXTENDED SELECT ...... ; SHOW WARNINGS; 查看最终内部优化后执行sql。
+
+45.集合类型 直接转 字符串类型
+	org.apache.commons.lang.StringUtils.join(Arrays.asList("1a", "2b", "3c"), ",");
+
+46.
+
