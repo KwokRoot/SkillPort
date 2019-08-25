@@ -1,0 +1,61 @@
+SpringBoot 获取配置文件路径问题：
+
+注：
+项目路径：
+D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule
+jar包路径：
+D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule\target\storm-schedule-1.0-SNAPSHOT.jar
+
+
+1.Thread.currentThread().getContextClassLoader().getResource("")
+项目运行：
+file:/D:/kwok/work/eclipse/workspace/logplatform-storm/storm-schedule/target/classes/
+jar包运行：
+jar:file:/D:/kwok/work/eclipse/workspace/logplatform-storm/storm-schedule/target/storm-schedule-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
+
+
+2.Thread.currentThread().getContextClassLoader().getResource("").getPath():
+项目运行：
+/D:/kwok/work/eclipse/workspace/logplatform-storm/storm-schedule/target/classes/
+jar包运行：
+file:/D:/kwok/work/eclipse/workspace/logplatform-storm/storm-schedule/target/storm-schedule-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
+
+
+3.ClassLoader.getSystemResource("")
+项目运行：
+file:/D:/kwok/work/eclipse/workspace/logplatform-storm/storm-schedule/target/classes/
+jar包运行：
+null
+
+
+4.new File("/").getAbsolutePath()
+项目运行：
+D:\
+jar包运行：
+D:\
+
+
+5.new File("").getAbsolutePath()
+项目运行：
+D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule
+jar包运行：
+D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule\target
+
+注：末尾没有斜杠，拼接路径时添加目录路径分隔符(File.separator)！
+
+
+6.相关的系统属性(注：属性名区分大小写)：
+	System.out.println(System.getProperty("java.home"));
+	System.out.println(System.getProperty("user.home"));
+	System.out.println(System.getProperty("user.dir"));
+	System.out.println(File.separator); //已验证： Windows 系统输出“\”，Linux 系统输出是“/”
+项目运行(Windows系统)：
+	C:\Program Files\Java\jre1.8.0_161
+	C:\Users\Administrator
+	D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule
+	\
+jar包运行(Windows系统)：
+	C:\Program Files\Java\jre1.8.0_161
+	C:\Users\Administrator
+	D:\kwok\work\eclipse\workspace\logplatform-storm\storm-schedule\target
+	\
