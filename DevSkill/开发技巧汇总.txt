@@ -439,5 +439,9 @@ SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMEN T FROM 
 45.集合类型 直接转 字符串类型
 	org.apache.commons.lang.StringUtils.join(Arrays.asList("1a", "2b", "3c"), ",");
 
-46.
+46.SLF4J(Simple Logging Facade for Java) 中 org.slf4j.Logger 使用占位符`{}` 及 打印错误的堆栈信息：
+	private static final Logger logger = LoggerFactory.getLogger(A.class);
+	logger.error("参数1：{}，参数2：{}，异常：", "param1", "param2", e);
+	注：多个占位符参数（2个及以上），最后一个参数为 Throwable 类型实例时，不作为日志占位符的参数，有该参数会打印错误的堆栈信息。
 
+47.
