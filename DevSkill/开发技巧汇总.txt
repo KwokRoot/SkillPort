@@ -436,12 +436,46 @@ SELECT TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMEN T FROM 
 44.MySQL 优化：
 	EXPLAIN EXTENDED SELECT ...... ; SHOW WARNINGS; 查看最终内部优化后执行sql。
 
-45.集合类型 直接转 字符串类型
-	org.apache.commons.lang.StringUtils.join(Arrays.asList("1a", "2b", "3c"), ",");
+45.org.apache.commons.lang.StringUtils 工具类进行 字符串 与 字符串数组(集合)互转：
+	① 字符串数组(集合)按分隔符转为字符串：
+		org.apache.commons.lang.StringUtils.join(Arrays.asList("1a", "2b", "3c"), ",");
+
+	② 字符串按分隔符分割为字符串数组：
+		String[] strArray = org.apache.commons.lang.StringUtils.split("a, b, c, d", ",");
+		System.out.println(Arrays.toString(strArray));
 
 46.SLF4J(Simple Logging Facade for Java) 中 org.slf4j.Logger 使用占位符`{}` 及 打印错误的堆栈信息：
 	private static final Logger logger = LoggerFactory.getLogger(A.class);
 	logger.error("参数1：{}，参数2：{}，异常：", "param1", "param2", e);
 	注：多个占位符参数（2个及以上），最后一个参数为 Throwable 类型实例时，不作为日志占位符的参数，有该参数会打印错误的堆栈信息。
 
-47.
+47.数据库分库分表：先考虑垂直拆分(按字段使用频率进行字段拆分，常用字段放在一个表内，不常用的字段放在一个表内，使用时做连接查询)；再考虑水平拆分(数据量的拆分，按条件入库)。需要考虑分库分表后事务控制，及跨库跨表查询的问题。
+
+48.JDK8 生成 java.util.stream.Stream 流：
+Stream.generate(() -> 1).limit(3).forEach(System.out::println);
+
+49.解析 Cron 表达式获取下次执行时间或上次执行的时间等信息：
+
+	方式一：nutz : org.nutz.lang.util.CronSequenceGenerator
+
+			System.out.println(new CronSequenceGenerator("0 0 3 ? * WED,SAT").next(new Date()));
+
+	方式二：cron-utils : com.cronutils.parser.CronParser
+
+			CronParser parser = new CronParser(CronDefinitionBuilder.instanceDefinitionFor(CronType.QUARTZ));
+			Cron cron=parser.parse("0 0 3 ? * WED,SAT");
+			ExecutionTime executionTime = ExecutionTime.forCron(cron);
+			
+			System.out.println(executionTime.lastExecution(ZonedDateTime.now()).get().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+			System.out.println(executionTime.nextExecution(ZonedDateTime.now()).get().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+	方式三：Quartz: org.quartz.CronExpression
+
+			CronExpression cronExpression = new CronExpression("0/5 * * * * ?");
+			System.out.println(cronExpression.getNextValidTimeAfter(new Date()));
+
+50.绝对路径的方式读取第三方jar包中的配置文件：
+	URL url = new URL("jar:file:f:\\quartz-2.2.3.jar!/org/quartz/quartz.properties");
+	System.out.println(IOUtils.toString(url.openStream()));
+
+51.
