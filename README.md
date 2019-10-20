@@ -5,6 +5,9 @@
 ```
 包结构
 │
+├─DevIdea
+│      面对紧急临时需求应对策略.txt
+│
 ├─DevOps
 │  │  Eclipse-基本快捷键.txt
 │  │  Eclipse-注释模版.txt
@@ -28,5 +31,6 @@
 │          工具设置(暂无).txt
 │
 └─DevSkill
+        开发技巧-SpringBoot-获取配置文件路径.txt
         开发技巧汇总.txt
 ```
