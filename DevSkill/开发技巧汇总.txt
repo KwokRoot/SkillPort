@@ -478,4 +478,22 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	URL url = new URL("jar:file:f:\\quartz-2.2.3.jar!/org/quartz/quartz.properties");
 	System.out.println(IOUtils.toString(url.openStream()));
 
-51.
+51.使用 java.util.Optional 简化判空操作：
+	System.out.println(Optional.ofNullable("Hello").orElse("无值")); //结果：Hello
+	System.out.println(Optional.ofNullable(null).orElse("无值")); //结果：无值
+	System.out.println(Optional.ofNullable("").orElse("无值")); //结果：
+
+52.Redis 各种类型都要避免 键 和 值(包括Hash类型的字段名，及字段值)为 null，否则会抛出：redis.clients.jedis.exceptions.JedisDataException: value sent to redis cannot be null 异常。
+
+53.Redis ZSET 类型，且 score 为时间戳时，常用限制数据量的操作：
+	①只保存最近30条记录
+		jedis.zremrangeByRank("key", 0, -31);
+	②保留最近30分钟内的记录
+		long saveMs = 30 * 60 * 1000;
+		jedis.zremrangeByScore(key, "-inf", "(" + (System.currentTimeMillis() - saveMs));
+
+54.
+
+55.
+
+56.
