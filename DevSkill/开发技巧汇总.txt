@@ -492,8 +492,55 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		long saveMs = 30 * 60 * 1000;
 		jedis.zremrangeByScore(key, "-inf", "(" + (System.currentTimeMillis() - saveMs));
 
-54.
+54.经验：Redis保存数据，在异常捕获的日志中打印需要保存的数据，数据极端需要的条件下可以查看日志找到。
+	实例：
+		try {
+				RedisUtil.SORTSET.zremrangeByRank(key, 0, -1 * Integer.valueOf(redisSaveCount));
+				RedisUtil.SORTSET.zadd(redisHistoryPrefix + redisResultSaveModel.getReport_id(), System.currentTimeMillis(), JSON.toJSONString(redisResultSaveModel));
+			} catch (Exception e) {
+				logger.error("Redis 保存数据失败。数据：{}", JSON.toJSONString(redisResultSaveModel), e);
+			}
 
-55.
+55.Quartz 获取 JobDataMap 时注意：在 Job 实现类中修改获取到的复杂类型(List、Map、实体)的值，重复执行，再次获取到的该数据也会发生变化。
+	解决办法：
+		需要暂时修改这些类型的值时，可以创建副本进行修改传递。
+	实例：
+		JobDataMap jobData = context.getMergedJobDataMap();
+		ReportModel orgiReportModel = (ReportModel) jobData.get("reportModel");
+		ReportModel copyRepprtModel = new ReportModel();
+		
+		try {
+			//创建操作复杂类型对象的副本
+			BeanUtils.copyProperties(copyRepprtModel, orgiReportModel);
+		} catch (Exception e) {
+			logger.error("报表ID：{}，任务Key：{}，任务执行错误，异常：{}", orgiReportModel.getReport_id(), context.getJobDetail().getKey(), e.getMessage());
+		}
 
-56.
+		String esJsonStr = copyRepprtModel.getEs_json();
+		logger.info(">>> 请求id：{}，原始查询语句：{}", requestId, esJsonStr);
+		
+		esJsonStr = esJsonStr.replace(JSONPlaceholder.esJsonFromTime, searchTimeModel.getFromLongTime().toString())
+			.replace(JSONPlaceholder.esJsonToTime, searchTimeModel.getToLongTime().toString());
+		copyRepprtModel.setEs_json(esJsonStr);
+
+
+	拓展：Quartz 配置JDBC集群，持久化JobDataMap中复杂类型数据时，需要注意配置文件'quartz.properties'中参数的设置，否则会抛异常。
+		
+		# 默认为false，JobDataMaps里的值是否都是String类型对象，如果有序列化的复杂对象(集合、实体对象)，应该设置为false，需要注意的是序列化版本的问题。
+		org.quartz.jobStore.useProperties=false
+
+56.毫秒时间戳：
+	JavaApi：
+		1.the difference, measured in milliseconds, betweenthe current time and midnight, January 1, 1970 UTC.
+		2.the number of seconds from the epoch of 1970-01-01T00:00:00Z.
+	时间戳是相对于 UTC/GMT 时间。本地时间的时间戳需要把本地时间转为 UTC/GMT 时间再计算时间戳，所以世界各地同一时间点的时间戳是一样的，只不过时间显示上会根据时区不同而不一样。
+
+57.Java 执行命令：
+	①Java 运行 JAR 包命令：java -jar *.jar [args...]
+		例：java -jar SpringBoot.jar(Jar包中 META-INF\MANIFEST.MF 文件需要有主清单属性配置，如：Main-Class等)
+	②Java 运行 JAR 包中类文件命令：java -cp(-classpath) 目录或JAR包,多个路径Windows用`;`(Linux用`:`)分割 类全名
+		例：java -cp ./*;lib/*;SpringBoot.jar org.kwok.ServerStart
+
+58.
+
+59.
