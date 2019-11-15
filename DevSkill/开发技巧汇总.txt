@@ -485,12 +485,25 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 
 52.Redis 各种类型都要避免 键 和 值(包括Hash类型的字段名，及字段值)为 null，否则会抛出：redis.clients.jedis.exceptions.JedisDataException: value sent to redis cannot be null 异常。
 
-53.Redis ZSET 类型，且 score 为时间戳时，常用限制数据量的操作：
-	①只保存最近30条记录
-		jedis.zremrangeByRank("key", 0, -31);
-	②保留最近30分钟内的记录
-		long saveMs = 30 * 60 * 1000;
-		jedis.zremrangeByScore(key, "-inf", "(" + (System.currentTimeMillis() - saveMs));
+53.Redis SortedSet 类型 ：
+	(1)ZREMRANGEBYSCORE key min max 	默认闭区间[min, max] 即： redis.clients.jedis.Jedis.zremrangeByScore(String, String, String);
+		①默认情况下，区间的取值使用闭区间 (小于等于或大于等于)，你也可以通过给参数前增加 `(` 符号来使用可选的开区间 (小于或大于)
+			例：jedis.zremrangeByScore("zset", "(5", "10"); //(5, 10] 即：5 < score <= 10
+		②min 值 和 max值 可以使用 -inf 和 +inf;
+			例：jedis.zremrangeByScore("zset", "(7", "+inf"); //(7, +∞)
+	
+	(2)ZREMRANGEBYRANK key start stop 	默认闭区间[start, stop] 即：redis.clients.jedis.Jedis.zremrangeByRank(String, long, long);
+		①rank 0 being the element with the lowest score
+		②rank -1 is the element with the highest score, -2 the element with the second highest scoreand
+			例：jedis.zremrangeByRank("zset", 0, -1); 删除全部元素，当 stop 指向元素的排名在 start 指向元素之前，则不执行删除操作。
+
+  实践案例：
+	Redis ZSET 类型，且 score 为时间戳时，常用限制数据量的操作：
+		①只保存最近30条记录
+			jedis.zremrangeByRank("key", 0, -31);
+		②保留最近30分钟内的记录
+			long saveMs = 30 * 60 * 1000;
+			jedis.zremrangeByScore(key, "-inf", "(" + (System.currentTimeMillis() - saveMs));
 
 54.经验：Redis保存数据，在异常捕获的日志中打印需要保存的数据，数据极端需要的条件下可以查看日志找到。
 	实例：
@@ -541,6 +554,14 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	②Java 运行 JAR 包中类文件命令：java -cp(-classpath) 目录或JAR包,多个路径Windows用`;`(Linux用`:`)分割 类全名
 		例：java -cp ./*;lib/*;SpringBoot.jar org.kwok.ServerStart
 
-58.
+58.Stream 流排序操作，注：经测试 sorted(）方法在并行流（parallel()）下不起作用。并行排序可以参考：java.util.Arrays.parallelSort();
+	tupleSet.stream()
+		.sorted(Comparator.comparing(Tuple::getScore).reversed())
+		.findFirst()
+		.ifPresent(tuple -> {
+				System.out.println(tuple.getScore());
+			});
 
 59.
+
+60.
