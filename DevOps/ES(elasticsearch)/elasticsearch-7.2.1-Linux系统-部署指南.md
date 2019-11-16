@@ -8,7 +8,7 @@
 # 环境要求
 	1.Java 运行环境。
 		①查看 Java 版本(java -version)，保证 Java 版本在 8u40 +。
-		②Elasticsearch-7.2.1 版本已自带 OpenJDK 捆绑版本(安装包 jdk 目录中)。
+		②Elasticsearch-7.2.1 版本已自带 OpenJDK 捆绑版本(安装包 jdk 目录中)。注：当环境变量中获取不到 JAVA_HOME 变量值时，会使用自带的 JDK 。
 
 	2.查看硬盘大小(df -h)。ES 数据需要较大硬盘空间，尽量部署在空间较大的目录中。
 
