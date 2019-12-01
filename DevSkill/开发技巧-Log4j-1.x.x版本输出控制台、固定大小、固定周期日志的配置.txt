@@ -1,0 +1,25 @@
+log4j.rootLogger=INFO, stdout, rollingSizeFile, rollingDateFile
+
+# console(控制台输出日志)
+log4j.logger.org.mybatis=INFO
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] [%c(%L)] - %m%n
+
+
+# rollingSizeFile(产生固定大小的日志文件)
+log4j.appender.rollingSizeFile = org.apache.log4j.RollingFileAppender
+log4j.appender.rollingSizeFile.File = /opt/devops/logs/log.txt
+log4j.appender.rollingSizeFile.MaxFileSize=100MB
+log4j.appender.rollingSizeFile.MaxBackupIndex=100
+log4j.appender.rollingSizeFile.layout = org.apache.log4j.PatternLayout
+log4j.appender.rollingSizeFile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] [%c(%L)] - %m%n
+
+
+# rollingDateFile(产生固定日期的日志文件)
+log4j.appender.rollingDateFile=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.rollingDateFile.File=/opt/devops/logs/log.txt
+log4j.appender.rollingDateFile.DatePattern='.'yyyy-MM-dd
+log4j.appender.rollingDateFile.layout=org.apache.log4j.PatternLayout
+log4j.appender.rollingDateFile.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] [%c(%L)] - %m%n
+
