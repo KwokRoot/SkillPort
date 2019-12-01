@@ -184,7 +184,7 @@
 
 		{
 		  "transient": {
-		    "cluster.routing.allocation.exclude._name": "node-1"
+		    "cluster.routing.allocation.exclude._name": "node-1,node-2"
 		  }
 		}
 
