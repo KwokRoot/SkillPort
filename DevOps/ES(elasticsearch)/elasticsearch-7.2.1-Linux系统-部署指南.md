@@ -79,6 +79,8 @@
 	# ping 超时时间，默认30s 
 	discovery.zen.fd.ping_timeout: 60s
 
+	# ping 间隔，默认1s 
+	discovery.zen.fd.ping_interval: 10s
 
 # 安装问题
 
