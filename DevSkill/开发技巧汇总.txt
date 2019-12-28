@@ -504,6 +504,8 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		②保留最近30分钟内的记录
 			long saveMs = 30 * 60 * 1000;
 			jedis.zremrangeByScore(key, "-inf", "(" + (System.currentTimeMillis() - saveMs));
+	
+	注：Redis 中 ZSET score 字段为double类型的数值，如果后缀大于等于6位0时，会以科学计数法表示。例 score 为时间戳时，`2019-12-03 16:00:00` 毫秒时间戳为'1575360000000'，存入 Redis 后，score字段值为:'1.57536e+12'。特殊显示需求需要注意。
 
 54.经验：Redis保存数据，在异常捕获的日志中打印需要保存的数据，数据极端需要的条件下可以查看日志找到。
 	实例：

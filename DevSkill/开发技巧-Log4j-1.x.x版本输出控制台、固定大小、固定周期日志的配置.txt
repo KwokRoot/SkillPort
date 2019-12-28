@@ -1,7 +1,6 @@
 log4j.rootLogger=INFO, stdout, rollingSizeFile, rollingDateFile
 
 # console(控制台输出日志)
-log4j.logger.org.mybatis=INFO
 log4j.appender.stdout=org.apache.log4j.ConsoleAppender
 log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
 log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t] [%c(%L)] - %m%n
