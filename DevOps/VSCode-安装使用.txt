@@ -1,0 +1,35 @@
+基本使用：
+
+1.汉化：<菜单 → 查看 → 命令面板>(快捷键：Ctrl + Shift + P) → 搜索 Configure Display Language → 选择 zh-cn 语言（或者安装语言包） → 重启。
+2.主题：菜单 → 文件 → 首选项 → 颜色主题。
+3.命令面板：菜单 → 查看 → 命令面板 或 快捷键：Ctrl + Shift + P。
+
+
+
+快捷键(默认)：
+
+1.命令面板：Ctrl + Shift + P。
+2.隐藏面板：Esc。
+3.复制该行：Ctrl + C； 剪切该行：Ctrl + X； 删除该行：Ctrl + Shift + K。注：空选择下。
+4.向上(下)移动该行：Alt+ ↑(↓) 。
+5.向上(下)复制该行：Alt + Shift + ↑(↓)。
+6.向下新增一行：Ctrl + Enter； 向上新增一行：Ctrl + Shift + Enter。
+7.切换行注释：Ctrl + /； 块注释：Alt + Shift + A。
+8.格式化代码：Shift + Alt + F； 格式化选中代码：Ctrl + K Ctrl + F
+9.帮助快捷键： Ctrl + K Ctrl + S 或 Ctrl + K Ctrl + R(Web版)
+
+
+
+常用插件：
+
+1.Prettier ：格式化代码插件。
+2.Diff ：对比文件。
+3.vscode-icons ：改变侧边栏资源管理器图标。
+4.Bracket Pair Colorizer ：嵌套的括号设置不一样颜色。
+5.Path Intellisense ：路径补全。
+6.HTML CSS Support ：HTML 中 CSS 名称提示。
+7.CSS Peek ：HTML 与 CSS 关联查看。
+8.JSON Tools ：JSON文件美化、压缩。
+9.Minify ：压缩 HTML、CSS、JS 代码
+
+
