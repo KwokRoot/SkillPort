@@ -15,7 +15,7 @@
 5.向上(下)复制该行：Alt + Shift + ↑(↓)。
 6.向下新增一行：Ctrl + Enter； 向上新增一行：Ctrl + Shift + Enter。
 7.切换行注释：Ctrl + /； 块注释：Alt + Shift + A。
-8.格式化代码：Shift + Alt + F； 格式化选中代码：Ctrl + K Ctrl + F
+8.格式化代码：Alt + Shift + F； 格式化选中代码：Ctrl + K Ctrl + F
 9.帮助快捷键： Ctrl + K Ctrl + S 或 Ctrl + K Ctrl + R(Web版)
 
 
@@ -29,7 +29,7 @@
 5.Path Intellisense ：路径补全。
 6.HTML CSS Support ：HTML 中 CSS 名称提示。
 7.CSS Peek ：HTML 与 CSS 关联查看。
-8.JSON Tools ：JSON文件美化、压缩。
-9.Minify ：压缩 HTML、CSS、JS 代码
+8.JSON Tools ：JSON文本美化、压缩。
+9.Minify ：压缩 HTML、CSS、JS 文件。
 
 
