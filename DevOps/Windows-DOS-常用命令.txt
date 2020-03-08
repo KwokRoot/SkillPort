@@ -1,0 +1,38 @@
+Windows-DOS-常用命令：
+
+通用命令：
+
+1.`command /?` 或 `help command` 查看帮助文档。
+2.cls  清除屏幕。
+3.`> log.txt` 输出结果覆盖到文件，`>> log.txt` 输出结果追加到文件。
+
+
+文件目录操作：
+
+1.cd child-dir(..) 进入子目录(上层目录)。
+2.md  创建目录。
+3.rd  删除目录。/S 递归删除目录树。/Q 删除目录树时不要求确认。
+4.echo "" > name.txt 创建文本文件。
+5.type 显示文本文件内容
+6.copy 拷贝文件。
+7.move 移动文件。
+8.del 删除文件。
+9.dir  显示目录列表。/S 显示指定目录和所有子目录中的文件。/B 使用空格式(没有标题信息或摘要)。
+10.tree 显示目录结构。/F 显示每个文件夹中文件的名称。
+
+
+网络操作：
+
+1.ipconfig 查看网络信息。
+2.ping 查看网络连通性。
+3.pathping 路由跟踪。
+4.tracert 路由节点耗时。
+5.telnet 查看端口连通性。
+6.netstat 查看 TCP/IP 连接信息。查看端口占用情况：netstat -ano | findstr "8080"。
+
+
+系统操作：
+
+1.dxdiag 启动 DirectX 诊断工具
+2.explorer 启动文件资源管理器。
+3.control 启动控制面板。
