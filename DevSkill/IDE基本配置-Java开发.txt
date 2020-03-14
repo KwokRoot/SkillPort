@@ -1,0 +1,7 @@
+IDE 基本配置-Java开发(Eclipse、Idea、VSCode)：
+
+1.工作空间路径配置。
+
+2.Maven 配置：配置 settings.xml 路径、Repository 路径。
+
+3.工作空间、文件编码：UTF-8。
