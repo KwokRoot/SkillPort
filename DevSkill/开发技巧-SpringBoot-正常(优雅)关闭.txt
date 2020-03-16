@@ -1,0 +1,51 @@
+一.什么是 SpringBoot 正常(优雅)关闭：
+	1.控制台可以输出：
+		o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+	2.可以触发到 ApplicationListener 中的 ContextClosedEvent 事件。
+
+
+二.怎么实现 SpringBoot 正常(优雅)关闭：
+	
+	1.开启 SpringBoot 的 actuator 功能：
+		①`pom.xml`添加依赖：
+			<dependency>
+			   <groupId>org.springframework.boot</groupId>
+			   <artifactId>spring-boot-starter-actuator</artifactId>
+			</dependency>
+
+		②配置文件`application.properties`：
+			#开启所有的端点
+			management.endpoints.web.exposure.include=*
+			#启用shutdown
+			management.endpoint.shutdown.enabled=true
+
+		③执行关闭请求(POST)：
+			http://127.0.0.1:8080/actuator/shutdown
+
+	2.选用 `spring-boot:start` Maven 命令方式启动：
+
+		①`pom.xml`添加SpringBoot打包插件配置项`<fork>true</fork>`：
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<configuration>
+							<fork>true</fork>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+		②启动的 Maven 命令：spring-boot:start
+		③关闭的 Maven 命令：spring-boot:stop
+	
+	3.程序中调用 ConfigurableApplicationContext.close() 方法;
+	4.打包后运行：控制台 `Ctrl + C`, Linux：`kill pid`，都能执行正常(优雅)的关闭。
+	5.使用STS(SpringToolSuite)开发工具运行 SpringBoot 项目，运行时选择 Run As`Spring Boot App`。
+
+
+三、备注：
+	经测试，方式1、方式2、方式3 仅能关闭 SpringBoot Web线程，如果入口主方法中有其他线程存在，其他线程将不能正常关闭(如主方法中的Timer线程)。
+
+
