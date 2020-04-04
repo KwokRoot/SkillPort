@@ -1,0 +1,5 @@
+Eclipse-Maven-POM 依赖项搜索提示设置：
+
+1.Window → Show view → Other → Maven → Maven Repositories → Local Repositories → 右键选择 Rebuild Index(不要重复点击，否则 Eclipse 可能会卡死，需要后台更新完毕后查看)。
+2.(可选)Window → Preferences → Maven → 选择 Download repository index updates on startup。
+3.pom.xml编辑视图 → 右键 → Maven → Add Dependency → 可模糊(*)搜索。

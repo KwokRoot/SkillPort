@@ -1,0 +1,42 @@
+Eclipse-Maven-导入Maven项目不能识别为Maven项目的解决方案：
+	
+1.先移除 pom.xml 的 <build>...</build> 标签里的内容，选中项目右键 → Maven → `Update Project`。
+
+2.如果项目不是 Maven 项目，首先保证项目的目录结构符合 Maven 标准目录结构，然后选中项目右键 → Configure → `Convert to Maven Project`。
+
+3.Maven 标准结构：
+①目录结构：
+	my-app
+	│  pom.xml
+	│
+	└─src
+	    ├─main
+	    │  ├─java
+	    │  │  └─com
+	    │  │      └─company
+	    │  │          └─app
+	    │  │                  App.java
+	    │  │
+	    │  ├─resources
+	    │  └─webapp
+	    │      │  index.jsp
+	    │      │
+	    │      └─WEB-INF
+	    │              web.xml
+	    │
+	    └─test
+	        ├─java
+	        │  └─com
+	        │      └─company
+	        │          └─app
+	        │                  AppTest.java
+	        │
+	        └─resources
+
+②包结构：
+src/main/java
+src/main/resources
+src/main/webapp
+src/test/java
+src/test/resources
+pom.xml
