@@ -1,0 +1,36 @@
+ES索引刷新间隔设置：
+
+注：从之前配置文件中配置，改为动态设置项
+
+index.refresh_interval 刷新时间，默认1
+
+1.配置文件配置错误信息：
+
+index.refresh_interval： "15s"
+
+*************************************************************************************
+Found index level settings on node level configuration.
+
+Since elasticsearch 5.x index level settings can NOT be set on the nodes 
+configuration like the elasticsearch.yaml, in system properties or command line 
+arguments.In order to upgrade all indices the settings must be updated via the 
+/${index}/_settings API. Unless all settings are dynamic all indices must be closed 
+in order to apply the upgradeIndices created in the future should use index templates 
+to set default values. 
+
+Please ensure all required values are updated on all indices by executing: 
+
+curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
+  "index.refresh_interval" : "15s"
+}'
+*************************************************************************************
+
+2.动态修改该设置项：
+
+注意参数：preserve_existing=false	已经设置过是否更新
+
+PUT index(_all)/_settings?preserve_existing=false
+
+{
+  "index.refresh_interval": "15s"
+}

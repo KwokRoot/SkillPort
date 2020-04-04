@@ -1,0 +1,30 @@
+ES搜索返回结果数最大10000条数据：
+
+1.max_result_window: 10000 (默认)
+
+index.max_result_window: 50000
+
+*************************************************************************************
+Found index level settings on node level configuration.
+
+Since elasticsearch 5.x index level settings can NOT be set on the nodes 
+configuration like the elasticsearch.yaml, in system properties or command line 
+arguments.In order to upgrade all indices the settings must be updated via the 
+/${index}/_settings API. Unless all settings are dynamic all indices must be closed 
+in order to apply the upgradeIndices created in the future should use index templates 
+to set default values. 
+
+Please ensure all required values are updated on all indices by executing: 
+
+curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
+  "index.max_result_window" : "50000"
+}'
+*************************************************************************************
+
+2.动态修改该设置项：
+
+PUT _all/_settings?preserve_existing=false
+
+{
+  "index.max_result_window": "50000"
+}

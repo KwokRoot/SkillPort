@@ -1,0 +1,11 @@
+ES节点延迟分片分配-临时重启操作:
+
+index.unassigned.node_left.delayed_timeout 默认 1m
+
+PUT _all/_settings
+
+{
+  "settings": {
+    "index.unassigned.node_left.delayed_timeout": "5m"
+  }
+}

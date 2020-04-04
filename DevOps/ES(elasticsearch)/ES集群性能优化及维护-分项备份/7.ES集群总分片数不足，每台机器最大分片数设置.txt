@@ -1,0 +1,37 @@
+问题：Elasticsearch exception [type=validation_exception, reason=Validation Failed: 1: this action would add [14] total shards, but this cluster currently has [2990]/[3000] maximum shards open;]
+
+原因：7版本以上的 Elasticsearch，默认只允许1000个分片，集群分片数不足引起的。
+
+验证：查询ES集群节点分片数：   _cat/allocation?v
+
+解决：
+
+	方式①：配置文件 elasticsearch.yml
+		增加配置项：
+
+		cluster.max_shards_per_node: 2000
+
+
+	方式②：动态修改该配置项：
+		_cluster/settings GET、PUT请求
+
+		{
+		  "transient": {
+		    "cluster": {
+		      "max_shards_per_node":2000
+		    }
+		  }
+		}
+
+	恢复之前默认：
+
+		_cluster/settings GET、PUT请求
+		
+		{
+		  "transient": {
+		    "cluster": {
+		      "max_shards_per_node":null
+		    }
+		  }
+		}
+

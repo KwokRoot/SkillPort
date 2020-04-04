@@ -1,0 +1,31 @@
+ES节点手动分片转移-永久下线操作：
+
+PUT _cluster/settings
+
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": "node-1,node-2"
+  }
+}
+
+
+重新加入集群：
+
+PUT _cluster/settings
+
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._name": ""
+  }
+}
+
+
+
+或者使用IP下线某一网段节点：
+
+{
+  "transient": {
+    "cluster.routing.allocation.exclude._ip": "192.168.2.*"
+  }
+}
+

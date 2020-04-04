@@ -1,0 +1,27 @@
+ES集群API请求设置与配置文件设置优先级说明：
+
+集群属性设置方式：
+
+	(1)API方式设置：
+		a.临时设置(集群节点全部重启失效)：
+
+			{
+			    "transient" : {
+			        "xxx" : "yyy"
+			    }
+			}
+
+		b.永久设置(集群节点全部重启依然生效)：
+
+			PUT /_cluster/settings
+			{
+			    "persistent" : {
+			        "xxx" : "yyy"
+			    }
+			}
+
+	(2)配置文件设置(集群节点全部重启依然生效)：elasticsearch.yml
+
+优先级：
+
+	transient cluster settings > persistent cluster settings >	settings in the elasticsearch.yml configuration file.

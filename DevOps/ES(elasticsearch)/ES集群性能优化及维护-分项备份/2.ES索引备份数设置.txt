@@ -1,0 +1,11 @@
+ES索引备份数设置：
+
+注：从之前配置文件中配置，改为动态设置项
+
+index.number_of_replicas 备份数，默认1
+
+PUT index/_settings?preserve_existing=false
+
+{
+  "index.number_of_replicas": "1"
+}

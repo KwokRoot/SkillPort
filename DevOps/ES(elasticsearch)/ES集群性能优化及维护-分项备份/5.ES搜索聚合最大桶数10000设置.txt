@@ -1,0 +1,19 @@
+ES搜索聚合最大桶数10000：
+
+search.max_buckets：10000(默认)
+
+	方式①：配置文件 elasticsearch.yml
+		增加配置项：
+
+		# 单个查询最大的桶数，默认10000
+		search.max_buckets: 50000
+
+
+	方式②：动态修改该配置项：
+		PUT _cluster/settings
+
+		{
+		  "transient": {
+		    "search.max_buckets": "50000"
+		  }
+		}

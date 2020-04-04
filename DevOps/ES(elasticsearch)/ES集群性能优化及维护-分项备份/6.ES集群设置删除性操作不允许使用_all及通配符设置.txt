@@ -1,0 +1,9 @@
+ES集群设置删除、开启(_open)、关闭(_close)索引时不允许使用 '_all' 通配符 *
+
+PUT /_cluster/settings
+
+{
+  "persistent": {
+    "action.destructive_requires_name": true
+  }
+}

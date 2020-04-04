@@ -1,0 +1,40 @@
+# ES集群性能优化及维护B
+###### **注：集群 elasticsearch 版本为 v7.2.1。**
+---
+### 1.ES系统日志删除策略：
+
+	方式一：修改日志配置文件(config/log4j2.properties)
+
+	appender.rolling.strategy.action.condition.nested_condition.type = IfAccumulatedFileSize
+	appender.rolling.strategy.action.condition.nested_condition.exceeds = 2GB
+
+	修改为：
+
+	appender.rolling.strategy.action.condition.nested_condition.type = IfLastModified
+	appender.rolling.strategy.action.condition.nested_condition.age = 7D
+
+
+	方式二：编辑删除脚本 添加到 crontab 定时任务
+
+	删除命令：
+
+	find ./ -mtime +30 -type f -name "*.gz" -exec rm -f {} \;
+
+	或：
+
+	find ./ -mtime +30 -type f -name "*.gz" | xargs rm -rf;
+
+	crontab 定时任务脚本：
+
+	0 3 1 * * find /x/y/x -mtime +30 -type f -name "*.gz" | xargs rm -rf &> /dev/null
+
+
+
+	例：
+
+	编辑 crontab：crontab -e
+
+	0 3 * * * find /opt/elasticsearch/elasticsearch-7.2.1/logs/ -mtime +30 -type f -name "*.gz" | xargs rm -rf &> /dev/null
+
+	查看 crontab：crontab -l
+

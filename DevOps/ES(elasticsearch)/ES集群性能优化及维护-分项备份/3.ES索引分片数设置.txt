@@ -1,0 +1,67 @@
+ES索引分片数：
+
+注：从之前配置文件中配置，改为静态设置项：在创建或者关闭索引时设置
+
+index.number_of_shards：分片数，默认1，最大：1024
+
+
+1.配置文件配置错误信息：
+
+[2019-07-09T15:43:29,470][WARN ][o.e.c.s.SettingsModule   ] 
+*************************************************************************************
+Found index level settings on node level configuration.
+
+Since elasticsearch 5.x index level settings can NOT be set on the nodes
+configuration like the elasticsearch.yaml, in system properties or command line
+arguments.In order to upgrade all indices the settings must be updated via the
+/${index}/_settings API. Unless all settings are dynamic all indices must be closed
+in order to apply the upgradeIndices created in the future should use index templates
+to set default values.
+
+Please ensure all required values are updated on all indices by executing:
+
+curl -XPUT 'http://localhost:9200/_all/_settings?preserve_existing=true' -d '{
+  "index.number_of_shards" : "10"
+}'
+*************************************************************************************
+
+
+2.创建索引时设置分片：
+
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 5,
+      "number_of_replicas": 1,
+      "refresh_interval": "5s",
+      "max_result_window": "50000"
+    }
+  },
+  "aliases": {
+    "xx_search": {}
+  },
+  "mappings": {}
+}
+
+3.关闭索引执行更新索引分片，会出现错误！
+
+PUT index/_settings?preserve_existing=true
+{
+  "index.number_of_shards": "5"
+}
+
+错误结果：
+
+{
+  "error": {
+    "root_cause": [
+      {
+        "type": "illegal_argument_exception",
+        "reason": "final index setting [index.number_of_shards], not updateable"
+      }
+    ],
+    "type": "illegal_argument_exception",
+    "reason": "final index setting [index.number_of_shards], not updateable"
+  },
+  "status": 400
+}
