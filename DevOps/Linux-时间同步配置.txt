@@ -1,0 +1,38 @@
+Linux 时间同步
+
+1.查看当前时间： date
+	例：Wed Apr 15 10:42:47 CST 2020
+2.查看当前时区： date -R
+	A：确定时区：... +0800
+	B：更改时区：tzselect
+		①依次选择：亚洲-中国-上海(4-9-1)
+		②cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+3.修改时间：date -s '2020-04-15 10:40:20'
+4.时间同步客户端设置：
+	①yum install ntp
+	②ntpdate 时间服务器地址
+		NTP 常用服务器：
+    		NTP服务器(上海) ：ntp.api.bz
+    		美国：time.nist.gov 
+    		微软公司授时主机(美国) ：time.windows.com
+    ③使用 crontab 定时同步
+    	a) crontab –e
+    	b) 0 3 * * * /usr/sbin/ntpdate ntp.api.bz
+5.时间同步服务器设置：
+	①yum install ntp
+	②vim /etc/ntp.conf
+		a.添加配置项：
+			server 0.centos.pool.ntp.org iburst
+			...
+			server 127.127.1.0		# 注：如果上面的服务器都无法同步时间，就和本地系统时间同步。127.127.1.0 这里是 local clock。
+			fudge 127.127.1.0 stratum 10	# 注：设置 127.127.1.0 为第10层。ntp 和 127.127.1.0 同步完后，就变成了11层。ntp是层次阶级的。同步上层服务器的 stratum 大小不能超过或等于16。
+		b.重启 ntp 服务：
+			service ntpd restart
+	③ntp 服务端口：123
+		centos6:
+			a./sbin/iptables -I INPUT -p udp --dport 123 -j ACCEPT
+			b./etc/rc.d/init.d/iptables save
+			c./etc/rc.d/init.d/iptables restart
+		centos7:
+			a.firewall-cmd --zone=public --add-port=123/udp --permanent
+			b.firewall-cmd --reload
