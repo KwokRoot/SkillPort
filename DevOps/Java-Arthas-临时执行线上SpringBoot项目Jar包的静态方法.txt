@@ -1,0 +1,78 @@
+Java-Arthas-临时执行线上SpringBoot项目Jar包的静态方法：
+
+目标：
+	使用 Arthas 执行 SpringBoot 项目 Jar 包中 com.kwok.schedule.task.ESHisIndexParseTask 类中 parse() 静态方法。
+
+注：
+	由于 SpringBoot 项目 Jar 包 ClassLoader 为 org.springframework.boot.loader.LaunchedURLClassLoader，而 Arthas 默认的是 SystemClassLoader，在使用 Arthas 中 ognl 命令时需要指定加载目标类的 ClassLoader。
+
+1.获取目标类的 ClassLoader 的 hashcode 两种方式：
+
+①方式一：sc 命令
+
+命令：sc -d com.kwok.schedule.task.ESHisIndexParseTask
+
+返回信息：
+class-info        com.kwok.schedule.task.ESHisIndexParseTask
+code-source       file:/opt/devops/storm/storm-schedule-1.0-SNAPSHOT.jar!/BOOT-INF/classes!/
+name              com.kwok.schedule.task.ESHisIndexParseTask
+isInterface       false
+isAnnotation      false
+isEnum            false
+isAnonymousClass  false
+isArray           false
+isLocalClass      false
+isMemberClass     false
+isPrimitive       false
+isSynthetic       false
+simple-name       ESHisIndexParseTask
+modifier          public
+annotation
+interfaces
+super-class       +-java.lang.Object
+class-loader      +-org.springframework.boot.loader.LaunchedURLClassLoader@31cefde0
+                  +-sun.misc.Launcher$AppClassLoader@70dea4e
+                  +-sun.misc.Launcher$ExtClassLoader@3836891a
+classLoaderHash   31cefde0
+
+②方式二：sm 命令
+
+命令：sm -d com.kwok.schedule.task.ESHisIndexParseTask parse
+
+返回信息：
+declaring-class  com.kwok.schedule.task.ESHisIndexParseTask
+method-name      parse
+modifier         public,static
+annotation
+parameters
+return           void
+exceptions
+classLoaderHash  31cefde0
+
+
+2.如果步骤1中返回信息：Affect(row-cnt:0)，则表示该类还未执行加载，需要使用 classloader 命令加载该类后执行该类静态方法，反之直接进行步骤3。
+
+①在加载器列表中找到 org.springframework.boot.loader.LaunchedURLClassLoader 加载器的 hash。
+
+命令：classloader -l
+
+返回信息：
+name                                                             loadedCount  hash      parent
+BootstrapClassLoader                                             3216         null      null
+com.alibaba.fastjson.util.ASMClassLoader@655e5442                1            655e5442  org.springframework.boot.loader.LaunchedURLClassLoader@31cefde0
+com.taobao.arthas.agent.ArthasClassloader@525ac789               1098         525ac789  sun.misc.Launcher$ExtClassLoader@3aaa0e66
+org.springframework.boot.loader.LaunchedURLClassLoader@31cefde0  6985         31cefde0  sun.misc.Launcher$AppClassLoader@70dea4e
+sun.misc.Launcher$AppClassLoader@70dea4e                         49           70dea4e   sun.misc.Launcher$ExtClassLoader@3aaa0e66
+sun.misc.Launcher$ExtClassLoader@3aaa0e66                        39           3aaa0e66  null
+Affect(row-cnt:6) cost in 10 ms.
+
+②使用 SpringBoot 类加载器加载目标类。
+
+命令：classloader -c 31cefde0 --load com.kwok.schedule.task.ESHisIndexParseTask
+
+3.执行ognl表达式
+
+命令：ognl -c 31cefde0 '@com.kwok.schedule.task.ESHisIndexParseTask@parse()'
+
+返回信息(返回值)：
+null
