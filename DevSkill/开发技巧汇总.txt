@@ -564,6 +564,40 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 				System.out.println(tuple.getScore());
 			});
 
-59.
+59.Redis 使用 Set、ZSet 结构时需要注意 value 值重复时会覆盖式更新，ZSet 结构同时会更新 Score。存在值相同的情况时，可以考虑使用 Redis 的 Hash 结构。
 
-60.
+60.Redis 游标迭代器：
+    SCAN：迭代当前数据库中符合匹配规则的所有 Key。
+    	例：jedis.scan(cursor, new ScanParams().count(100).match("abc*"));
+
+    SSCAN：迭代 Set 类型 某Key中 值符合匹配规则的所有值。
+    	例：jedis.sscan(key, cursor, new ScanParams().count(100).match("abc*"));
+
+    ZSCAN：迭代 ZSet 类型 某Key中 值符合匹配规则的所有值及分数。
+    	例：jedis.zscan(key, cursor, new ScanParams().count(100).match("abc*"));
+
+    HSCAN：迭代 Hash 类型 某Key中 字段符合匹配规则的所有字段及值。
+    	例：jedis.hscan(key, cursor, new ScanParams().count(100).match("abc*"));
+
+    实例(Java)：
+
+    	String cursor = "0";
+		List<String> keyList;
+		do {
+			ScanResult<String> scanResult = jedis.scan(cursor, new ScanParams().count(1000).match("fengkong:*"));
+			cursor = scanResult.getStringCursor();
+			keyList = scanResult.getResult();
+			
+			for (String key : keyList) {
+				// TODO				
+			}
+			
+		} while (!"0".equals(cursor));
+    
+	注：
+		1.游标迭代器局限性：
+			①同一个元素可能会被返回多次。 ②迭代过程中修改的元素不能保证是否正常返回。
+		2.第一次必须以 "0" 作为 cursor，count 的默认值为 10，不必保证每次的 count 值一致，但需要保证 cursor 是上次返回的游标。
+		3.先执行 count ,再执行 match，迭代过程中某次返回匹配到的元素个数可能为 0，只要返回的 cursor 值不为 "0"，还需要继续迭代。
+
+61.
