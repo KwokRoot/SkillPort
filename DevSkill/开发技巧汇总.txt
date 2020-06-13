@@ -600,4 +600,7 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		2.第一次必须以 "0" 作为 cursor，count 的默认值为 10，不必保证每次的 count 值一致，但需要保证 cursor 是上次返回的游标。
 		3.先执行 count ,再执行 match，迭代过程中某次返回匹配到的元素个数可能为 0，只要返回的 cursor 值不为 "0"，还需要继续迭代。
 
-61.
+61.数值类型转字符串类型：
+	System.currentTimeMillis() + "";
+
+62.

@@ -10,3 +10,11 @@ SublimeText3-常用插件：
 8、Git：Git插件。
 9、ConvertToUTF8：转换文档编码。
 10、ChineseLocalizations：汉化。
+
+
+
+备用：
+1.BracketHighlighter：括号高亮。
+2.Pretty JSON：JSON 插件。
+3.HTML-CSS-JS Prettify：代码格式化。
+
