@@ -603,4 +603,52 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 61.数值类型转字符串类型：
 	System.currentTimeMillis() + "";
 
-62.
+62.快速创建 List 集合：new ArrayList<String>(Arrays.asList("111", "222", "333"));
+
+63.java.io.FileReader、java.io.FileWriter 读写文件时，默认使用是系统编码，即 System.getProperty("file.encoding") 值。处理中文出现编码问题时，考虑使用 java.io.InputStreamReader、java.io.OutputStreamWriter。
+
+64.Map 类型 Key 转为大写：
+
+	①方式一：使用 commons-collections:commons-collections 包：
+	@SuppressWarnings("unchecked")
+	private static Map<String, String> mapKey2Uppercase(Map map){
+		if(map == null){
+			return null;
+		}
+		return TransformedMap.decorateTransform(map, new Transformer() {
+			@Override
+			public Object transform(Object input) {
+				return Objects.toString(input, "").toUpperCase();
+			}
+		}, null);
+	}
+
+	②方式二：使用 org.apache.commons:commons-collections4 包：
+	private static Map<String, String> mapKey2Uppercase(Map<String, String> map) {
+		if (map == null) {
+			return null;
+		}
+		return TransformedMap.transformedMap(map, new Transformer<String, String>() {
+			@Override
+			public String transform(String input) {
+				return input == null ? null : input.toUpperCase();
+			}
+		}, null);
+	}
+
+65.复制同类实例属性，使用 commons-beanutils:commons-beanutils 包中 BeanUtils.copyProperties(Object dest, Object orig) 方法。
+
+66.Fastjson 序列化方法 JSON.toJSONString(Object Obj) 结果中出现 '$ref:'，说明对象属性出现循环引用。Fastjson 为防止循环引用出现：StackOverflowError 异常，默认开启引用检测，引用对象使用'$ref:'。
+
+	关闭引用检测：
+
+		全局配置关闭
+
+		  JSON.DEFAULT_GENERATE_FEATURE |= SerializerFeature.DisableCircularReferenceDetect.getMask();
+
+		非全局关闭
+
+		  JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect);
+
+67.
+
