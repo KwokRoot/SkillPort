@@ -33,3 +33,9 @@
 1.Ctrl + T	显示类的继承关系，接口的实现关系等
 2.Ctrl + Shift + T	搜索类(包括Jar包里的类)，可以使用“*”、“？”等通配符
 3.Ctrl + Shift + J 	多行文本合并一行。
+4.Ctrl + Shift + X(Y) 转为大(小)写。
+5.Ctrl + Q	回到最后编辑的位置。
+6.Alt + ←(→)	跳转光标历史位置。
+7.Shift + F2	打开外部 JavaDoc。
+8.Alt + Shift + ↑(↓) 调整选择范围。
+9.Ctrl + 1	快速修复。
