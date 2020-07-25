@@ -2,8 +2,8 @@ http://192.168.1.101:9200/_cat/allocation?v
 
 shards disk.indices disk.used disk.avail disk.total disk.percent host          ip            node
    814      171.7gb   294.2gb      1.4tb      1.7tb           16 192.168.1.101 192.168.1.101 es_his_m01
-   814      181.6gb   300.2gb      1.4tb      1.7tb           16 192.168.1.101 192.168.1.102 es_his_m02
-   814      180.8gb   386.1gb      1.3tb      1.7tb           21 192.168.1.101 192.168.1.103 es_his_m03
+   814      181.6gb   300.2gb      1.4tb      1.7tb           16 192.168.1.102 192.168.1.102 es_his_m02
+   814      180.8gb   386.1gb      1.3tb      1.7tb           21 192.168.1.103 192.168.1.103 es_his_m03
 
 
 JSON格式：

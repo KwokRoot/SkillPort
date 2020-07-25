@@ -7,6 +7,15 @@
 │  README.md
 │
 ├─DevIdea
+│      JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
+│      后台多接口合并遇到的问题.txt
+│      接手旧系统维护策略.txt
+│      接手旧系统重构策略.txt
+│      测试线、灰度线、正式线.txt
+│      系统间数据更新策略.txt
+│      系统间消息同步策略.txt
+│      系统高可用实现方案.txt
+│      集群与分布式与微服务.txt
 │      面对新项目应对策略.txt
 │      面对旧系统新需求应对策略.txt
 │      面对紧急临时需求应对策略.txt
@@ -19,10 +28,13 @@
 │  │  Eclipse-设置编码格式、字体、启动虚拟机.txt
 │  │  Eclipse-设置默认编码.txt
 │  │  Git-特殊命令.txt
+│  │  Java-Arthas-临时执行线上SpringBoot项目Jar包的静态方法.txt
 │  │  Linux-CentOS-安装配置JDK.txt
 │  │  Linux-CentOS-设置静态IP.txt
 │  │  Linux-修改JAR包配置文件.txt
 │  │  Linux-常用命令.txt
+│  │  Linux-时间同步配置.txt
+│  │  Linux-清理磁盘空间.txt
 │  │  Maven-打包为可执行的单独JAR包.txt
 │  │  Maven-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
 │  │  SublimeText3-常用快捷键.txt
@@ -46,7 +58,26 @@
 │  │  │      2.ES_JavaApiDeprecated.png
 │  │  │      3.ES安全模块免费使用.png
 │  │  │      4.date_histogram_interval_Deprecated.jpg
+│  │  │      5.ES索引名称限制.jpg
+│  │  │      6.ES字段属性-ignore_above说明-1.txt
+│  │  │      6.ES字段属性-ignore_above说明-2.jpg
+│  │  │      7.ES正则查询-数值范围查找.jpg
 │  │  │      ES官方重要更新说明.md
+│  │  │
+│  │  ├─ES查询及设置API
+│  │  │      ES文档创建、更新.txt
+│  │  │      ES查询别名存在关闭的索引.txt
+│  │  │      ES查询后台任务.txt
+│  │  │      ES查询索引状态.txt
+│  │  │      ES查询节点分片数.txt
+│  │  │      ES查询获取文档数.txt
+│  │  │      ES索引mapping添加字段.txt
+│  │  │      ES索引关闭、打开.txt
+│  │  │      ES索引创建.txt
+│  │  │      ES索引删除.txt
+│  │  │      ES索引复制.txt
+│  │  │      ES索引查询文档数、占用空间.txt
+│  │  │      ES索引清理数据.txt
 │  │  │
 │  │  ├─ES模版及生命周期
 │  │  │      ES索引模版设置.md
@@ -84,4 +115,3 @@
         开发技巧-SpringBoot-获取配置文件路径.txt
         开发技巧汇总.txt
 ```
-
