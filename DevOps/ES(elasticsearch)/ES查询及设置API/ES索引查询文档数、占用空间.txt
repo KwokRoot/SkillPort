@@ -1,0 +1,8 @@
+1.查询ES索引文档数及占用空间(按占用空间排序)：
+	GET /_cat/indices?v&h=index,docs.count,store.size&s=store.size:desc
+
+2.查询ES索引文档数及占用空间(按文档数排序)：
+	GET /_cat/indices?v&h=index,docs.count,store.size&s=docs.count:desc
+
+3.查询ES索引文档数及占用空间(JSON结果)：
+	GET /_cat/indices?h=index,docs.count,store.size&s=docs.count:desc&format=json&pretty

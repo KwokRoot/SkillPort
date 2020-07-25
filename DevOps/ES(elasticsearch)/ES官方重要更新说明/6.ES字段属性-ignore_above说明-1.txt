@@ -1,0 +1,23 @@
+ignore_above：
+
+	官方解释：
+		Strings longer than the ignore_above setting will not be indexed or stored. For arrays of strings, ignore_above will be applied for each array element separately and string elements longer than ignore_above will not be indexed or stored.
+
+	测试：
+
+	PUT my_index
+		{
+		  "mappings": {
+		    "properties": {
+		      "message": {
+		        "type": "keyword",
+		        "ignore_above": 20 
+		      }
+		    }
+		  }
+		}
+
+	"ignore_above": 20	: This field will ignore any string longer than 20 characters.
+
+	结论：多余20个字符的字段值不能被索引(查询、聚合），仍被储存(ES version：7.2.1)。
+	

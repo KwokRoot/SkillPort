@@ -1,0 +1,51 @@
+http://192.168.1.101:9200/_cat/allocation?v
+
+shards disk.indices disk.used disk.avail disk.total disk.percent host          ip            node
+   814      171.7gb   294.2gb      1.4tb      1.7tb           16 192.168.1.101 192.168.1.101 es_his_m01
+   814      181.6gb   300.2gb      1.4tb      1.7tb           16 192.168.1.101 192.168.1.102 es_his_m02
+   814      180.8gb   386.1gb      1.3tb      1.7tb           21 192.168.1.101 192.168.1.103 es_his_m03
+
+
+JSON格式：
+http://192.168.1.101:9200/_cat/allocation?format=json&pretty
+
+[
+  {
+    "shards" : "817",
+    "disk.indices" : "181.6gb",
+    "disk.used" : "300.3gb",
+    "disk.avail" : "1.4tb",
+    "disk.total" : "1.7tb",
+    "disk.percent" : "16",
+    "host" : "192.168.1.102",
+    "ip" : "192.168.1.102",
+    "node" : "es_his_m02"
+  },
+  {
+    "shards" : "817",
+    "disk.indices" : "172gb",
+    "disk.used" : "294.5gb",
+    "disk.avail" : "1.4tb",
+    "disk.total" : "1.7tb",
+    "disk.percent" : "16",
+    "host" : "192.168.1.101",
+    "ip" : "192.168.1.101",
+    "node" : "es_his_m01"
+  },
+  {
+    "shards" : "818",
+    "disk.indices" : "181.1gb",
+    "disk.used" : "386.5gb",
+    "disk.avail" : "1.3tb",
+    "disk.total" : "1.7tb",
+    "disk.percent" : "21",
+    "host" : "192.168.1.103",
+    "ip" : "192.168.1.103",
+    "node" : "es_his_m03"
+  }
+]
+
+
+查询集群中属性：max_shards_per_node
+http://192.168.1.101:9200/_cluster/settings?include_defaults=true
+

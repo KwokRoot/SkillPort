@@ -1,0 +1,5 @@
+ES查询别名存在关闭的索引：
+
+POST index_alias/_search?ignore_unavailable=true
+
+即：查询URL后加入 `ignore_unavailable=true` 参数。

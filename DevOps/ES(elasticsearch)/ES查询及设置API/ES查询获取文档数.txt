@@ -1,0 +1,25 @@
+1.使用 Count API：
+
+GET index/_count
+{
+     "query": {
+        "match" : {
+            "message" : "Elasticsearch"
+        }
+     }
+}
+
+
+
+2.请求体中加入 `"track_total_hits": true` 参数。
+
+GET index/_search
+{
+    "track_total_hits": true,
+     "query": {
+        "match" : {
+            "message" : "Elasticsearch"
+        }
+     }
+}
+

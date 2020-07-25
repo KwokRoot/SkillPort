@@ -1,0 +1,15 @@
+ES索引复制：
+
+POST _reindex
+
+{
+  "source": {
+    "index": "index_a"
+  },
+  "dest": {
+    "index": "index_b"
+  }
+}
+
+注：索引复制确认没问题再删除之前索引!
+

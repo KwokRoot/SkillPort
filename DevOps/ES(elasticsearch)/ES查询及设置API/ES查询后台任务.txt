@@ -1,0 +1,17 @@
+ES查询后台任务：
+
+查询当前任务(模糊匹配)：
+GET _tasks?detailed=true&actions=*delete*
+
+GET _tasks?detailed=true&actions=*reindex
+
+
+查询任务详情：
+GET /_tasks/r1A2WoRbTwKZ516z6NEs5A:36619
+
+取消任务：
+POST _tasks/r1A2WoRbTwKZ516z6NEs5A:36619/_cancel
+
+
+拓展：
+	请求参数：wait_for_completion = false 能把任务执行结果存到 .task 索引中

@@ -1,0 +1,9 @@
+PUT index/_mapping
+
+{
+  "properties": {
+    "email": {
+      "type": "keyword"
+    }
+  }
+}

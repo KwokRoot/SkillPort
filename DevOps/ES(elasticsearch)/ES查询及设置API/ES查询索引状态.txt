@@ -1,0 +1,155 @@
+ES索引状态查询：
+
+查询地址：
+http://192.168.1.101:9200/_cat/indices/index?h=index,status,shardsPrimary,shardsReplica,docsCount,storeSize,cds&format=json
+结果：
+[
+    {
+        "index": ".kibana",
+        "status": "open",
+        "shardsPrimary": "1",
+        "shardsReplica": "1",
+        "docsCount": "4",
+        "storeSize": "49.6kb",
+        "cd": "1562243402617"
+    },
+    {
+        "index": ".monitoring-kibana-7-2019.07.04",
+        "status": "open",
+        "shardsPrimary": "1",
+        "shardsReplica": "1",
+        "docsCount": "5449",
+        "storeSize": "2.8mb",
+        "cd": "1562230295056"
+    }
+]
+
+状态字段说明：
+health                           | h                              | current health status                                                                                            
+status                           | s                              | open/close status                                                                                                
+index                            | i,idx                          | index name                                                                                                       
+uuid                             | id,uuid                        | index uuid                                                                                                       
+pri                              | p,shards.primary,shardsPrimary | number of primary shards                                                                                         
+rep                              | r,shards.replica,shardsReplica | number of replica shards                                                                                         
+docs.count                       | dc,docsCount                   | available docs                                                                                                   
+docs.deleted                     | dd,docsDeleted                 | deleted docs                                                                                                     
+creation.date                    | cd                             | index creation date (millisecond value)                                                                          
+creation.date.string             | cds                            | index creation date (as string)                                                                                  
+store.size                       | ss,storeSize                   | store size of primaries & replicas                                                                               
+pri.store.size                   |                                | store size of primaries                                                                                          
+completion.size                  | cs,completionSize              | size of completion                                                                                               
+pri.completion.size              |                                | size of completion                                                                                               
+fielddata.memory_size            | fm,fielddataMemory             | used fielddata cache                                                                                             
+pri.fielddata.memory_size        |                                | used fielddata cache                                                                                             
+fielddata.evictions              | fe,fielddataEvictions          | fielddata evictions                                                                                              
+pri.fielddata.evictions          |                                | fielddata evictions                                                                                              
+query_cache.memory_size          | qcm,queryCacheMemory           | used query cache                                                                                                 
+pri.query_cache.memory_size      |                                | used query cache                                                                                                 
+query_cache.evictions            | qce,queryCacheEvictions        | query cache evictions                                                                                            
+pri.query_cache.evictions        |                                | query cache evictions                                                                                            
+request_cache.memory_size        | rcm,requestCacheMemory         | used request cache                                                                                               
+pri.request_cache.memory_size    |                                | used request cache                                                                                               
+request_cache.evictions          | rce,requestCacheEvictions      | request cache evictions                                                                                          
+pri.request_cache.evictions      |                                | request cache evictions                                                                                          
+request_cache.hit_count          | rchc,requestCacheHitCount      | request cache hit count                                                                                          
+pri.request_cache.hit_count      |                                | request cache hit count                                                                                          
+request_cache.miss_count         | rcmc,requestCacheMissCount     | request cache miss count                                                                                         
+pri.request_cache.miss_count     |                                | request cache miss count                                                                                         
+flush.total                      | ft,flushTotal                  | number of flushes                                                                                                
+pri.flush.total                  |                                | number of flushes                                                                                                
+flush.total_time                 | ftt,flushTotalTime             | time spent in flush                                                                                              
+pri.flush.total_time             |                                | time spent in flush                                                                                              
+get.current                      | gc,getCurrent                  | number of current get ops                                                                                        
+pri.get.current                  |                                | number of current get ops                                                                                        
+get.time                         | gti,getTime                    | time spent in get                                                                                                
+pri.get.time                     |                                | time spent in get                                                                                                
+get.total                        | gto,getTotal                   | number of get ops                                                                                                
+pri.get.total                    |                                | number of get ops                                                                                                
+get.exists_time                  | geti,getExistsTime             | time spent in successful gets                                                                                    
+pri.get.exists_time              |                                | time spent in successful gets                                                                                    
+get.exists_total                 | geto,getExistsTotal            | number of successful gets                                                                                        
+pri.get.exists_total             |                                | number of successful gets                                                                                        
+get.missing_time                 | gmti,getMissingTime            | time spent in failed gets                                                                                        
+pri.get.missing_time             |                                | time spent in failed gets                                                                                        
+get.missing_total                | gmto,getMissingTotal           | number of failed gets                                                                                            
+pri.get.missing_total            |                                | number of failed gets                                                                                            
+indexing.delete_current          | idc,indexingDeleteCurrent      | number of current deletions                                                                                      
+pri.indexing.delete_current      |                                | number of current deletions                                                                                      
+indexing.delete_time             | idti,indexingDeleteTime        | time spent in deletions                                                                                          
+pri.indexing.delete_time         |                                | time spent in deletions                                                                                          
+indexing.delete_total            | idto,indexingDeleteTotal       | number of delete ops                                                                                             
+pri.indexing.delete_total        |                                | number of delete ops                                                                                             
+indexing.index_current           | iic,indexingIndexCurrent       | number of current indexing ops                                                                                   
+pri.indexing.index_current       |                                | number of current indexing ops                                                                                   
+indexing.index_time              | iiti,indexingIndexTime         | time spent in indexing                                                                                           
+pri.indexing.index_time          |                                | time spent in indexing                                                                                           
+indexing.index_total             | iito,indexingIndexTotal        | number of indexing ops                                                                                           
+pri.indexing.index_total         |                                | number of indexing ops                                                                                           
+indexing.index_failed            | iif,indexingIndexFailed        | number of failed indexing ops                                                                                    
+pri.indexing.index_failed        |                                | number of failed indexing ops                                                                                    
+merges.current                   | mc,mergesCurrent               | number of current merges                                                                                         
+pri.merges.current               |                                | number of current merges                                                                                         
+merges.current_docs              | mcd,mergesCurrentDocs          | number of current merging docs                                                                                   
+pri.merges.current_docs          |                                | number of current merging docs                                                                                   
+merges.current_size              | mcs,mergesCurrentSize          | size of current merges                                                                                           
+pri.merges.current_size          |                                | size of current merges                                                                                           
+merges.total                     | mt,mergesTotal                 | number of completed merge ops                                                                                    
+pri.merges.total                 |                                | number of completed merge ops                                                                                    
+merges.total_docs                | mtd,mergesTotalDocs            | docs merged                                                                                                      
+pri.merges.total_docs            |                                | docs merged                                                                                                      
+merges.total_size                | mts,mergesTotalSize            | size merged                                                                                                      
+pri.merges.total_size            |                                | size merged                                                                                                      
+merges.total_time                | mtt,mergesTotalTime            | time spent in merges                                                                                             
+pri.merges.total_time            |                                | time spent in merges                                                                                             
+refresh.total                    | rto,refreshTotal               | total refreshes                                                                                                  
+pri.refresh.total                |                                | total refreshes                                                                                                  
+refresh.time                     | rti,refreshTime                | time spent in refreshes                                                                                          
+pri.refresh.time                 |                                | time spent in refreshes                                                                                          
+refresh.listeners                | rli,refreshListeners           | number of pending refresh listeners                                                                              
+pri.refresh.listeners            |                                | number of pending refresh listeners                                                                              
+search.fetch_current             | sfc,searchFetchCurrent         | current fetch phase ops                                                                                          
+pri.search.fetch_current         |                                | current fetch phase ops                                                                                          
+search.fetch_time                | sfti,searchFetchTime           | time spent in fetch phase                                                                                        
+pri.search.fetch_time            |                                | time spent in fetch phase                                                                                        
+search.fetch_total               | sfto,searchFetchTotal          | total fetch ops                                                                                                  
+pri.search.fetch_total           |                                | total fetch ops                                                                                                  
+search.open_contexts             | so,searchOpenContexts          | open search contexts                                                                                             
+pri.search.open_contexts         |                                | open search contexts                                                                                             
+search.query_current             | sqc,searchQueryCurrent         | current query phase ops                                                                                          
+pri.search.query_current         |                                | current query phase ops                                                                                          
+search.query_time                | sqti,searchQueryTime           | time spent in query phase                                                                                        
+pri.search.query_time            |                                | time spent in query phase                                                                                        
+search.query_total               | sqto,searchQueryTotal          | total query phase ops                                                                                            
+pri.search.query_total           |                                | total query phase ops                                                                                            
+search.scroll_current            | scc,searchScrollCurrent        | open scroll contexts                                                                                             
+pri.search.scroll_current        |                                | open scroll contexts                                                                                             
+search.scroll_time               | scti,searchScrollTime          | time scroll contexts held open                                                                                   
+pri.search.scroll_time           |                                | time scroll contexts held open                                                                                   
+search.scroll_total              | scto,searchScrollTotal         | completed scroll contexts                                                                                        
+pri.search.scroll_total          |                                | completed scroll contexts                                                                                        
+segments.count                   | sc,segmentsCount               | number of segments                                                                                               
+pri.segments.count               |                                | number of segments                                                                                               
+segments.memory                  | sm,segmentsMemory              | memory used by segments                                                                                          
+pri.segments.memory              |                                | memory used by segments                                                                                          
+segments.index_writer_memory     | siwm,segmentsIndexWriterMemory | memory used by index writer                                                                                      
+pri.segments.index_writer_memory |                                | memory used by index writer                                                                                      
+segments.version_map_memory      | svmm,segmentsVersionMapMemory  | memory used by version map                                                                                       
+pri.segments.version_map_memory  |                                | memory used by version map                                                                                       
+segments.fixed_bitset_memory     | sfbm,fixedBitsetMemory         | memory used by fixed bit sets for nested object field types and type filters for types referred in _parent fields
+pri.segments.fixed_bitset_memory |                                | memory used by fixed bit sets for nested object field types and type filters for types referred in _parent fields
+warmer.current                   | wc,warmerCurrent               | current warmer ops                                                                                               
+pri.warmer.current               |                                | current warmer ops                                                                                               
+warmer.total                     | wto,warmerTotal                | total warmer ops                                                                                                 
+pri.warmer.total                 |                                | total warmer ops                                                                                                 
+warmer.total_time                | wtt,warmerTotalTime            | time spent in warmers                                                                                            
+pri.warmer.total_time            |                                | time spent in warmers                                                                                            
+suggest.current                  | suc,suggestCurrent             | number of current suggest ops                                                                                    
+pri.suggest.current              |                                | number of current suggest ops                                                                                    
+suggest.time                     | suti,suggestTime               | time spend in suggest                                                                                            
+pri.suggest.time                 |                                | time spend in suggest                                                                                            
+suggest.total                    | suto,suggestTotal              | number of suggest ops                                                                                            
+pri.suggest.total                |                                | number of suggest ops                                                                                            
+memory.total                     | tm,memoryTotal                 | total used memory                                                                                                
+pri.memory.total                 |                                | total user memory                                                                                                
+search.throttled                 | sth                            | indicates if the index is search throttled             
+

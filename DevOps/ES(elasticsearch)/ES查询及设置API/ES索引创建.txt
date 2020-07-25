@@ -1,0 +1,195 @@
+ES创建索引:
+
+PUT index_a
+
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 5,
+      "number_of_replicas": 1,
+      "refresh_interval": "5s",
+      "max_result_window": "50000"
+    }
+  },
+  "aliases": {
+    "index_a_search": {}
+  },
+  "mappings": {
+    "properties": {
+      "sys_no": {
+        "type": "keyword"
+      },
+      "msgId": {
+        "type": "keyword"
+      },
+      "u_id": {
+        "type": "keyword"
+      },
+      "o_time": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss:SSS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "o_l_time": {
+        "type": "long"
+      },
+      "o_channel": {
+        "type": "keyword"
+      },
+      "os": {
+        "type": "keyword"
+      },
+      "app_version": {
+        "type": "keyword"
+      },
+      "c_ip": {
+        "type": "keyword"
+      },
+      "s_ip": {
+        "type": "keyword"
+      },
+      "dervice_id": {
+        "type": "keyword"
+      },
+      "in_param": {
+        "type": "text"
+      },
+      "out_param": {
+        "type": "text"
+      },
+      "action": {
+        "type": "keyword"
+      },
+      "log_type": {
+        "type": "keyword"
+      },
+      "t_id": {
+        "type": "keyword"
+      },
+      "result": {
+        "type": "keyword"
+      },
+      "error_no": {
+        "type": "keyword"
+      },
+      "error_msg": {
+        "type": "text"
+      },
+      "remark": {
+        "type": "text"
+      },
+      "spent_time": {
+        "type": "double"
+      },
+      "operator": {
+        "type": "keyword"
+      },
+      "trace_action": {
+        "type": "keyword"
+      },
+      "trace_id": {
+        "type": "keyword"
+      },
+      "machine": {
+        "type": "keyword"
+      },
+      "mac_add": {
+        "type": "keyword"
+      },
+      "inner_ip": {
+        "type": "keyword"
+      },
+      "disk_id": {
+        "type": "keyword"
+      },
+      "cpu_id": {
+        "type": "keyword"
+      },
+      "logic_drive": {
+        "type": "keyword"
+      },
+      "mpn": {
+        "type": "keyword"
+      },
+      "imei": {
+        "type": "keyword"
+      },
+      "market": {
+        "type": "keyword"
+      },
+      "kfk_topic": {
+        "type": "keyword"
+      },
+      "kfk_partition": {
+        "type": "integer"
+      },
+      "kfk_offset": {
+        "type": "long"
+      },
+      "orig_message": {
+        "type": "text"
+      },
+      "fb_timestamp": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm:ss:SSS||yyyy-MM-dd HH:mm:ss.SSS||yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"
+      },
+      "fb_l_timestamp": {
+        "type": "long"
+      },
+      "fb_version": {
+        "type": "keyword"
+      },
+      "fb_path": {
+        "type": "keyword"
+      },
+      "fb_offset": {
+        "type": "long"
+      },
+      "fb_host_name": {
+        "type": "keyword"
+      },
+      "fb_host_ipv4": {
+        "type": "keyword"
+      },
+      "fb_os_name": {
+        "type": "keyword"
+      },
+      "fb_os_version": {
+        "type": "keyword"
+      },
+      "fb_os_architecture": {
+        "type": "keyword"
+      },
+      "fb_os_kernel": {
+        "type": "keyword"
+      },
+      "is_encrypt": {
+        "type": "boolean"
+      },
+      "hbase_table_name": {
+        "type": "keyword"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "country": {
+        "type": "keyword"
+      },
+      "province": {
+        "type": "keyword"
+      },
+      "city": {
+        "type": "keyword"
+      },
+      "district": {
+        "type": "keyword"
+      },
+      "tspalsaname": {
+        "type": "keyword"
+      },
+      "tspstdname": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+

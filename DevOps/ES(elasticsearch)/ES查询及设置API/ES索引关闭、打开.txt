@@ -1,0 +1,8 @@
+ES索引关闭：
+
+	POST index/_close
+
+
+ES索引打开：
+
+	POST index/_open

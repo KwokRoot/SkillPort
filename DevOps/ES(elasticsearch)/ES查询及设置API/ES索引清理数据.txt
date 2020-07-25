@@ -1,0 +1,21 @@
+清除所有：
+
+POST index/_delete_by_query?conflicts=proceed
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+
+
+按条件清除：
+
+POST index/_delete_by_query?conflicts=proceed
+{
+  "query": { 
+    "match": {
+      "message": "some message"
+    }
+  }
+}

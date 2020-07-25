@@ -1,0 +1,8 @@
+ES新增/更新文档:
+
+POST index/_doc/id
+{
+    "user" : "kimchy",
+    "post_date" : "2009-11-15T14:12:12",
+    "message" : "trying out Elasticsearch"
+}
