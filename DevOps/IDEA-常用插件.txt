@@ -1,0 +1,12 @@
+IDEA-常用插件：
+
+1.Package Search
+2.Maven Helper
+3.Free Mybatis plugin
+4.Easy Code
+5.GsonFormat4DataBinding
+6.Json Parser
+7.Grep Console
+8.Alibaba Java Coding Guidelines
+9.JUnitGenerator V2.​0
+10.Rainbow Brackets

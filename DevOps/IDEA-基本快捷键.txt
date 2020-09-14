@@ -1,0 +1,49 @@
+IDEA-常用基本快捷键：
+
+
+提示类:
+
+1.代码提示 ： Ctrl + Alt + Space
+2.修复建议 ： Alt + Enter
+3.代码块提示 ： Ctrl + Alt + T
+4.定位到下一个错误位置 ： F2 ；定位到上一个错误位置 ： Shift + F2
+5.格式化代码 ： Ctrl + Alt + L
+6.扩大选择区域 ： Ctrl + W ； 缩小选择区域 ： Ctrl + Shift + W
+7.切换大小写 ： Ctrl + Shift + U
+8.关闭文件 ：Shift + 单击文件导航栏文件名
+9.优化依赖 ：Ctrl + Alt + O (注：只删除没用到的依赖，不能导入没引入依赖，可设置自动导入。)
+10.代码自动生成 ： Alt + Insert(右键菜单 → Generate)
+11.单行注释 ： Ctrl + / ； 多行注释 ： Ctrl + Shift + /
+12.隐藏弹出框 ： Eec
+
+
+编辑类：
+
+1.复制当前行 ： Ctrl + D
+2.删除当前行 ： Ctrl + Y
+3.剪切当前行 ： Ctrl + X
+4.撤销操作 ： Ctrl + Z
+5.撤销重做 ： Ctrl + Shift + Z
+6.重命名 ： Shift + F6
+7.整合行 ： Ctrl + Shift + J
+8.重写基类方法 ： Ctrl + O
+9.实现接口方法 ： Ctrl + I
+10.代码向上(下)移动 ： Ctrl + Shift + ↑(↓)
+11.下插一行：Shift + Enter ； 上插一行： Ctrl + Alt + Enter
+12.列选择模式 ： Alt + Shift + Insert(右键菜单 → Column Selection Mode)
+
+
+导航类：
+
+1.查看方法文档 ： Ctrl + Q
+2.查看参数信息 ： Ctrl + P
+3.查看继承结构 ： Ctrl + H
+4.查看文件结构 ： Ctrl + F12
+5.查找文件 ： Ctrl + N ； 查找所有 ： 双击 Shift
+6.最近使用文件 ： Ctrl + E ； 最近更改文件 ： Ctrl + Shift + E
+7.查找文本 ： Ctrl + F ； 替换文本 ： Ctrl + R
+8.跳转到代码块开始(结束)处 ：Ctrl + [(]) 
+9.定位到文件某一行 ： Ctrl + G
+10.文件导航栏前(后)一个文件 ： Alt + ←(→)
+11.上一次(下一次)焦点位置：Ctrl + Alt + ←(→)
+12.最后编辑位置：Ctrl + Shift + Backspace
