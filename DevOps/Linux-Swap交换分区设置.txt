@@ -1,0 +1,17 @@
+Linux-Swap交换分区设置为 0 ：
+
+	1.临时生效：
+		sysctl -w vm.swappiness=0
+		swapoff -a && swapon -a		（刷新一次swap）
+
+	2.永久生效：
+		echo "vm.swappiness = 0" >> /etc/sysctl.conf	（尽量不使用Swap交换分区，注意不是禁用）
+		sysctl -p 	(重新加载系统配置，不用重启)
+		swapoff -a && swapon -a		（刷新一次swap）
+
+
+拓展：
+	关闭 Swap 交换分区：
+		swapoff -a
+	
+	推荐把 Swap 交换分区 设置为 0 。
