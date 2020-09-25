@@ -12,6 +12,8 @@ GET /_tasks/r1A2WoRbTwKZ516z6NEs5A:36619
 取消任务：
 POST _tasks/r1A2WoRbTwKZ516z6NEs5A:36619/_cancel
 
+批量取消任务：
+POST _tasks/_cancel?nodes=nodeId1,nodeId2&actions=*reindex
 
 拓展：
 	请求参数：wait_for_completion = false 能把任务执行结果存到 .task 索引中

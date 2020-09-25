@@ -37,7 +37,7 @@ IDEA-常用基本快捷键：
 
 1.查看方法文档 ： Ctrl + Q
 2.查看参数信息 ： Ctrl + P
-3.查看继承结构 ： Ctrl + H
+3.查看继承结构 ： Ctrl + H ；直接跳转到接口、抽象类的实现类、实现方法 ：Ctrl + Alt + B(单击) 
 4.查看文件结构 ： Ctrl + F12
 5.查找文件 ： Ctrl + N ； 查找所有 ： 双击 Shift
 6.最近使用文件 ： Ctrl + E ； 最近更改文件 ： Ctrl + Shift + E
