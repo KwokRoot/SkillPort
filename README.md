@@ -4,6 +4,7 @@
 
 ```
 包结构
+│  LICENSE
 │  README.md
 │
 ├─DevIdea
@@ -28,9 +29,15 @@
 │  │  Eclipse-设置编码格式、字体、启动虚拟机.txt
 │  │  Eclipse-设置默认编码.txt
 │  │  Git-特殊命令.txt
+│  │  Gradle-打包为可执行的单独JAR包.txt
+│  │  Gradle-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
+│  │  IDEA-基本快捷键.txt
+│  │  IDEA-常用插件.jpg
+│  │  IDEA-常用插件.txt
 │  │  Java-Arthas-临时执行线上SpringBoot项目Jar包的静态方法.txt
 │  │  Linux-CentOS-安装配置JDK.txt
 │  │  Linux-CentOS-设置静态IP.txt
+│  │  Linux-Swap交换分区设置.txt
 │  │  Linux-修改JAR包配置文件.txt
 │  │  Linux-常用命令.txt
 │  │  Linux-时间同步配置.txt

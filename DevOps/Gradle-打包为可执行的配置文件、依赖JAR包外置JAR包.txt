@@ -1,0 +1,31 @@
+Gradle-打包为可执行的配置文件、依赖JAR包外置JAR包：
+
+
+/* 设置类加载路径 */
+jar {
+    String classPath = ""
+    configurations.runtime.each { classPath = classPath + "lib/" + it.name + " " }
+    manifest {
+        attributes 'Main-Class': "gradle.hello.Library"
+        attributes 'Class-Path': "config/ " + classPath
+    }
+}
+
+/* 复制依赖Jar包 */
+task copyJar(type: Copy) {
+    from configurations.runtime
+    into('build/libs/lib')
+}
+
+/* Jar包中排除配置文件 */
+processResources {
+    exclude { "*.*" }
+}
+
+/* 复制配置文件 */
+task copyConfig(type: Copy) {
+    from('src/main/resources')
+    into('build/libs/config')
+}
+
+jar.dependsOn('copyJar', 'copyConfig')

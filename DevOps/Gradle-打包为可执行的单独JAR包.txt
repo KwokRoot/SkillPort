@@ -1,0 +1,17 @@
+Gradle-打包为可执行的单独JAR包：
+
+
+jar {
+    manifestContentCharset 'utf-8'
+    metadataCharset 'utf-8'
+    manifest {
+        attributes "Main-Class": "gradle.hello.Library"
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    
+}
