@@ -7,3 +7,11 @@ ES集群状态异常，一直出现UnassignedShards解决方案：
 	②当索引无数据写入时可执行关闭、开启索引操作，重新触发索引分片：
 		POST index/_close
 		POST index/_open
+
+
+
+拓展：
+	查询集群中分片未分配的原因：
+		_cluster/allocation/explain?pretty
+
+

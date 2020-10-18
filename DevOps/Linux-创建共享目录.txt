@@ -1,0 +1,41 @@
+Linux-创建共享目录：
+
+服务端配置：
+
+1.安装、运行 NFS 服务(nfs-utils)及依赖服务(rpcbind)。
+	① 判断是否已安装：rpm -qa nfs-utils rpcbind
+	② 未安装则先安装：yum install nfs-utils rpcbind
+	
+2.创建共享文件夹修改目录权限：
+	① mkdir /opt/data/share
+	② chmod -R 777 /opt/data/share
+
+3.修改 NFS 配置文件 /etc/exports：
+	① vim /etc/exports
+	② 新增：
+		/opt/data/share *(rw,sync,insecure)
+
+4.运行服务：
+	① service rpcbind start
+	② service nfs start
+
+5.测试配置是否正确加载：
+	showmount -e localhost
+
+
+
+客户端配置：
+
+1.安装、运行 NFS 服务(nfs-utils)及依赖服务(rpcbind)。
+	① 判断是否已安装：rpm -qa nfs-utils rpcbind
+	② 未安装则先安装：yum install nfs-utils rpcbind
+
+2.创建挂载目录:
+	mkdir /data/share(目录名可与服务端不同)
+
+3.挂载远程目录：
+	mount 服务端IP:/opt/data/share /data/share
+
+4.卸载远程目录：
+	umount /data/share
+
