@@ -650,5 +650,22 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 
 		  JSON.toJSONString(obj, SerializerFeature.DisableCircularReferenceDetect);
 
-67.
+67.字符串字符反转：
+
+	① new StringBuilder("abcd").reverse().toString();
+	② new StringBuffer("abcd").reverse().toString();
+	③ StringUtils.reverse("abcd"); [需引入 org.apache.commons:commons-lang3 包]
+
+68.使用 hashCode 求余计算时，要考虑 hashCode 存在负值的情况：
+	if(Math.abs("string".hashCode())%num == 1)
+
+69.Maven 打包命令跳过测试：
+
+	方式一，跳过测试，跳过测试编译：
+		mvn package -Dmaven.test.skip=true
+
+	方式二，跳过测试，但不跳过测试编译：
+		mvn package -DskipTests
+
+70.
 
