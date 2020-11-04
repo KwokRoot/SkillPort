@@ -1,4 +1,25 @@
-Idea-基本快捷键(IDEA <===> Eclipse)：
+Eclipse转IDEA必须修改的默认配置项：
+
+1.自动编译开关(Build project automatically)。
+2.提示忽略大小写(Match case)。
+3.智能导包开关(Add unambiguous imports on the fly)。
+4.悬浮提示开关(Show quick documentation on mouse move)。
+5.Structure 视图(Eclipse中的Outline)移动到 Right Top。
+6.取消IDEA启动时自动选择上次工作目录(Reopen last project on startup)。
+7.取消方法折叠为一行(One-line methods)。
+8.用`*`号标识修改未保存的文件(Mark modified)。
+9.修改为Eclipse快捷键(不建议)。
+
+
+扩展配置：
+
+1.滚轴修改字体大小。
+2.导出、导入 Settings 配置。
+3.
+
+
+
+基本快捷键(IDEA <===> Eclipse)：
 
 1.代码提示：`Ctrl + Space`(一般被输入法占用，可以使用 `Ctrl + Alt + Space`) <===> `Alt + /`。
 2.代码建议(修复)：`Ctrl + Shift + Space` 或 `Alt + Enter` <===> `Ctrl + 1`
@@ -7,7 +28,7 @@ Idea-基本快捷键(IDEA <===> Eclipse)：
 	返回上(下)个焦点：`Ctrl + Alt + ←(→)` <===> `Alt + ←(→)`
 	返回上个编辑点：`Ctrl + Shift + Backspace` <===> `Ctrl + Q`
 4.查看Doc注释文档： `Ctrl + Q` <===> `鼠标悬浮`。
-5.查看继承关系：`Ctrl + H`<==> `Ctrl + T`
+5.查看继承关系：`Ctrl + H`<===> `Ctrl + T`
 6.整理导入依赖：`Ctrl + Alt + o`(只删除没用到的依赖，不能导入没引入依赖，可设置自动导入) <===> `Ctrl + Shift + o`
 
 
