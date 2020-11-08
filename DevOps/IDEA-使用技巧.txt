@@ -1,0 +1,2 @@
+1.IDEA 查看方法参数(Ctrl + P)时参数前出现 `@NotNull` 注解，Inferred annotations: Parameter xxx: @org.jetbrains.annotations.NotNull 是IDEA 检测到代码中使用到了该参数，该参数如果为 null，程序会抛异常，而我们又没有对异常处理时会有该提示。
+
