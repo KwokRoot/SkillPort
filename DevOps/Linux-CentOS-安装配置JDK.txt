@@ -31,15 +31,15 @@
 3.更新 java 命令指向地址：
 	解决：安装 JDK1.8 后，java -version 仍然显示版本为 1.7 问题。
 	步骤：
-	① which java
-		结果：/usr/bin/java
-	② cd /usr/bin/
-	③ sudo rm -rf java(或 javac)
-	④ sudo ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64/bin/java /usr/bin/java
-	⑤ which java
-		结果：/usr/bin/java
-	⑥ ls -l /usr/bin/java
-		结果：/usr/bin/java -> /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64/bin/java
+		① which java
+			结果：/usr/bin/java
+		② cd /usr/bin/
+		③ sudo rm -rf java(或 javac)
+		④ sudo ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64/bin/java /usr/bin/java
+		⑤ which java
+			结果：/usr/bin/java
+		⑥ ls -l /usr/bin/java
+			结果：/usr/bin/java -> /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.212.b04-0.el6_10.x86_64/bin/java
 
 
 4.设置环境变量：
@@ -56,5 +56,12 @@
 		echo $JAVA_HOME
 
 注：经测试，设置环境变量时，即步骤4，会自动修改 /usr/bin/java 快捷方式的指向，即步骤3。
+
+
+拓展：
+	tar 包安装：
+		① 下载 jdk-linux tar安装包(例：jdk-8u202-linux-x64.tar.gz)。
+		② 解压 *.tar.gz 压缩包：tar -zxvf jdk-8u202-linux-x64.tar.gz。
+		③ 设置环境变量，参考上述步骤4。
 
 
