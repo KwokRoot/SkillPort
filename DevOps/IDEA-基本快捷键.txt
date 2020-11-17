@@ -29,7 +29,7 @@ IDEA-常用基本快捷键：
 8.重写基类方法 ： Ctrl + O
 9.实现接口方法 ： Ctrl + I
 10.代码向上(下)移动 ： Ctrl + Shift + ↑(↓)
-11.下插一行：Shift + Enter ； 上插一行： Ctrl + Alt + Enter
+11.下插一行：Shift + Enter ； 上插一行： Ctrl + Alt + Enter ； 补全当前行分号：Ctrl + Shift + Enter
 12.列选择模式 ： Alt + Shift + Insert(右键菜单 → Column Selection Mode)
 
 

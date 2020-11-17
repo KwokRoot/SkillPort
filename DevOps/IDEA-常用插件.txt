@@ -8,5 +8,15 @@ IDEA-常用插件：
 6.Json Parser
 7.Grep Console
 8.Alibaba Java Coding Guidelines
-9.JUnitGenerator V2.​0
+9.JUnitGenerator V2.0
 10.Rainbow Brackets
+
+
+11.代码缩放图：CodeGlance
+12.代码补全及示例：Codota
+13.快捷键统计提示：KeyPromoterX
+14.自动生成实体Setter方法：GenerateAllSetter
+15.翻译：Translation
+16.高亮括号对：HighlightBracketPair
+17.字符串操作工具：String Manipulation
+
