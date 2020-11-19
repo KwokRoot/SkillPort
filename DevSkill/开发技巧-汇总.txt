@@ -667,5 +667,9 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	方式二，跳过测试，但不跳过测试编译：
 		mvn package -DskipTests
 
-70.
+70.反转 Map 结构中的 Key，Value 值：
+	① Map reverseMap = (Map) map.entrySet().stream().collect(Collectors.toMap(e -> ((Map.Entry) e).getValue(), e -> ((Map.Entry) e).getKey()));
+	② 遍历旧 Map，反转 Key, Value 的值，赋值给新的 Map。
+
+71.
 

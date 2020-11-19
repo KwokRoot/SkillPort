@@ -26,3 +26,6 @@ Linux-Vim常用命令：
 		a.命令模式下， Ctrl + v 进入列块选择模式(VISUAL BLOCK)，移动光标进行列块选择。
 		b.块删除：选择列块后，按 d 或者 Delete。
 		c.块增加：选择列块后，按 Shift + i，编辑增加内容后，按 Esc 退出即可。
+	② 显示行号：命令模式下输入 set number(nonumber) 显示(不显示)行号。
+	③ 语法高亮：命令模式下输入 syntax on(off) 语法高亮开启(关闭)。
+

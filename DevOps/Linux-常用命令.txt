@@ -22,8 +22,10 @@
 10.grep  "grep -i java fileName" 在某文件中忽略大小写搜索"java"。
 
 11.tail -n 100 -f out.log（tail -100f out.log）  输出文件最后n行的内容，同时监视文件的改变，循环读取文件。
+	
 	拓展：
-	head命令： 用于显示文件的前n行，例如：head -n 100 out.log（或者 head -100 out.log）显示文件前10行数据。
+		① less命令： 用于文件分页显示。例如：less file.log ; 其中：g 跳到首行，Shift + g 跳到尾行，PgUp(Ctrl + b) 向上(前)翻页，PgDn(Ctrl + f) 向下(后)翻页，↑(k) 向上(前)一行，↓(j) 向下(后)一行，q 退出。
+		② head命令： 用于显示文件的前n行，例如：head -n 100 out.log（或者 head -100 out.log）显示文件前100行数据。
 
 12.vi  纯文本编辑器。进入修改模式（i, a, o），按ESC键切换命令行模式。命令模式下输入"/"或者"?"查找，"n"查找下一个。编辑后，在命令模式下":w"保存文件，":q"退出vi，":q!"不保存文件强制退出vi。
 
