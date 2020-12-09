@@ -1,0 +1,99 @@
+Maven-外置配置文件到项目 config 目录：
+
+	(1)目的：
+		① 开发运行时，IDE 编辑器能正常读取到项目目录下 config 目录中的配置文件。
+		② 部署运行时，仅读取与 Jar 包同级目录 config 目录中的配置文件，不会读取 Jar 包中的配置文件！
+		③ 配置文件外置，方便运维直接修改配置文件。
+
+	(2)配置 pom.xml：
+
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<executions>
+						<execution>
+							<!-- 复制配置文件到 user.dir/config 路径下，IDE 中运行程序时使用 -->
+							<id>copy-resources-basedir</id>
+							<phase>package</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<encoding>UTF-8</encoding>
+								<outputDirectory>
+									${project.basedir}/config
+								</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${project.basedir}/src/main/resources/</directory>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+
+						<execution>
+							<!-- 复制配置文件到 target/config 路径下，直接运行 Jar 包时使用 -->
+							<id>copy-resources-builddir</id>
+							<phase>package</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<encoding>UTF-8</encoding>
+								<outputDirectory>
+									${project.build.directory}/config
+								</outputDirectory>
+								<resources>
+									<resource>
+										<directory>${project.basedir}/src/main/resources/</directory>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>com.devops.ServerStart</mainClass>
+							</manifest>
+						</archive>
+						<descriptorRefs>
+							<descriptorRef>jar-with-dependencies</descriptorRef>
+						</descriptorRefs>
+					</configuration>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+
+
+	(3)代码获取配置文件：
+
+		String basePath = System.getProperty("user.dir", ".\\");
+		File file = new File(basePath + "\\config\\system.properties");
+		//System.out.println(file.getAbsolutePath());
+		InputStream inputStream = new FileInputStream(file);
+		
+		if(inputStream!=null){
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			System.out.println(properties.get("sysno"));
+		}
+
+
+注：经测试 `maven-assembly-plugin` 插件在 Eclipse 中能够自动更新配置文件，而在 Idea 中需要执行 `mvn package` 才能触发 `resources:copy-resources` 目标的执行，才能更新配置文件。

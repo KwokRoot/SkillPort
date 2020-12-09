@@ -2,20 +2,6 @@ Maven-打包为可执行的配置文件、依赖JAR包外置JAR包：
 
 
 <build>
-	<sourceDirectory>src/main/java</sourceDirectory>
-	<resources>
-		<resource>
-			<directory>src/main/resources</directory>
-			<includes>
-				<include>**/*.properties</include>
-				<include>**/*.xml</include>
-				<include>**/*.json</include>
-			</includes>
-			<filtering>false</filtering>
-			<targetPath>${project.build.directory}/config</targetPath>
-		</resource>
-	</resources>
-
 	<plugins>
 		<!-- 设置编译器版本 -->
 		<plugin>
@@ -27,29 +13,32 @@ Maven-打包为可执行的配置文件、依赖JAR包外置JAR包：
 				<encoding>UTF-8</encoding>
 			</configuration>
 		</plugin>
-
+		<!-- 复制配置文件到 config 目录 -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-jar-plugin</artifactId>
-			<configuration>
-				<archive>
-					<!-- 主程序入口 main 方法所在类 -->
-					<manifest>
-						<mainClass>com.kwok.server.ServerStart</mainClass>
-						<addClasspath>true</addClasspath>
-						<classpathPrefix>lib/</classpathPrefix>
-					</manifest>
-
-					<!-- 配置文件外置目录，加入到 META-INF/MANIFEST.MF 类路径 -->
-					<manifestEntries>
-						<Class-Path>config/</Class-Path>
-					</manifestEntries>
-
-				</archive>
-			</configuration>
+			<artifactId>maven-resources-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>copy-resources</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<encoding>UTF-8</encoding>
+						<outputDirectory>
+							${project.build.directory}/config
+						</outputDirectory>
+						<resources>
+							<resource>
+								<directory>${project.basedir}/src/main/resources/</directory>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+			</executions>
 		</plugin>
-
-		<!-- 拷贝依赖的 jar 包到 lib 目录 -->
+		<!-- 拷贝依赖的 Jar 包到 lib 目录 -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
 			<artifactId>maven-dependency-plugin</artifactId>
@@ -69,14 +58,29 @@ Maven-打包为可执行的配置文件、依赖JAR包外置JAR包：
 			</executions>
 		</plugin>
 
-		<!-- 解决资源文件的编码问题 -->
 		<plugin>
 			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-resources-plugin</artifactId>
-			<version>3.1.0</version>
+			<artifactId>maven-jar-plugin</artifactId>
 			<configuration>
-				<encoding>UTF-8</encoding>
+				<archive>
+					<!-- 主程序入口 main 方法所在类 -->
+					<manifest>
+						<mainClass>com.devops.ServerStart</mainClass>
+						<addClasspath>true</addClasspath>
+						<classpathPrefix>lib/</classpathPrefix>
+					</manifest>
+
+					<!-- 配置文件外置 config 目录，加入到 META-INF/MANIFEST.MF 类路径 Class-Path 属性中 -->
+					<manifestEntries>
+						<Class-Path>config/</Class-Path>
+					</manifestEntries>
+				</archive>
+				<excludes>
+					<exclude>*.*</exclude>
+				</excludes>
 			</configuration>
 		</plugin>
 	</plugins>
 </build>
+
+
