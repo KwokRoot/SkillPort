@@ -1,0 +1,16 @@
+1.关于 Thread.currentThread().getContextClassLoader().getResource("") 方式获取配置文件路径的问题：
+	
+	① Java 项目中，在 IDE 编辑器中运行结果 .../target/classes/ ，通过 `jar`、`assembly`、`shade` Maven 插件生成的 Jar包 运行结果为 null 。
+	② SpringBoot 及 SpringBoot Web 项目中，打包运行结果 ...*.jar!/BOOT-INF/classes!/ 。
+	③ JavaWeb 项目中，直接在 IDE 编辑器中，或单独部署到 Tomcat 中运行结果 ...WEB-INF/classes/ 。
+
+	
+	获取类根路径的方式：
+
+	String THIS_CLASS_PATH = ConfigResourceLoader.class.getPackage().getName().replace(".", "/");
+	String basePath = Thread.currentThread().getContextClassLoader().getResource(THIS_CLASS_PATH).getPath();
+	basePath = basePath.substring(0, basePath.length() - THIS_CLASS_PATH.length());
+
+2.
+
+
