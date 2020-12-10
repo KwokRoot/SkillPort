@@ -96,4 +96,4 @@ Maven-外置配置文件到项目 config 目录：
 		}
 
 
-注：经测试 `maven-assembly-plugin` 插件在 Eclipse 中能够自动更新配置文件，而在 Idea 中需要执行 `mvn package` 才能触发 `resources:copy-resources` 目标的执行，才能更新配置文件。
+注：经测试 `maven-resources-plugin` 插件在 Eclipse 中能够自动更新目标 config 目录中的配置文件，而在 Idea 中需要执行 `mvn package` 才能触发 `resources:copy-resources` 目标的执行，才能更新目标 config 目录中配置文件。
