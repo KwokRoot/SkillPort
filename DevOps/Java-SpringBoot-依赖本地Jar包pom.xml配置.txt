@@ -1,0 +1,38 @@
+1.在项目路径下创建 lib 目录，放入本地依赖的Jar包(例：storm-kafka-monitor-1.2.2.jar)。
+
+
+2.依赖配置(scope、systemPath)：
+
+<dependencies>
+	<dependency>
+		<groupId>org.apache.storm</groupId>
+		<artifactId>storm-kafka-monitor</artifactId>
+		<version>1.2.2</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/lib/storm-kafka-monitor-1.2.2.jar</systemPath>
+	</dependency>
+</dependencies>
+
+
+3.spring-boot-maven-plugin 插件配置 `<includeSystemScope>true</includeSystemScope>`：
+
+<build>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			<version>2.1.2.RELEASE</version>
+			<configuration>
+                <includeSystemScope>true</includeSystemScope>
+				<mainClass>com.eastmoney.StartServer</mainClass>
+			</configuration>
+			<executions>
+				<execution>
+					<goals>
+						<goal>repackage</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
