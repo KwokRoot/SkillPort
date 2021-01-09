@@ -141,11 +141,14 @@
 		
 		①查询索引分片信息：
 			GET _cat/shards?v
-		结果中查找：state 为 UNASSIGNED 的索引。
+			结果中查找：state 为 UNASSIGNED 的索引。
 
 		②当索引无数据写入时可执行关闭、开启索引操作，重新触发索引分片：
 			POST index/_close
 			POST index/_open
+
+		③拓展：查询集群中分片未分配的原因：
+			GET _cluster/allocation/explain?pretty
 
 ### 10.ES节点延迟分片分配-临时重启操作：
 		index.unassigned.node_left.delayed_timeout 默认 1m

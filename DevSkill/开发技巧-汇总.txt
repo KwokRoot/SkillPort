@@ -671,5 +671,7 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	① Map reverseMap = (Map) map.entrySet().stream().collect(Collectors.toMap(e -> ((Map.Entry) e).getValue(), e -> ((Map.Entry) e).getKey()));
 	② 遍历旧 Map，反转 Key, Value 的值，赋值给新的 Map。
 
-71.
+71.获取第三方Jar包中的配置文件内容：IOUtils.toString(new URL("jar:file:/F:/opt/quartz-2.2.1.jar!/org/quartz/quartz.properties"), "UTF-8");
+
+72.
 
