@@ -1,0 +1,86 @@
+Java-SpringBoot-Junit测试时初始化上下文之前执行方法的方式：
+
+应用案例：在加载 SpringBoot 配置前，想启动 H2 TCP 数据库，使 SpringBoot 配置文件中用到的数据库连接地址生效。 
+
+
+### SpringBoot2.2.x-Junit5版：
+
+方案1：使用 @BeforeAll 注解方式。
+
+import org.h2.tools.Server;
+import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class BaseTest {
+
+    @BeforeAll
+    public static void before(){
+        try {
+            Server.main("-tcp", "-tcpAllowOthers", "-webAdminPassword", "admin");
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+            System.err.println("数据库启动失败！");
+            System.exit(-1);
+        }
+    }
+
+}
+
+注：@BeforeAll 注解修饰的方法必须是 static 的静态方法，在 SpringBoot 初始化之前执行。@BeforeEach 注解修饰的方法必须是 非 静态方法，在 SpringBoot 初始化之后，测试用例执行前 才执行。
+
+
+方案2：使用构造方法的方式。
+
+import org.h2.tools.Server;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+public class BaseTest {
+
+    public BaseTest(){
+        try {
+            Server.main("-tcp", "-tcpAllowOthers", "-webAdminPassword", "admin");
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+            System.err.println("数据库启动失败！");
+            System.exit(-1);
+        }
+    }
+
+}
+
+
+
+### SpringBoot2.1.x-Junit4版：
+
+方案1：使用 @BeforeClass 注解方式。
+
+import org.h2.tools.Server;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class BaseTest {
+
+    @BeforeClass
+    public static void before(){
+        try {
+            Server.main("-tcp", "-tcpAllowOthers", "-webAdminPassword", "admin");
+        } catch (Exception throwables) {
+            throwables.printStackTrace();
+            System.err.println("数据库启动失败！");
+            System.exit(-1);
+        }
+    }
+
+}
+
+注：Junit5 @BeforeAll 注解 等同于 Junit4 @BeforeClass 注解，必须使用在 static 的静态方法上。
+
+
+方案2：使用构造方法的方式(同上)。
+
