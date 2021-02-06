@@ -1,0 +1,18 @@
+H2-H2Database数据库部署:
+
+
+1.下载 Zip 包，如：h2-2019-10-14.zip
+2.解压，直接执行 bin 目录下的 h2.bat、h2.sh 文件。
+3.也可执行 service 目录下的命令安装为 Windows 系统服务。
+
+
+注：默认启动服务后会在当前用户根目录中生成 `.h2.server.properties` 文件，可增加、修改相关的启动参数，如启动端口、Web Tool 访问密码等。
+
+
+例：
+webAdminPassword=123456
+webAllowOthers=false
+webPort=8082
+webSSL=false
+
+
