@@ -1,0 +1,46 @@
+SpringBoot-数据库-数据库连接配置项
+
+
+JPA设置：
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.format_sql=true
+## 展示 SQL 参数：
+logging.level.org.hibernate.type.descriptor.sql.BasicBinder=trace
+
+
+
+MySQL数据库：
+
+## 数据库连接设置
+
+spring.datasource.url=jdbc:mysql://localhost:3306/test?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.driverClassName=com.mysql.jdbc.Driver
+
+# MySQL 8.0 以上版本 - JDBC 驱动名及数据库 URL
+# spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+
+
+
+H2数据库：
+
+## 数据库连接设置
+spring.datasource.url=jdbc:h2:tcp://127.0.0.1/./data/test
+spring.datasource.username=sa
+spring.datasource.password=123456
+spring.datasource.driverClassName=org.h2.Driver
+
+
+## h2 web console设置
+
+spring.datasource.platform=h2
+
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.h2.console.settings.web-allow-others=true
+spring.h2.console.settings.web-admin-password=123456
+
+

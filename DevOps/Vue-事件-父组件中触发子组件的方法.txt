@@ -1,0 +1,61 @@
+Vue 父组件中触发子组件的方法：
+
+使用场景：
+	在父组件点击子组件时，触发子组件的初始化方法。
+
+方式一：
+
+①子组件中使用 ref 属性
+
+<ParentComponent>
+	<ChildComponents ref="ChildComponents"></ChildComponents>
+</ParentComponent>
+
+②父组件事件中使用 $refs 获取到子组件，并调用其方法：
+
+this.$refs.ChildComponents.init();
+
+
+方式二：父组件每次点击传递给子组件一个属性值，子组件监听该属性的变化来触发其方法。
+
+①父组件设置属性值：
+
+<ParentComponent>
+	<ChildComponents :update="timer"></ChildComponents>
+</ParentComponent>
+
+export default {
+  name: "ParentComponent",
+  data() {
+    return {
+      timer: "",
+    };
+  },
+  methods: {
+    handleClick(tab, event) {
+      this.timer = new Date().getTime();
+    },
+  },
+};
+
+
+②子组件监听属性值：
+
+export default {
+  name: "ChildComponents",
+  props: ["update"],
+  watch: {
+    update: function() {
+      this.init();
+    },
+  },
+
+  methods: {
+    init: function() {
+      console.log("init");
+    },
+  },
+};
+
+
+注：Vue 版本：2.6.11

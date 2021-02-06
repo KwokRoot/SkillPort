@@ -1,0 +1,28 @@
+Vue教程总结：
+
+模版语法：
+
+v-bind:(:)
+v-if:
+v-for="todo in todos"
+v-on:click(@)
+v-model:
+
+
+
+Vue-Cli：
+
+安装Vue CLI：npm install -g @vue/cli
+
+启动图形化界面命令：vue ui
+
+命令创建项目：vue create hello-world
+
+
+
+原型开发：
+
+安装：npm install -g @vue/cli-service-global
+命令：vue serve
+
+

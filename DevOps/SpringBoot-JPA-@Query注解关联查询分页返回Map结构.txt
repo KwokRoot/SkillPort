@@ -1,0 +1,48 @@
+SpringBoot-JPA-`@Query`注解关联查询、分页、返回 Map 结构：
+
+
+业务需求：多张表关联查询、结果分页、结果直接返回 Map 结构(不进行 DTO 封装)，能根据某字段进行结果过滤筛选，该字段为 null 或者 "" 查询所有。
+
+实现方案：
+
+方案一：
+
+	@Query(nativeQuery = true, value = "select R.ID, R.TIME, V.NO, V.NAME, R.OPERATION, N.NOTE from T_VIP_RECORD R left join T_VIP V on V.ID = R.VIP_ID left join T_VIP_RECORD_NOTE N on N.RECORD_ID = R.ID where if(:vipNo !='', V.NO=:vipNo, 1=1)",
+            countQuery = "select count(1) from T_VIP_RECORD R left join T_VIP V on V.ID = R.VIP_ID where if(?1 !='', V.NO=?1, 1=1)")
+    Page<Map<String, String>> queryAllRecordByPage(String vipNo, Pageable pageable);
+
+
+注：经测试：MySQL数据库 支持 IF 条件语法，H2 数据库不支持！
+
+
+
+方案二：
+	
+	@Query(nativeQuery = true, value = "select R.ID, R.TIME, V.NO, V.NAME, R.OPERATION, N.NOTE from T_VIP_RECORD R left join T_VIP V on V.ID = R.VIP_ID left join T_VIP_RECORD_NOTE N on N.RECORD_ID = R.ID where (V.NO = :vipNo or :vipNo is null or :vipNo = '')",
+            countQuery = "select count(1) from T_VIP_RECORD R left join T_VIP V on V.ID = R.VIP_ID where (V.NO = :vipNo or :vipNo is null or :vipNo = '')")
+    Page<Map<String, String>> queryAllRecordByPage(String vipNo, Pageable pageable);
+
+
+
+拓展：
+
+	Spring JPA `@Query` 注解中获取参数的方式：
+
+		@Query(value = "SELECT * FROM USERS WHERE LASTNAME = ?1",
+		countQuery = "SELECT count(*) FROM USERS WHERE LASTNAME = ?1",
+		nativeQuery = true)
+		Page<User> findByLastname(String lastname, Pageable pageable);
+
+
+		@Query("select u from User u where u.age = ?#{[0]}")
+		List<User> findUsersByAge(int age);
+
+
+		//参数为 实体对象 或 Map
+		@Query("select u from User u where u.firstname = :#{#customer.firstname}")
+		List<User> findUsersByCustomersFirstname(@Param("customer") Customer customer);
+
+
+
+注：SpringBoot版本：2.2.8.RELEASE
+

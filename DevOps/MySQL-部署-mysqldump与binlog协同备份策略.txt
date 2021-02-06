@@ -1,0 +1,68 @@
+1.定时全量备份。
+
+①创建备份用户及赋予备份权限。
+
+CREATE USER 'backup'@'localhost' IDENTIFIED BY 'backup';
+GRANT SELECT, SHOW VIEW, LOCK TABLES, TRIGGER  PROCESS ON *.* TO 'backup'@'localhost';
+FLUSH PRIVILEGES;
+
+
+②全量备份数据库脚本(backup_script.sh)：
+
+```shell
+#!/bin/bash
+
+#保存备份个数，备份31天数据
+number=31
+#备份保存路径
+backup_dir=/opt/mysql/backup
+#日期
+dd=`date +%Y-%m-%d-%H-%M-%S`
+#备份工具
+tool=/opt/mysql/mysql-5.7/bin/mysqldump
+#用户名
+username=backup
+#密码
+password=backup
+#将要备份的数据库
+database_name=logsystem
+
+#如果文件夹不存在则创建
+if [ ! -d $backup_dir ]; 
+then     
+    mkdir -p $backup_dir; 
+fi
+
+#简单写法  mysqldump -uroot -p123456 users > /root/mysqlbackup/users-$filename.sql
+$tool -u$username -p$password $database_name > ${backup_dir}/${database_name}_$dd.sql
+
+#写创建备份日志
+echo "create ${backup_dir}/${database_name}_$dd.sql" >> $backup_dir/log.txt
+
+#找出需要删除的备份
+delfile=`ls -l -crt  $backup_dir/*.sql | awk '{print $9 }' | head -1`
+
+#判断现在的备份数量是否大于$number
+count=`ls -l -crt  $backup_dir/*.sql | awk '{print $9 }' | wc -l`
+
+if [ $count -gt $number ]
+then
+  #删除最早生成的备份，只保留number数量的备份
+  rm $delfile
+  #写删除文件日志
+  echo "delete $delfile" >> $backup_dir/log.txt
+fi
+```
+
+赋予脚本执行权限：chmod +x backup_script.sh
+
+③添加执行脚本到 crontab 执行任务。
+
+crontab -e
+10 4 * * * /opt/mysql/backup/backup_script.sh
+
+2.开启 binlog 日志。
+
+	①在 /etc/my.cnf 文件 [mysqld] 区块添加：log-bin=mysql-bin
+	②设置 binlog 过期时间，SQL执行：set global expire_logs_days = 31;
+
