@@ -1,0 +1,116 @@
+Java-Https-服务器自签名证书不被信任的解决办法：
+
+
+问题：Java 发送 Https 请求异常：
+
+	Exception in thread "main" javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+		at sun.security.ssl.Alerts.getSSLException(Alerts.java:192)
+		at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1946)
+		at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:316)
+		at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:310)
+		at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1639)
+		at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:223)
+		at sun.security.ssl.Handshaker.processLoop(Handshaker.java:1037)
+		at sun.security.ssl.Handshaker.process_record(Handshaker.java:965)
+		at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1064)
+		at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1367)
+		at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1395)
+		at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1379)
+		at sun.net.www.protocol.https.HttpsClient.afterConnect(HttpsClient.java:559)
+		at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:185)
+		at sun.net.www.protocol.https.HttpsURLConnectionImpl.connect(HttpsURLConnectionImpl.java:162)
+		at com.devops.Test_Https.main(Test_Https.java:53)
+	Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+		at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:397)
+		at sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:302)
+		at sun.security.validator.Validator.validate(Validator.java:262)
+		at sun.security.ssl.X509TrustManagerImpl.validate(X509TrustManagerImpl.java:324)
+		at sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:229)
+		at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:124)
+		at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1621)
+		... 11 more
+	Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+		at sun.security.provider.certpath.SunCertPathBuilder.build(SunCertPathBuilder.java:141)
+		at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:126)
+		at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:280)
+		at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:392)
+		... 17 more
+
+
+
+解决办法：
+
+	1.使用 keyStore 加载自签名证书。
+
+		CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+		
+		KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+		
+		//初始化 keystore
+		keyStore.load(null);
+		
+		String certAlias = "sac-net-cn";
+		//先从浏览器中导出证书：Firefix 浏览器 导出 `.pem`格式，Google 浏览器导出 `.cer`格式。 导入格式为：X.509标准的 二进制 或 Base64 编码 证书。
+		keyStore.setCertificateEntry(certAlias, certificateFactory.generateCertificate(new FileInputStream("F:\\opt\\sac-net-cn.pem")));
+		//keyStore.setCertificateEntry(certAlias, certificateFactory.generateCertificate(new FileInputStream("F:\\opt\\sac-net-cn.cer")));
+		
+		TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+		trustManagerFactory.init(keyStore);
+		
+		SSLContext sslContext = SSLContext.getInstance("TLS");
+		sslContext.init(null, trustManagerFactory.getTrustManagers(), new SecureRandom());
+			
+		//URL 创建 Https 连接
+		URL url = new URL("https://www.sac.net.cn/cyry/kspt/kstz/index.html");
+		HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+		//从 SSLContext 中获取 SSLSocketFactory
+		connection.setSSLSocketFactory(sslContext.getSocketFactory());
+		// 设置连接方式：GET
+		connection.setRequestMethod("GET");
+		// 设置连接主机服务器的超时时间：5000毫秒
+		connection.setConnectTimeout(5000);
+		// 设置读取远程返回的数据时间：60000毫秒
+		connection.setReadTimeout(60000);
+		// 发送请求
+		connection.connect();
+		// 通过 connection 连接，获取输入流
+		System.out.println(IOUtils.toString(connection.getInputStream(), "UTF-8"));
+
+
+	2.禁用 JVM 的 https 证书验证机制。
+
+	    public static SSLSocketFactory nopSSLSocketFactory() throws Exception {
+	        SSLContext sc = SSLContext.getInstance("SSL");
+	        TrustManager[] tmArr = {new X509TrustManager() {
+	            public void checkClientTrusted(X509Certificate[] paramArrayOfX509Certificate,
+	                                           String paramString) throws CertificateException {}
+
+	            public void checkServerTrusted(X509Certificate[] paramArrayOfX509Certificate,
+	                                           String paramString) throws CertificateException {}
+
+	            public X509Certificate[] getAcceptedIssuers() {
+	                return null;
+	            }
+	        }};
+	        sc.init(null, tmArr, new SecureRandom());
+	        return sc.getSocketFactory();
+	    }
+
+
+	3.使用 keytool 导入到 JRE 信任的证书列表中。
+
+		JDK默认信任证书路径：
+			${JAVA_HOME}\jre\lib\security\cacerts
+		    
+	    ①导入证书(证书可以从浏览器中下载)
+	    keytool -import -alias 12306 -keystore cacerts -file 12306.cer
+	    默认口令：changeit
+
+	    ②查询导入证书
+	    keytool -list -keystore cacerts -alias 12306
+
+	    ③删除导入证书
+	    keytool -delete -alias 12306 -keystore cacerts
+
+
+
