@@ -1,0 +1,165 @@
+Java-把Jar包服务安装为Windows系统服务
+
+
+Apache Commons Daemon方式：
+
+
+1.创建目录
+
+bin 	用于存放脚本及可执行程序。
+lib 	用于存放依赖Jar包
+logs 	用于存放程序日志
+
+
+2.配置程序启动和关闭方法，打包为Java可执行程序：
+
+①配置程序启动和关闭方法
+
+```java
+package com.devops;
+
+public class ServerDaemon {
+
+	public static void startService(String[] args) {
+		
+		try {
+			//调用程序主类
+			ServerStart.main(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+			stopService(args);
+		}
+
+	}
+	
+	public static void stopService(String[] args) {
+		System.exit(0);
+	}
+	
+}
+
+```
+
+②把包含依赖的可执行Jar程序放入 lib 目录。
+
+
+3.配置安装程序
+
+①下载 commons-daemon-1.2.4-bin-windows.zip (https://archive.apache.org/dist/commons/daemon/binaries/windows/)，解压得到`prunsrv.exe`（区分32位和64位） 和 `prunmgr.exe`，并复制到 bin 目录。
+
+②修改 `prunsrv.exe` 为 JavaServiceWinInstall.exe，修改 `prunmgr.exe` 为 JavaServiceWinInstallw.exe。
+
+③在 bin目录 中创建 `install.bat`：
+
+```
+@echo off
+
+rem 设置程序名称
+set SERVICE_EN_NAME=JavaServiceWinInstall
+set SERVICE_CH_NAME=Java测试服务
+set SERVICE_CH_DESC=A Java Test Service
+ 
+rem 设置java路径
+set JAVA_HOME=%JAVA_HOME%
+ 
+rem 设置程序依赖及程序入口类
+cd..
+set BASEDIR=%CD%
+set CLASSPATH=%BASEDIR%\lib\JavaServiceWinInstall.jar
+set MAIN_CLASS=com.devops.ServerDaemon
+set STOP_CLASS=com.devops.ServerDaemon
+ 
+rem 设置prunsrv路径
+set SRV=%BASEDIR%\bin\JavaServiceWinInstall.exe
+ 
+rem 设置日志路径及日志文件前缀
+set LOGPATH=%BASEDIR%\logs
+ 
+rem 输出信息
+echo SERVICE_NAME: %SERVICE_EN_NAME%
+echo JAVA_HOME: %JAVA_HOME%
+echo MAIN_CLASS: %MAIN_CLASS%
+echo prunsrv path: %SRV%
+ 
+rem 设置jvm
+if "%JVM%" == "" goto findJvm
+if exist "%JVM%" goto foundJvm
+:findJvm
+set "JVM=%JAVA_HOME%\jre\bin\server\jvm.dll"
+if exist "%JVM%" goto foundJvm
+echo can not find jvm.dll automatically,
+echo please use COMMAND to localation it
+echo then install service
+goto end
+:foundJvm
+echo 正在安装服务...
+rem 安装
+rem 注：^ 换行
+"%SRV%" //IS//%SERVICE_EN_NAME% ^
+		--DisplayName="%SERVICE_CH_NAME%" ^
+		--Description="%SERVICE_CH_DESC%" ^
+		--Install="%SRV%" ^
+		--Classpath="%CLASSPATH%" ^
+		--JavaHome="%JAVA_HOME%" ^
+		--Jvm="%JVM%" ^
+		--JvmMs=256 ^
+		--JvmMx=1024 ^
+		--Startup=manual ^
+		--JvmOptions=-Djcifs.smb.client.dfs.disabled=false ^
+		++JvmOptions=-Djcifs.resolveOrder=DNS ^
+		--StartMode=jvm ^
+		--StartClass=%MAIN_CLASS% ^
+		--StartMethod=startService ^
+		--StopMode=jvm ^
+		--StopClass=%STOP_CLASS% ^
+		--StopMethod=stopService ^
+		--StopParams=  ^
+		--LogPath=%LOGPATH% ^
+		--StdOutput=auto ^
+		--StdError=auto ^
+		--PidFile=%LOGPATH%\pid
+echo 安装服务完成。
+pause
+
+```
+
+③在 bin目录 中创建 `uninstall.bat`：
+
+```
+@echo off
+ 
+cd..
+set basedir=%CD%
+set SERVICE_NAME=JavaServiceWinInstall
+set SRV=%BASEDIR%\bin\JavaServiceWinInstall.exe
+echo 正在卸载服务...
+"%SRV%" //DS//%SERVICE_NAME%
+echo 服务卸载完毕。
+pause
+
+```
+
+最终目录结构：
+
+JavaServiceWinInstall
+	├─bin
+	│      install.bat
+	│      JavaServiceWinInstall.exe
+	│      JavaServiceWinInstallw.exe
+	│      uninstall.bat
+	│
+	├─lib
+	│      JavaServiceWinInstall.jar
+	│
+	└─logs
+
+
+
+注：
+
+install.bat						安装Windows服务。
+uninstall.bat					卸载Windows服务。
+JavaServiceWinInstall.exe 		控制台启动服务器。
+JavaServiceWinInstallw.exe 		可视化窗口启动服务。
+
+
