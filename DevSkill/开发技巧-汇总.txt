@@ -675,6 +675,12 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 
 72.生成范围内的随机整数：new Random().nextInt(MAX - MIN + 1) + MIN；
 
-73.
+73.Linux 系统中，Java 使用 JNA 方式加载库函数时，如果库名是 libname.so，调用只能是 System.loadLibray(name)，调用时会自动加 lib 前缀，及后缀 .so 。默认在 java.library.path 路径中查找，可以代码中使用 System.getProperty("java.library.path") 或 添加启动参数 "-XshowSettings:properties" 查看库函数默认加载路径。
+
+	访问异常： java.lang.UnsatisfiedLinkError: no *** in java.library.path
+	解决方案：
+		① 可以将 so 文件拷贝到库函数默认加载目录如：/usr/lib:/usr/lib64:。
+		② 可以使用添加 Linux `LD_LIBRARY_PATH` 环境变量的方式添加共享动态连接库加载路径。
+		③ 可以使用 `-Djava.library.path=/opt/lib/` 修改`java.library.path`Java 环境变量的值。
 
 
