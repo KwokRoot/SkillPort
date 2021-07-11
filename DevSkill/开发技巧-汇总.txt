@@ -683,4 +683,12 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		② 可以使用添加 Linux `LD_LIBRARY_PATH` 环境变量的方式添加共享动态连接库加载路径。
 		③ 可以使用 `-Djava.library.path=/opt/lib/` 修改`java.library.path`Java 环境变量的值。
 
+74.Java 程序运行过程中使用相关程序打开关联后缀名的文档，例，使用默认浏览器打开 html 文档：
+	Runtime.getRuntime().exec("cmd /C start F:\\opt\\temp\\help.html");
+
+75.bat(批处理文件)中常用命令：
+	@echo off 	关闭命令回显。
+	rem(::)		注释命令。
+	pause		脚本程序暂停，打印“请按任意键继续...”。
+
 

@@ -1,0 +1,32 @@
+Spring 项目中获取 HttpServletRequest 实例的方法：
+
+
+方式1：
+
+	@RequestMapping({"index", "/"})
+    public String index(HttpServletRequest request, Model model) {
+        logger.info(">>> path: {}, remoteAddr: {}", "index", request.getRemoteAddr());
+        model.addAttribute("version", Version.getVersion());
+		return "index";
+    }
+
+
+方式2：
+	
+	@Autowired
+	private ServletRequest request;
+
+注：
+	以下直接注入 HttpServletRequest ，在IDEA中会报错：Could not autowire. No beans of 'HttpServletRequest' type found.
+	@Autowired
+	private HttpServletRequest request;
+
+
+方式3：
+	
+	HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+
+
+注： 方式1 主要使用在 Controller 层方法中，方式2，方式3 能在 Service 层使用，且三种方式注入的 HttpServletRequest 线程安全。
+
+
