@@ -1,0 +1,72 @@
+Java-SpringBoot-SpringSecurity 相关问题：
+
+
+1.解决 SpringBoot-SpringSecurity 使用 Redis 共享 Session 时，服务重启后，RedisSession 与 内存 Session 不一致。
+
+WebSecurityConfigurerAdapter 子类中
+
+方式1(内存储存Session时使用)：
+@Bean
+public SessionRegistry sessionRegistry() {
+    return new SessionRegistryImpl();
+}
+
+### 变更为：
+
+方式2(Redis、JDBC共享Session时使用)：
+
+@Autowired
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+private FindByIndexNameSessionRepository findByIndexNameSessionRepository;
+
+@Bean
+public SpringSessionBackedSessionRegistry sessionRegistry() {
+    return new SpringSessionBackedSessionRegistry(findByIndexNameSessionRepository);
+}
+
+
+
+2.剔除在线用户：
+
+方式1(内存储存Session时使用)：
+
+@Autowired
+SessionRegistry sessionRegistry;
+
+@PreAuthorize("hasRole('admin')")   //@EnableGlobalMethodSecurity(prePostEnabled=true)
+@GetMapping("/logout/{userName}")
+@ResponseBody
+public String logout(@PathVariable String userName) {
+    List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
+    for (Object allPrincipal : allPrincipals) {
+        UserDetails userDetails=(UserDetails)allPrincipal;
+        if(userDetails.getUsername().equals(userName)){
+            List<SessionInformation> allSessions = sessionRegistry.getAllSessions(allPrincipal, false);
+            for (SessionInformation session : allSessions) {
+                session.expireNow();
+            }
+        }
+    }
+    return "ok";
+}
+
+
+方式2(Redis、JDBC共享Session时使用)：
+
+@Autowired
+@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+private FindByIndexNameSessionRepository findByIndexNameSessionRepository;
+
+@PreAuthorize("hasRole('admin')")   //@EnableGlobalMethodSecurity(prePostEnabled=true)
+@GetMapping("/logout/{userName}")
+@ResponseBody
+public String logout(@PathVariable String userName) {
+    Map<String, Session> byPrincipalName = findByIndexNameSessionRepository.findByPrincipalName(userName);
+    Set<String> sessonIdSet = byPrincipalName.keySet();
+    for (String sessonId : sessonIdSet) {
+        findByIndexNameSessionRepository.deleteById(sessonId);
+    }
+    return "ok";
+}
+
+注：SpringBoot 版本：2.5.2

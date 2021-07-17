@@ -9,13 +9,16 @@
 │
 ├─DevIdea
 │      JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
+│      Web用户身份识别机制.txt
 │      后台多接口合并遇到的问题.txt
+│      多维度标识单值表示法.txt
 │      接手旧系统维护策略.txt
 │      接手旧系统重构策略.txt
 │      测试线、灰度线、正式线.txt
 │      系统间数据更新策略.txt
 │      系统间消息同步策略.txt
 │      系统高可用实现方案.txt
+│      认证授权体系.txt
 │      集群与分布式与微服务.txt
 │      面对新项目应对策略.txt
 │      面对旧系统新需求应对策略.txt
@@ -31,22 +34,33 @@
 │  │  Git-特殊命令.txt
 │  │  Gradle-打包为可执行的单独JAR包.txt
 │  │  Gradle-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
+│  │  H2-H2Database数据库部署.txt
+│  │  IDEA-使用技巧.txt
 │  │  IDEA-基本快捷键.txt
 │  │  IDEA-常用插件.jpg
 │  │  IDEA-常用插件.txt
 │  │  Java-Arthas-临时执行线上SpringBoot项目Jar包的静态方法.txt
+│  │  Java-SpringBoot-依赖本地Jar包pom.xml配置.txt
 │  │  Linux-CentOS-安装配置JDK.txt
 │  │  Linux-CentOS-设置静态IP.txt
 │  │  Linux-Swap交换分区设置.txt
+│  │  Linux-Vim常用命令.txt
 │  │  Linux-修改JAR包配置文件.txt
+│  │  Linux-创建共享目录.txt
 │  │  Linux-常用命令.txt
 │  │  Linux-时间同步配置.txt
 │  │  Linux-清理磁盘空间.txt
+│  │  Maven-外置配置文件到项目config目录.txt
 │  │  Maven-打包为可执行的单独JAR包.txt
 │  │  Maven-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
+│  │  MySQL-部署-mysqldump与binlog协同备份策略.txt
+│  │  SpringBoot-JPA-@Query注解关联查询分页返回Map结构.txt
+│  │  SpringBoot-数据库-数据库连接配置项.txt
 │  │  SublimeText3-常用快捷键.txt
 │  │  SublimeText3-常用插件.txt
 │  │  VSCode-安装使用.txt
+│  │  Vue-事件-父组件中触发子组件的方法.txt
+│  │  Vue-学习-基本语法.txt
 │  │  Windows-DOS-常用命令.txt
 │  │  Windows-安装JRE、JDK配置环境变量.txt
 │  │  Windows-快捷键.txt
@@ -114,11 +128,21 @@
 │          工具设置(暂无).txt
 │
 └─DevSkill
+        IDE-Eclipse转IDEA.txt
+        IDE-基本配置-Java开发.txt
         IDE-常用操作.txt
-        Idea-基本快捷键.txt
-        IDE基本配置-Java开发.txt
+        Java-Https-服务器自签名证书不被信任的解决办法.txt
+        Java-Spring-获取HttpServletRequest实例.txt
+        Java-SpringBoot-Junit测试时初始化上下文之前执行方法的方式.txt
+        Java-SpringBoot-SpringSecurity相关问题.txt
+        Java-SpringBoot-使用RedisTemplate乱码.txt
+        Java-WindowsService-把Jar包服务安装为Windows系统服务.txt
+        开发技巧-Java-获取配置文件路径.txt
         开发技巧-Log4j-1.x.x版本输出控制台、固定大小、固定周期日志的配置.txt
         开发技巧-SpringBoot-正常(优雅)关闭.txt
         开发技巧-SpringBoot-获取配置文件路径.txt
-        开发技巧汇总.txt
+        开发技巧-汇总-Spring.txt
+        开发技巧-汇总.txt
 ```
+
+
