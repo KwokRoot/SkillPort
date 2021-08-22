@@ -1,0 +1,8 @@
+Eclipse-初始化安装步骤：
+
+1.配置 Maven。
+2.安装反编译插件 Decompiler(Enhanced Class Decompiler)、SVN(Subversion within the Eclipse)。
+3.Workspace 编码设置。
+4.设置编辑区字体、导航栏字体。
+5.设置 WorkingSet。
+
