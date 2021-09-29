@@ -1,0 +1,20 @@
+Kafka-客户端请求地址策略：
+
+
+问题：
+filebeat 与 Kafka(9台) 由于网络限制原因，申请开通了 filebeat 连通 kafka 网络2个(broker8,broker9)，出现上传日志的连接问题，详细见[Kafka-客户端请求地址策略-0-filebeat连接Kafka配置信息.png、 Kafka-客户端请求地址策略-1-filebeat连接失败日志.png]。
+
+
+分析：
+从 filebeat 连接日志可以看出虽然配置仅设置连接 broker8,broker9，filebeat 日志中出现 filebeat 连接 broker6,broker7 的错误日志，说明 Kafka 客户端会根据获取到的 Metadata 信息自动连接到 Kafka 集群该 Topic 主分区 Partition。见[Kafka-客户端请求地址策略-2-介入前主分区信息.png、Kafka-客户端请求地址策略-3-介入前Broker分区信息.png]。
+
+
+解决：
+
+方案1：
+申请 filebeat 连接 kafka 所有 Broker 的网络连通权限。
+
+方案2(临时)：
+通过 KafkaManager UI界面手动把所有分区移到 broker8,broker9 上面，经测试 filebeat 上传日志正常。见[Kafka-客户端请求地址策略-4-介入后主分区信息.png、 Kafka-客户端请求地址策略-5-介入后Broker分区信息.png]。
+
+
