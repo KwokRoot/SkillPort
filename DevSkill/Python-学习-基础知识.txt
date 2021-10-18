@@ -1,0 +1,61 @@
+Python-学习-基础知识：
+
+1.基本数据类型:
+	1> Number（数字）：int、 float、 bool、 complex（复数）
+	2> String（字符串）
+	3> List（列表）
+	4> Tuple（元组）
+	5> Set（集合）
+	6> Dictionary（字典）
+
+	注：
+		①不可变数据（3 个）：Number（数字）、String（字符串）、Tuple（元组）
+		②可变数据（3 个）：List（列表）、Set（集合）、Dictionary（字典）。 
+
+		③元组中只包含一个元素时，需要在元素后面添加逗号 `,` ，否则括号会被当作运算符使用：
+		>>> tup1 = (6)		//类型为整型
+		>>> tup1 = (6,)		//类型为元组
+
+		③可以使用大括号 { } 或者 set() 函数创建集合，注意：创建一个空集合必须用 set() 而不是 { }，因为 { } 是用来创建一个空字典。 
+
+
+2.安装/卸载第三方依赖库：
+	1> pip install redis [-i https://pypi.tuna.tsinghua.edu.cn/simple/]
+	   指定版本：pip install redis==2.8.7
+	2> pip list
+	3> pip uninstall redis
+
+
+3.pip 离线安装依赖：
+
+	1> 导出依赖库：
+		pip freeze > lib/requirements.txt
+
+	2> 下载依赖库的离线安装包到 lib 目录：
+		cd lib
+		pip download -r requirements.txt
+
+	3> 无网设备离线安装：
+		cd lib
+		pip install --no-index --find-links=./ -r requirements.txt
+
+
+4.包模块
+	from urllib import parse as url
+	import requests as http
+
+
+5.类
+	class People(object):　　#创建父类，继承object类
+
+	    def __init__(self, name, age):　　#必须传入 name 和 age
+	        self.name = name
+	        self.age = age
+	 
+	    def eat(self):
+	        print("i am {0},i am {1} years old!".format(self.name, self.age))
+
+
+6.
+
+

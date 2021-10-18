@@ -1,0 +1,58 @@
+Python-开发技巧：
+
+1.不换行输出：print(x, end=" ")
+
+2.不转义输出：
+	>>> print(r'\n')
+	输出 \n
+
+3.数值的除法包含两个运算符：`/` 返回一个浮点数，`//` 返回一个整数。
+	>>> 2 / 4  # 除法，得到一个浮点数
+	输出 0.5
+	>>> 2 // 4 # 除法，得到一个整数
+	输出 0
+
+4.乘方
+	>>> 2 ** 5
+	输出 32
+
+5.输出字符串两次:
+	>>> print("Hello World!" * 2)
+	输出 Hello World!Hello World!
+
+6.获取脚本执行参数：
+	sys.argv 获取程序参数，sys.argv[0] 第一个参数为脚本名。
+
+7.执行 Shell 脚本：
+	import commands
+	line = commands.getstatusoutput('ls ' + app_lib_path + '/*.jar')
+
+8.创建日志目录：
+	BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+	dirs = os.path.join(BASE_DIR, 'logs')
+	if not os.path.exists(dirs):
+	    os.makedirs(dirs)
+
+9.尝试导包：
+	try:
+	    import simplejson as json
+	except ImportError:
+	    import json
+
+
+10.文件处理：
+	with open(filename, 'wb') as fd:
+	    for chunk in r.iter_content(chunk_size=128):
+	        fd.write(chunk)
+
+11.字符串与字节转化：
+	str 对象和 bytes 对象可以使用 .encode() (str -> bytes) 或 .decode() (bytes -> str)方法相互转化。 
+	str("abc").encode().decode()
+
+12.多行语句:
+	Python 通常是一行写完一条语句，但如果语句很长，我们可以使用反斜杠 `\` 来实现多行语句，例如：
+	total = "item_one" + \
+	        "item_two" + \
+	        "item_three"
+
+
