@@ -1,0 +1,42 @@
+Maven-插件-运行Maven插件的命令提示插件版本在仓库中找不到：
+
+
+例：运行 mvn dependency:copy-dependencies -DoutputDirectory=lib 命令出现异常：
+
+```
+[WARNING] The POM for org.apache.maven.plugins:maven-dependency-plugin:jar:3.1.2 is missing, no dependency information available
+[WARNING] Failed to retrieve plugin descriptor for org.apache.maven.plugins:maven-dependency-plugin:3.1.2: Plugin org.apache.maven.plugins:maven-dependency-plugin:3.1.2 or one of its dependencies could not be resolved: Failure to find org.apache.maven.plugins:maven-dependency-plugin:jar:3.1.2 in http://maven.aliyun.com/nexus/content/groups/public/ was cached in the local repository, resolution will not be reattempted until the update interval of alimaven has elapsed or updates are forced
+[WARNING] The POM for org.apache.maven.plugins:maven-dependency-plugin:jar:3.1.2 is missing, no dependency information available
+```
+
+原因：该插件版本在本地及远程仓库中未找到。
+
+
+解决：
+
+	方案1：
+		切换 Maven 远程仓库。
+
+	方案2：
+		修改 运行的插件版本：
+
+		方式① 运行时指定版本：
+			mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.1:copy-dependencies -DoutputDirectory=lib
+
+		方式② pom 依赖中指定版本：
+			<build>
+			    <pluginManagement>
+			        <plugins>
+			            <plugin>
+			                <groupId>org.apache.maven.plugins</groupId>
+			                <artifactId>maven-dependency-plugin</artifactId>
+			                <version>3.1.1</version>
+			            </plugin>
+			        </plugins>
+			    </pluginManagement>
+			</build>
+
+			然后再运行：
+				mvn dependency:copy-dependencies -DoutputDirectory=lib
+
+

@@ -691,4 +691,8 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	rem(::)		注释命令。
 	pause		脚本程序暂停，打印“请按任意键继续...”。
 
+76.javax.servlet.ServletRequest.getParameterMap() 及  javax.servlet.ServletRequest.getParameterNames() 方法能够获取 `路径参数` 和 `Content-Type:application/x-www-form-urlencoded` 消息类型的参数。
+javax.servlet.ServletRequest.getInputStream() 方法可以获取 `Content-Type:application/json` 等消息类型的请求体参数。
+
+77.
 
