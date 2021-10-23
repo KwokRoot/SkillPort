@@ -1,0 +1,238 @@
+Java-SpringBoot-SpringBoot依赖JAR包外置的2种方案：
+
+
+问题：
+    SpringBoot 默认会把依赖及程序打包成一个JAR包，方便了部署。不过每次修改程序打包后，上传服务器会耗时很长。
+
+
+解决：
+
+方案1：依然使用 org.springframework.boot.loader.*Launcher 进行启动，只是把依赖 JAR 外置，使用加载类路径方式加载依赖。
+   
+    `pom.xml`中设置：
+
+     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--start-->
+                <configuration>
+                    <!--使用 `-Dloader.path` 需要在打包的时候增加 `<layout>ZIP</layout>`，不指定的话 `-Dloader.path` 不生效-->
+                    <layout>ZIP</layout>
+                    <includes>
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <!--end-->
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-lib</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    启动：
+        java -Dloader.path=./lib -jar oa-api-agent-0.0.1-SNAPSHOT.jar
+
+
+    方案1拓展：
+        关于 `<layout>ZIP</layout>` 配置项说明：
+
+            `<layout>ZIP</layout>` 配置能够把 `MANIFEST.MF` 属性中 `Main-Class: org.springframework.boot.loader.JarLauncher`  修改为 `Main-Class: org.springframework.boot.loader.PropertiesLauncher`，启动时能够使用 `loader.path` 参数。默认为 `<layout>JAR</layout>`。
+
+            当 `MANIFEST.MF` 属性中 `Main-Class`值为： 
+            ①`org.springframework.boot.loader.PropertiesLauncher`，即 `<layout>ZIP</layout>` 方式打包。
+
+            该方式启动：
+                java -Dloader.path=./lib -jar oa-api-agent-0.0.1-SNAPSHOT.jar
+                或：
+                java -cp oa-api-agent-0.0.1-SNAPSHOT.jar;lib/* org.springframework.boot.loader.PropertiesLauncher(Windows)
+                java -cp oa-api-agent-0.0.1-SNAPSHOT.jar:lib/* org.springframework.boot.loader.PropertiesLauncher(Linux)
+
+            ②`org.springframework.boot.loader.JarLauncher`，即默认的 `<layout>JAR</layout>` 方式打包。
+
+            该方式启动：
+                java -cp oa-api-agent-0.0.1-SNAPSHOT.jar;lib/* org.springframework.boot.loader.JarLauncher(Windows)
+                java -cp oa-api-agent-0.0.1-SNAPSHOT.jar:lib/* org.springframework.boot.loader.JarLauncher(Linux)
+
+
+
+方案2：把依赖包外置，并使用 `maven-assembly-plugin` 插件把外置依赖包、外置配置文件、运行脚本等打包为 ZIP 包：
+    
+    ① 把依赖包等外置，配置启动类，类加载路径：
+
+    `pom.xml`中设置：
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.devops.ServerStart</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-lib</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <includeScope>compile</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+
+    ② 使用 `maven-assembly-plugin` 插件把外置依赖包、外置配置文件、运行脚本等打包为 ZIP 包：
+    
+    ②-① `pom.xml`中添加：
+
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <configuration>
+            <appendAssemblyId>false</appendAssemblyId>
+            <descriptors>
+                <descriptor>src/main/resources/assembly.xml</descriptor>
+            </descriptors>
+        </configuration>
+        <executions>
+            <execution>
+                <id>make-assembly</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>single</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
+
+
+    ②-② `src/main/resources/` 源目录下创建 `assembly.xml`:
+
+    <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.1.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.1.0 http://maven.apache.org/xsd/assembly-2.1.0.xsd">
+        <id>package</id>
+        <formats>
+            <format>zip</format>
+        </formats>
+        <includeBaseDirectory>true</includeBaseDirectory>
+        <fileSets>
+            <fileSet>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+                <filtered>true</filtered>
+                <outputDirectory>${file.separator}config</outputDirectory>
+            </fileSet>
+
+            <fileSet>
+                <directory>src/main/resources/runScript</directory>
+                <outputDirectory>${file.separator}bin</outputDirectory>
+            </fileSet>
+
+            <fileSet>
+                <directory>${project.build.directory}/lib</directory>
+                <outputDirectory>${file.separator}lib</outputDirectory>
+                <includes>
+                    <include>*.jar</include>
+                </includes>
+            </fileSet>
+            <fileSet>
+                <directory>${project.build.directory}</directory>
+                <outputDirectory>${file.separator}</outputDirectory>
+                <includes>
+                    <include>*.jar</include>
+                </includes>
+            </fileSet>
+        </fileSets>
+    </assembly>
+
