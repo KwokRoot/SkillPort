@@ -55,4 +55,82 @@ Python-开发技巧：
 	        "item_two" + \
 	        "item_three"
 
+13.获取毫秒时间戳、毫秒时间字符串。
+	毫秒时间戳：int(time.time() * 1000)
+	毫秒时间：str(datetime.datetime.now())[:-3]
+			  或
+			  datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+
+14.json.dumps(body, ensure_ascii=False) 转化为 JSON 字符串(序列化)时，中文不使用 unicode 编码。
+
+15.del 删除实体变量 或 集合中元素。
+	del a
+	del a[0]
+	del a[3:6]
+
+16.Python3 启用一个简单的 Web 服务：
+	python -m http.server 18080
+
+17.遍历方式：
+	① 字典中遍历时，关键字和对应的值可以使用 items() 同时遍历：
+		d = {"a": "1", "b": "2", "c": "3"}
+		for k, v in d.items():
+		    print(k + "-->" + v)
+
+	② 序列遍历时，索引位置和对应值可以使用 enumerate() 函数同时得到：
+		for i, v in enumerate(['a', 'b', 'c']):
+    		print(str(i) + "-->" + v)
+
+	③ 同时遍历两个或更多的序列，可以使用 zip() 函数组合遍历：
+		questions = ['Q1', 'Q2', 'Q3']
+		answers = ['A1', 'A2', 'A3']
+		for q, a in zip(questions, answers):
+		    print('Q: {0}, A: {1}'.format(q, a))
+
+18.集合推导式：
+	① 例1：
+		ls = [1, 2, 3]
+		a = [x ** 2 for x in ls]
+		print(a)
+
+	② 例2：
+		ls = [1, 2, 3]
+		a = [(x, x ** 2) for x in ls]
+		print(a)
+
+	③ 例3：
+		a = {x for x in 'abcdabceabcdf' if x not in 'abc'}
+		print(a)
+
+19.矩阵转换快捷方式(将 3X4 的矩阵列表转换为 4X3 列表)：
+	matrix = [
+	    [1, 2, 3, 4],
+	    [5, 6, 7, 8],
+	    [9, 10, 11, 12],
+	]
+
+	① 方式1(快捷方式)：
+		matrix2 = [[row[i] for row in matrix] for i in range(4)]
+		print(matrix2)
+
+	② 方式2(按部就班)：
+		matrix2 = []
+		for i in range(4):
+		    matrix2_row = []
+		    for row in matrix:
+		        matrix2_row.append(row[i])
+		    matrix2.append(matrix2_row)
+		print(matrix2)
+
+	输出：
+		[
+		    [1, 5, 9],
+		    [2, 6, 10],
+		    [3, 7, 11],
+		    [4, 8, 12]
+		]
+
+20.
+
+
 

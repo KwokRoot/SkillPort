@@ -6,3 +6,11 @@ Eclipse-初始化安装步骤：
 4.设置编辑区字体、导航栏字体。
 5.设置 WorkingSet。
 
+
+
+插件：
+1.Eclipse Code Recommenders(停更)：优化代码提示，显示使用频率。
+2.Codota：代码推荐，自动完成。
+3.Subclipse：Eclipse SVN 插件。
+
+

@@ -59,3 +59,27 @@ Python-学习-基础知识：
 6.条件控制、循环语句、异常处理、函数定义、内置函数、标准库等。
 
 
+7.注释：
+	① 单行注释以 # 开头。
+	② 多行注释用三个单引号 ''' 或者三个双引号 """ 将注释括起来。
+
+
+8.Python 虚拟环境：
+	① 创建虚拟环境：
+		python -m venv ${work-dir}
+
+	② 激活虚拟环境：
+		Windows：`<work-dir>\Scripts\activate.bat`
+		Linux：	 `source <work-dir>/bin/activate`
+
+	③ 退出虚拟环境：
+		虚拟模式下退出命令：deactivate
+
+	注：
+		① 激活环境不是必须的，激活只是将虚拟环境的二进制目录添加到 PATH 的搜索路径中。
+		② 当虚拟环境激活时，`VIRTUAL_ENV` 环境变量会被设为该虚拟环境的根路径。是否在虚拟环境中，可通过以下方式检测：
+			Windows：`echo %VIRTUAL_ENV%`
+			Linux：	 `echo $VIRTUAL_ENV`
+
+
+
