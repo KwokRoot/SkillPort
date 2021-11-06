@@ -130,7 +130,21 @@ Python-开发技巧：
 		    [4, 8, 12]
 		]
 
-20.
+20.dict 数据类型 key、value 互换：
+	dist_dict = {v: k for k, v in src_dict.items()}
+
+21.dict 数据类型 获取键值的方式：
+	dict_obj["k"]		# 不存在，则抛出异常
+	dict_obj.get("k")	# 不存在，则返回 None
+	
+	正确的取值方式：
+
+	①方式1：
+		if "k" in dict_obj:
+			print(dict_obj["k"])
+
+	②方式2:
+		dict_obj["k"] = dict_obj.get("k", "default_value")
 
 
 
