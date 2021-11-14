@@ -1,0 +1,24 @@
+# 生成的新镜像以 Centos 镜像为基础
+FROM centos:7
+
+# 指定作者信息
+MAINTAINER by KwokRoot
+
+# 安装 openssh-server
+RUN yum -y install openssh-server
+
+# 创建密钥对
+RUN mkdir /var/run/sshd
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+# 指定 root 密码
+RUN /bin/echo 'root:123456'|chpasswd
+
+# 修改配置文件
+RUN /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd
+RUN /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local
+EXPOSE 22
+CMD /usr/sbin/sshd -D
+
+

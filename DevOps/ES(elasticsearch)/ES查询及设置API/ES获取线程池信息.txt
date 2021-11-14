@@ -1,0 +1,19 @@
+ES获取线程池信息：
+
+1.获取所有(search、snapshot、write、analyze、flush)线程池信息：
+	
+	_cat/thread_pool?v=true&s=node_name
+
+2.获取 write 线程池信息：
+
+	_cat/thread_pool/write?v=true&s=node_name,active,rejected,completed
+
+
+
+修改线程相关参数，需要在配置文件`elasticsearch.yml` 中修改：
+
+# 该值不能大于CPU核心数
+# thread_pool.write.size: 24
+thread_pool.write.queue_size: 1000
+
+
