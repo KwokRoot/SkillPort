@@ -691,24 +691,25 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	rem(::)		注释命令。
 	pause		脚本程序暂停，打印“请按任意键继续...”。
 
-76.javax.servlet.ServletRequest.getParameterMap() 及  javax.servlet.ServletRequest.getParameterNames() 方法能够获取 `路径参数` 和 `Content-Type:application/x-www-form-urlencoded` 消息类型的参数。
-javax.servlet.ServletRequest.getInputStream() 方法可以获取 `Content-Type:application/json` 等消息类型的请求体参数。
+76.ServletRequest 获取请求参数：
+	① javax.servlet.ServletRequest.getParameterMap() 及  javax.servlet.ServletRequest.getParameterNames() 方法能够获取 `路径参数` 和 `Content-Type:application/x-www-form-urlencoded` 消息类型的表单参数。
+	② javax.servlet.ServletRequest.getInputStream() 方法可以获取 `Content-Type:application/json` 等消息类型的请求体参数。
 
 77.Oracle 查询 100 - 200 行数据：
 
-SELECT
-	v.* 
-FROM
-	( SELECT ROWNUM r, t.* FROM TABLE t WHERE ROWNUM <= 200 ) v 
-WHERE
-	v.r >= 100 
-	AND v.r <= 200;
+	SELECT
+		v.* 
+	FROM
+		( SELECT ROWNUM r, t.* FROM TABLE t WHERE ROWNUM <= 200 ) v 
+	WHERE
+		v.r >= 100 
+		AND v.r <= 200;
 
 78.MySQL LIMIT [offset,] rows
 
-LIMIT n 等价于 LIMIT 0, n
-LIMIT 50, 10 查询 51 - 60	行的数据
-LIMIT 90，-1 查询 91 - last 行的数据
+	LIMIT n 等价于 LIMIT 0, n
+	LIMIT 50, 10 查询 51 - 60	行的数据
+	LIMIT 90，-1 查询 91 - last 行的数据
 
 79.数据库迁移转储：
 	① 源数据库与目标数据库不一致，由于 SQL 语法标准可能不一样，最好的转储方式是：全部字段、包含列标题导出到 csv/txt 等格式的文件再导入。如 `Oracle` 数据库导出表结构及数据到 `MySQL` 数据库。
@@ -716,21 +717,29 @@ LIMIT 90，-1 查询 91 - last 行的数据
 	
 80.Java 字符串重复多次实现方式：
 
-1》 JDK Version > 10
+	(1) JDK Version > 10
 
-	"HelloWord!".repeat(3);
+		"HelloWord!".repeat(3);
 
-2》 JDK Version <= 10
+	(2) JDK Version <= 10
 
-	① 方式1：
-		String repeated = String.join("", Collections.nCopies(3, "HelloWord!"));
+		① 方式1：
+			String repeated = String.join("", Collections.nCopies(3, "HelloWord!"));
 
-	② 方式2：
-		String repeated = new String(new char[3]).replace("\0", "HelloWord!");
+		② 方式2：
+			String repeated = new String(new char[3]).replace("\0", "HelloWord!");
 
-	③ 方式3，直接使用第三方类库：
-		String repeated = org.apache.commons.lang3.StringUtils.repeat("HelloWord!", 3);
-		String repeated = cn.hutool.core.util.StrUtil.repeat("HelloWord!", 3);
+		③ 方式3，直接使用第三方类库：
+			String repeated = org.apache.commons.lang3.StringUtils.repeat("HelloWord!", 3);
+			String repeated = cn.hutool.core.util.StrUtil.repeat("HelloWord!", 3);
+
+81.java.util.Properties.load(InputStream inStream)  默认 `ISO-8859-1` 编码，`UTF-8` 编码的配置文件默认使用流的方式加载后，中文乱码的解决办法：
+	使用 java.util.Properties.load(Reader reader)：
+		方式① prop.load(new InputStreamReader(is, "UTF-8"));
+		方式② prop.load(new StringReader(IOUtils.toString(is, "utf-8")));
+	注：
+		① 经测试(JDK 1.8)，Key 值的首尾空格都会去除, Value 值的首部空格会去除，尾部的不会去除。
+		② Key 和 Value 分割符一般使用 `=`，但也支持`:`分割。
 
 
 
