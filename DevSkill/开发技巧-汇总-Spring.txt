@@ -2,4 +2,14 @@
 
 2.Spring 应用通常会使用 Placeholder 来注入配置，使用的格式：`${someKey:someDefaultValue}`，如：${timeout:30000}。冒号前面的是 key，冒号后面是默认值。 建议在实际使用时尽量给出默认值，以免由于 key 没有定义导致运行时错误。
 
+3.SpringBoot 设置日志输出级别：
+	① `application.properties` 文件中配置：
+		# 设置默认日志级别
+		logging.level.root=WARN
+		# 设置某个包日志级别
+		logging.level.org.springframework.web=DEBUG
+		logging.level.org.hibernate=ERROR
+	② Java -Dkey=value -jar *.jar 启动参数中设置：
+		-Dlogging.level.root=DEBUG
+
 
