@@ -82,4 +82,27 @@ Python-学习-基础知识：
 			Linux：	 `echo $VIRTUAL_ENV`
 
 
+9.Python 语法提示基础：
+	
+	obj = list(["a", "b", "c"])
+
+	# ① 获取对象类型
+	print(type(obj))
+
+	# ② 获取对象的属性及方法
+	print(dir(obj))
+
+	# ③ 获取对象的属性及方法，并标识属性及方法。
+	print([(name, type(getattr(obj, name))) for name in dir(obj)])
+
+	# ④ 获取对象的属性及方法，并标识属性及方法。
+	print([(name, 'func' if callable(getattr(obj, name)) else 'attr') for name in dir(obj)])
+
+	# ⑤打印 `pydoc` 帮助信息，获取属性及方法的说明文档。
+	help(obj)
+	
+	help("sys")
+	
+	help("open")
+
 
