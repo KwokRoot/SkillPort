@@ -6,10 +6,11 @@
 包结构
 │  LICENSE
 │  README.md
-│
+│  
 ├─DevIdea
 │      JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
 │      Web用户身份识别机制.txt
+│      前端趋势思考-LayUI官网下线公告.png
 │      后台多接口合并遇到的问题.txt
 │      多维度标识单值表示法.txt
 │      接手旧系统维护策略.txt
@@ -23,10 +24,12 @@
 │      面对新项目应对策略.txt
 │      面对旧系统新需求应对策略.txt
 │      面对紧急临时需求应对策略.txt
-│
+│      
 ├─DevOps
+│  │  Docker-学习-基础知识.txt
 │  │  Eclipse-Maven-POM依赖项搜索提示设置.txt
 │  │  Eclipse-Maven-导入Maven项目不能识别为Maven项目的解决方案.txt
+│  │  Eclipse-初始化安装步骤.txt
 │  │  Eclipse-基本快捷键.txt
 │  │  Eclipse-注释模版.txt
 │  │  Eclipse-设置编码格式、字体、启动虚拟机.txt
@@ -53,6 +56,7 @@
 │  │  Maven-外置配置文件到项目config目录.txt
 │  │  Maven-打包为可执行的单独JAR包.txt
 │  │  Maven-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
+│  │  Maven-插件-运行Maven插件的命令提示插件版本在仓库中找不到.txt
 │  │  MySQL-部署-mysqldump与binlog协同备份策略.txt
 │  │  SpringBoot-JPA-@Query注解关联查询分页返回Map结构.txt
 │  │  SpringBoot-数据库-数据库连接配置项.txt
@@ -65,7 +69,10 @@
 │  │  Windows-安装JRE、JDK配置环境变量.txt
 │  │  Windows-快捷键.txt
 │  │  主题-专题-问题(安装、配置、设置、常识、技巧、方案).txt
-│  │
+│  │  
+│  ├─Docker
+│  │      Dockerfile(CentOS7+SSHServer)
+│  │      
 │  ├─ES(elasticsearch)
 │  │  │  elasticsearch-7.2.1-Linux系统-部署指南.md
 │  │  │  elasticsearch.jpg
@@ -73,7 +80,7 @@
 │  │  │  ES插件安装(elasticsearch-head、Cerebro、Kibana).md
 │  │  │  ES集群性能优化及维护.md
 │  │  │  ES集群性能优化及维护B.md
-│  │  │
+│  │  │  
 │  │  ├─ES官方重要更新说明
 │  │  │      1.RemovalOfMappingTypes.png
 │  │  │      2.ES_JavaApiDeprecated.png
@@ -84,7 +91,7 @@
 │  │  │      6.ES字段属性-ignore_above说明-2.jpg
 │  │  │      7.ES正则查询-数值范围查找.jpg
 │  │  │      ES官方重要更新说明.md
-│  │  │
+│  │  │      
 │  │  ├─ES查询及设置API
 │  │  │      ES文档创建、更新.txt
 │  │  │      ES查询别名存在关闭的索引.txt
@@ -99,13 +106,14 @@
 │  │  │      ES索引复制.txt
 │  │  │      ES索引查询文档数、占用空间.txt
 │  │  │      ES索引清理数据.txt
-│  │  │
+│  │  │      ES获取线程池信息.txt
+│  │  │      
 │  │  ├─ES模版及生命周期
 │  │  │      ES索引模版设置.md
 │  │  │      ES索引生命周期设置.md
 │  │  │      官方说明-ES更改生命周期策略后会自动更新已关联索引的策略.jpg
 │  │  │      官方说明-ES索引匹配多个模版规则.jpg
-│  │  │
+│  │  │      
 │  │  └─ES集群性能优化及维护-分项备份
 │  │          1.ES索引刷新间隔设置.txt
 │  │          10.ES节点延迟分片分配-临时重启操作.txt
@@ -120,13 +128,25 @@
 │  │          8.ES集群API请求设置与配置文件设置优先级说明.txt
 │  │          9.ES集群状态异常，一直出现UnassignedShards解决方案.txt
 │  │          B-1.ES系统日志删除策略.txt
-│  │
+│  │          
+│  ├─Kafka
+│  │  │  Kafka.jpg
+│  │  │  
+│  │  └─Kafka-客户端请求地址策略
+│  │          Kafka-客户端请求地址策略-0-filebeat连接Kafka配置信息.png
+│  │          Kafka-客户端请求地址策略-1-filebeat连接失败日志.png
+│  │          Kafka-客户端请求地址策略-2-介入前主分区信息.png
+│  │          Kafka-客户端请求地址策略-3-介入前Broker分区信息.png
+│  │          Kafka-客户端请求地址策略-4-介入后主分区信息.png
+│  │          Kafka-客户端请求地址策略-5-介入后Broker分区信息.png
+│  │          Kafka-客户端请求地址策略结论.txt
+│  │          
 │  ├─ToolKey(空)
 │  │      工具快捷键(暂无).txt
-│  │
+│  │      
 │  └─ToolSet(空)
 │          工具设置(暂无).txt
-│
+│          
 └─DevSkill
         IDE-Eclipse转IDEA.txt
         IDE-基本配置-Java开发.txt
@@ -134,9 +154,12 @@
         Java-Https-服务器自签名证书不被信任的解决办法.txt
         Java-Spring-获取HttpServletRequest实例.txt
         Java-SpringBoot-Junit测试时初始化上下文之前执行方法的方式.txt
+        Java-SpringBoot-SpringBoot依赖JAR包外置的2种方案.txt
         Java-SpringBoot-SpringSecurity相关问题.txt
         Java-SpringBoot-使用RedisTemplate乱码.txt
         Java-WindowsService-把Jar包服务安装为Windows系统服务.txt
+        Python-学习-基础知识.txt
+        Python-开发技巧.txt
         开发技巧-Java-获取配置文件路径.txt
         开发技巧-Log4j-1.x.x版本输出控制台、固定大小、固定周期日志的配置.txt
         开发技巧-SpringBoot-正常(优雅)关闭.txt
