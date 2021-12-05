@@ -146,5 +146,79 @@ Python-开发技巧：
 	②方式2:
 		dict_obj["k"] = dict_obj.get("k", "default_value")
 
+22.三目运算符(条件运算符)：
+	① Java、JavaScript ...：
+		判段条件 ? 条件为真的结果 : 条件为假的结果
+		例：max = a > b ？a : b
+	② Python：
+		条件为真的结果 if 判段条件 else 条件为假的结果
+		例：max = a if a > b else b
+
+23.Python `pass` 是空语句，是为了保持程序结构的完整性。`pass` 不做任何事情，一般用做占位语句，pass 前后的语句都能执行。
+	例：
+		if True:
+		    print("1")
+		    pass
+		    print("2")
+		else:
+		    pass
+
+24.异常处理：
+
+	try:
+		执行代码
+	except [Exception1 as e]:
+		发生异常时执行代码
+	except [Exception2 as e]:
+		发生异常时执行代码
+	else:
+		不发生异常时执行代码
+	finally:
+		不管有没异常都会执行的代码
+
+25.主动抛异常：
+	raise Exception("error:msg")
+
+26.Python 逻辑运算符：
+	and	布尔"与"
+	or	布尔"或"
+	not	布尔"非"
+
+27.Python 默认日志 `logging` 模块配置日志输出参数：
+
+	默认生成的 `root logger` 的 level 为 `logging.WARNING`，低于该级别的日志默认不输出。级别排序:FATAL(CRITICAL) > ERROR > WARNING(WARN) > INFO > DEBUG > NOTSET。
+
+	例：
+		① 日志输出级别设置为 INFO ，并设置日志格式，输出到日志文件：
+			logging.basicConfig(filename="log.txt", filemode="a", level=logging.INFO, format="%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+
+		② 日志输出级别设置为 DEBUG，并设置日志格式，输出到控制台：
+			logging.basicConfig(level=logging.DEBUG, format="%(asctime)s.%(msecs)03d %(levelname)s:\t%(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+
+28.匿名函数(lambda):
+	
+	lambda 函数的语法：lambda [arg1 [,arg2,.....argn]]:expression
+
+	应用示例：
+		① 求和：
+			sum = lambda x, y: x + y
+			print(sum(1, 2))
+
+		② 序列过滤 `filter`：
+			s = [1, 2, 3]
+			print(list(filter(lambda x: x % 2 == 0, s)))
+
+		③ 序列映射 `map`：
+			s = [1, 2, 3]
+			print(list(map(lambda x: x * x + 1, s)))
+
+		④ 序列累加 `reduce`：
+			s = [1, 2, 3]
+			print(reduce(lambda x, y: x + y, s))
+
+	拓展：
+		序列过滤 `filter`，序列映射 `map`，也可使用 序列推导式(集合推导式) 方式实现：
+		① 序列过滤 `filter`：print(list(x for x in s if x % 2 == 0))
+		② 序列映射 `map`	：print(list(x * x + 1 for x in s))
 
 
