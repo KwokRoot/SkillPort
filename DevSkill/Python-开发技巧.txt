@@ -64,9 +64,10 @@ Python-开发技巧：
 14.json.dumps(body, ensure_ascii=False) 转化为 JSON 字符串(序列化)时，中文不使用 unicode 编码。
 
 15.del 删除实体变量 或 集合中元素。
-	del a
-	del a[0]
-	del a[3:6]
+	del a 			删除整个变量。
+	del a[0]		删除集合变量中一个元素。
+	del a[3:6]		删除集合变量中多个元素。
+	del dict['k']	删除字典变量中某 Key。
 
 16.Python3 启用一个简单的 Web 服务：
 	python -m http.server 18080
@@ -220,5 +221,43 @@ Python-开发技巧：
 		序列过滤 `filter`，序列映射 `map`，也可使用 序列推导式(集合推导式) 方式实现：
 		① 序列过滤 `filter`：print(list(x for x in s if x % 2 == 0))
 		② 序列映射 `map`	：print(list(x * x + 1 for x in s))
+
+29.关于 Python 字符串前的 `r`、`b`、`u`、`f`：
+
+	在字符串前面加 `r`，表示 Python 原始字符串（Raw String）。当遇到 `\`，防止转义。
+
+	应用案例：
+		① 系统路径：
+			open(r"C:\Users\Administrator\Desktop\abc.txt")  等同于 open("C:\\Users\\Administrator\\Desktop\\abc.txt") 
+			open(r"e:\text\abc.txt") 等同于 open("e:\\text\\abc.txt") 
+		② 正则表达式：
+			re.compile(r"\s*")
+
+	拓展：
+		类似的有 f(格式化)、b(字节)、u(unicode) 字符串前缀，在 Python3 中逐渐被 str.format()、str.encode("utf-8")/bytes.decode("utf-8")、str.encode("unicode_escape")/bytes.decode("unicode_escape") 取代。
+
+	注：Python2 源码文件默认使用 `ascii` 编码，Python3 源码文件默认使用 `unicode` 编码。
+
+30.Python 解释器编码的定义：
+	
+	在 Python 源码文件中第一行或者第二行中使用 `# coding=<encoding name>` 或 `# -*- coding: <encoding name> -*-` 定义解释器编码(https://www.python.org/dev/peps/pep-0263/)。
+	
+	例：
+		① #!/usr/bin/python
+		   # -*- coding: UTF-8 -*-
+			
+		② #!/usr/bin/python
+		   # coding=utf-8
+    	
+    	③ # -*- coding: UTF-8 -*-
+
+    查看默认编码：
+	    >>> import sys
+		>>> sys.getdefaultencoding()
+		python2 ： 'ascii'
+		python3 ： 'utf-8'
+
+    注：
+    	Python2 源码文件默认使用 `ascii`编码，Python3 源码文件默认使用 `utf-8`编码。使用 Python2 时，出现中文注释、中文变量值时需要定义该编码，并且保证源码文件保存编码与定义的编码一致。由于很多 IDE 编辑器默认的编码是 `UTF-8` ，支持中文，而 Python3 默认编码也是 `utf-8` ，所以在 Python3 中可不定义该编码信息。
 
 
