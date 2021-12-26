@@ -19,4 +19,8 @@ IDEA-常用插件：
 15.翻译：Translation
 16.高亮括号对：HighlightBracketPair
 17.字符串操作工具：String Manipulation
+18.代码统计：Statistic
+19.代码复杂度度量：MetricsReloaded
+20.保存时优化代码：Save Actions
+
 
