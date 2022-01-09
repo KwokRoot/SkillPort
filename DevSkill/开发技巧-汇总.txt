@@ -742,4 +742,13 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		② Key 和 Value 分割符一般使用 `=`，但也支持`:`分割。
 
 
+82.数值奇偶判断：
+	① 常规求余：
+		//求余运算 `%2`：1，为奇数；0，则为偶数。
+		System.out.println(i % 2 == 1);
+	② 高效位运算：
+		//位运算 `&1`：1，为奇数；0，则为偶数。
+		System.out.println((i & 1) == 0);
+
+83.
 
