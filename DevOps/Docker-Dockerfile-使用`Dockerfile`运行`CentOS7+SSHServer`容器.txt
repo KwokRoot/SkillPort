@@ -1,0 +1,67 @@
+使用 `Dockerfile` 运行 `CentOS7+SSHServer` 容器：
+
+1.编写 Dockerfile 文件：
+
+```
+# 生成的新镜像以 Centos 镜像为基础
+FROM centos:7
+
+# 指定作者信息
+MAINTAINER by KwokRoot
+
+# 安装 openssh-server
+RUN yum -y install openssh-server
+
+# 创建密钥对
+RUN mkdir /var/run/sshd
+RUN ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key
+
+# 指定 root 密码
+RUN /bin/echo 'root:123456'|chpasswd
+
+# 修改配置文件
+RUN /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_loginuid.so/g' /etc/pam.d/sshd
+RUN /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/local
+EXPOSE 22
+CMD /usr/sbin/sshd -D
+
+```
+
+
+2.创建镜像：
+
+	`docker build --rm -t centos7-ssh .`	注：最后的 `.` 代表当前目录的 Dockerfile 。
+
+
+3.运行容器：
+
+	docker run -v "D:\Kwok\Work\docker\CentOS7\centos7-test1\data":/data --name centos7-test1 -p 8221:22 centos7-ssh
+
+
+
+拓展：
+
+1.安装 CentOS 基础类库:
+
+yum -y install make
+yum -y install gcc gcc-c++
+yum -y install zlib zlib-devel
+yum -y install pcre pcre-devel
+yum -y install openssl openssl-devel
+yum -y install libtool
+yum -y install telnet
+yum -y install patch
+yum -y install wget
+yum -y install lsof
+yum -y install unzip zip
+yum -y install vim
+yum -y install telnet
+yum -y install iproute
+yum -y install net-tools
+
+
+2.解决 SSH 客户端连接慢的问题：
+	修改 /etc/ssh/sshd_config 配置，将 useDNS 的值设置为 no ，如果文件中没有，则末尾加入一段 useDNS no 即可。再重启容器。
+
+

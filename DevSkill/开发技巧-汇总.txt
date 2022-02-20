@@ -750,5 +750,38 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		//位运算 `&1`：1，为奇数；0，则为偶数。
 		System.out.println((i & 1) == 0);
 
-83.
+83.使用正则表达式 匹配 前后部分相同的字符串：
+
+	示例：
+
+	格式：首次报警时间+报警时间在一行，需要统计出首次报警时间
+	首次异常时间:2022-01-27 09:35:10 	2022-01-27 09:37:10
+	首次异常时间:2022-01-27 09:35:10 	2022-01-27 09:36:10
+	首次异常时间:2022-01-27 09:35:10 	2022-01-27 09:35:10
+
+	查找正则表达式：(\d{4}-\d{2}-\d{2} \d{2}:\d{2}).*\s\1
+
+	注：`\1`、`\2`、`\n` 须与捕获组配合使用。可用于 SublimeText 正则匹配模式。
+
+84.使用 Maven 命令直接执行 Java 程序。
+	①编译：mvn compile
+	②运行：mvn exec:java -Dexec.mainClass="com.devops.StartServer" -Dexec.args="arg0 arg1 arg2"
+		或:	mvn exec:exec -Dexec.executable="java" -Dexec.args="-cp %classpath com.devops.StartServer arg0 arg1 %classpath"
+
+	注：`mvn exec:exec` 中 `exec.args` 使用 `%classpath` 会被替换为项目的 classpath。
+
+85.可以使用 `$` 字符定义方法名。
+
+	示例(Flink源码)：
+
+	① 定义：
+		public static ApiExpression $(String name) {
+		    return new ApiExpression(unresolvedRef(name));
+		}
+	②使用：
+		import static org.apache.flink.table.api.Expressions.$;
+		
+		调用时直接使用 `$("name")` 方法
+
+86.
 

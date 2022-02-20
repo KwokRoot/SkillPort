@@ -1,0 +1,104 @@
+Salt-学习-基础知识：
+
+1.安装：
+
+配置 CentOS7 Salt yum 源：
+	rpm --import https://repo.saltproject.io/py3/redhat/7/x86_64/latest/SALTSTACK-GPG-KEY.pub
+	curl -fsSL https://repo.saltproject.io/py3/redhat/7/x86_64/latest.repo | tee /etc/yum.repos.d/salt.repo
+	yum clean expire-cache
+
+salt-master：
+	yum -y install salt-master
+	systemctl enable salt-master
+	systemctl start salt-master
+	
+	firewall-cmd --zone=public --add-port=4505/tcp --permanent
+	firewall-cmd --zone=public --add-port=4506/tcp --permanent
+	firewall-cmd --reload
+	firewall-cmd --list-all
+
+salt-minion：
+	yum -y install salt-minion
+	systemctl enable salt-minion
+	systemctl start salt-minion
+
+注：
+	网络权限：
+		salt-master 服务需要监听 4045、4046 端口。
+		salt-minion 需可访问 salt-master 4505、4506 端口。
+
+
+2.配置：
+	
+salt-minion：
+
+	vi /etc/salt/minion
+	```
+	master: 192.168.199.91
+	id: master
+	```
+
+	systemctl restart salt-minion
+
+salt-master：
+	
+	查看所有连接客户端：
+		salt-key -L
+
+	接受 minion's Key：
+		salt-key -a ${key}
+	
+	接受所有 Unaccepted Keys:
+		salt-key -A
+
+	删除某个已接受 Key：
+		salt-key -d ${key}
+
+
+3.测试
+
+	salt '*' test.ping
+
+	salt '192.168.199.*' cmd.run "echo hello" runas="root"
+
+
+4.执行目标匹配规则：
+
+通配符：salt "192.*.12?.[1-9][1,5]" test.ping
+
+salt "*" 所有
+salt -L  列表，多个用逗号分隔
+salt -N  分组，配置文件中配置
+-----------------------------
+salt -E  正则
+salt -G: grain
+salt -C：混合
+salt -I：pillar
+salt -S: ipv4 子网掩码的形式
+
+
+5.任务相关命令：
+
+	查看正在执行的任务：
+		salt-run jobs.active
+	查看最近任务：
+		salt-run jobs.list_jobs 
+	结束当前任务：
+		salt '*' saltutil.term_job $job_id 
+
+
+6.执行命令：
+
+注意点：
+
+1.参数中的 `$` 字符，需要 `\` 转义 或者 使用单引号 `'`。
+salt -N "es" cmd.run "kill \$(cat /data/elasticsearch/elasticsearch-7.2.1/pid)" -b 5
+或
+salt -N "es" cmd.run 'kill $(cat /data/elasticsearch/elasticsearch-7.2.1/pid)' -b 5
+
+
+2.替换文本示例：
+
+salt "192.168.120.3[1-5]" cmd.run "sed -i 's/192.168.120.51/192.168.120.31/g' /data/elasticsearch/elasticsearch-7.12.1/config/elasticsearch.yml" -b 5
+
+
