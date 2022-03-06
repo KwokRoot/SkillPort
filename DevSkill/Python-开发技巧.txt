@@ -234,7 +234,7 @@ Python-开发技巧：
 			re.compile(r"\s*")
 
 	拓展：
-		类似的有 f(格式化)、b(字节)、u(unicode) 字符串前缀，在 Python3 中逐渐被 str.format()、str.encode("utf-8")/bytes.decode("utf-8")、str.encode("unicode_escape")/bytes.decode("unicode_escape") 取代。
+		类似的有 f(格式化)<注：`f-string` Python3.6+>、b(字节)、u(unicode)<Python3 默认为 Unicode 编码> 等字符串前缀，字符串处理可参考 Python3 中 str.format()、str.encode("utf-8")/bytes.decode("utf-8")、str.encode("unicode_escape")/bytes.decode("unicode_escape") 等函数。
 
 	注：Python2 源码文件默认使用 `ascii` 编码，Python3 源码文件默认使用 `unicode` 编码。
 
@@ -262,6 +262,40 @@ Python-开发技巧：
 
 31.str.split() 默认分割所有的空字符，包括空格、换行(\n)、制表符(\t)等，等价于 re.split("\s+",s.strip())。
 
-32.
+32.Python 内置函数 slice() 切片操作：
+	
+	obj[start : stop : step] 等价于 obj[slice(start, stop, step)]
+	
+	例：
+		obj = [0, 1, 2, 3, 4, 5, 6]
+
+		s = slice(1, 6, 2)
+		print(obj[s])
+
+		print(obj[1:6:2])
+
+33.重复字符串的便捷方式 及 字符串格式化的便捷方式：
+	print("=" * 36)
+	print("总计: %s" % len(range(5)))
+	print("=" * 36)
+
+	拓展：
+		字符串格式化其他2种格式：
+		
+		# Python2.6+ 可使用 `str.format()`。format() 函数中大括号 `{}`、 `:` 作为特殊字符代替 `%`。
+		print("总计: {}".format(len(range(5))))
+
+		# f-string` - Python3.6+ 引入的字符串格式化。
+		print(f"总计: {len(range(5))}")
+
+34.Python 遍历目录中的文件：
+	# 默认忽略访问权限等异常，参考 `os.walk()` 方法中的 `onerror` 参数。
+	for root, dirs, files in os.walk("D:\\Kwok\\Temp", topdown=True):
+	    for name in files:
+	        print(os.path.join(root, name))
+	    # for name in dirs:
+	    #     print(os.path.join(root, name))
+
+35.
 
 
