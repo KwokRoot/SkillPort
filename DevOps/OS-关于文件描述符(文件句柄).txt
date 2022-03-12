@@ -1,0 +1,80 @@
+OS-关于文件描述符(文件句柄)：
+
+
+# 获取文件描述符(文件句柄)，经测试，Windows、Linux 同一逻辑磁盘下，重命名、移动都不会发生改变！可用于采集回滚日志文件的标识信息。
+
+
+1.Python 获取文件描述符：
+
+# Python(v3.7) 可用于 Windows 系统、Linux 系统。
+fileinfo = os.stat(r"F:\\temp\\test\\log.txt.bak0")
+print(fileinfo)
+
+结果示例：os.stat_result(st_mode=33206, st_ino=37436171902533750, st_dev=1284456603, st_nlink=1, st_uid=0, st_gid=0, st_size=10005, st_atime=1646814165, st_mtime=1646802880, st_ctime=1646802868)
+
+
+2.Java 获取文件描述符：
+
+# Java(v1.8) 只能用于 Linux 系统，Windows 系统获取值为 null。
+BasicFileAttributeView fileAttributeView = Files.getFileAttributeView(file.toPath(), BasicFileAttributeView.class, LinkOption.NOFOLLOW_LINKS);
+System.out.println(fileAttributeView.readAttributes().fileKey());
+
+结果示例：(dev=803,ino=2757232)
+
+
+3.Shell 获取文件描述符：
+
+# Linux、Windows Bash 环境下执行 stat ${filename} 可获取文件描述符信息。
+
+结果示例：
+
+# stat 1.txt 
+  File: `1.txt'
+  Size: 3873      	Blocks: 8          IO Block: 4096   regular file
+Device: 803h/2051d	Inode: 2757232     Links: 2
+Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2022-03-09 15:48:43.423688344 +0800
+Modify: 2022-03-09 15:45:25.012881584 +0800
+Change: 2022-03-09 15:46:56.031251359 +0800
+
+
+
+拓展：
+
+Filebeat 标识一个文件：
+
+Linux 系统：
+
+{
+  "source": "/opt/devops/logs/log.txt",
+  "offset": 1204920,
+  "timestamp": "2022-03-09T15:41:08.159551253+08:00",
+  "ttl": -1,
+  "type": "log",
+  "meta": null,
+  "FileStateOS": {
+    "inode": 1314678,
+    "device": 2051
+  }
+}
+
+
+Windows系统：
+
+{
+  "source": "F:\\temp\\test\\log.txt.bak0",
+  "offset": 10005,
+  "timestamp": "2022-03-09T13:15:49.4323128+08:00",
+  "ttl": -1,
+  "type": "log",
+  "meta": null,
+  "FileStateOS": {
+    "idxhi": 8650752,
+    "idxlo": 16502,
+    "vol": 1284456603
+  }
+}
+
+注：idxhi/idxlo/vol    On windows the pair of (volume, idxhi, idxlo) uniquely identifies a file.
+
+
