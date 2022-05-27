@@ -783,5 +783,28 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		
 		调用时直接使用 `$("name")` 方法
 
-86.
+86.Optional 级联判空示例：
+	获取json数据某内部层级的值，即 `targets[0].target` ：
+
+		String jsonParamStr = `{"targets": [{"data": null, "target": "1", "refId": "A", "hide": false, "type": "table"} ] } `;
+		JSONObject jsonParam = JSON.parseObject(jsonParamStr);
+
+		String target = Optional.ofNullable(jsonParam.getJSONArray("targets"))
+		        .map(x -> x.size() > 0 ? x.getJSONObject(0) : null)
+		        .map(x -> x.getString("target"))
+		        .orElse("");
+
+		System.out.println(target);
+
+87.Redis ZSet 结构取 TOP-N 的方法：
+
+	① score 最大的 TOP3
+		Redis 命令：ZREVRANGEBYSCORE myzset +inf -inf WITHSCORES LIMIT 0 3
+		Jedis 函数：jedis.zrevrangeByScoreWithScores(k, "+inf", "-inf", 0, 3);
+
+	② score 最小的 TOP3
+		Redis 命令：ZRANGEBYSCORE myzset -inf +inf WITHSCORES LIMIT 0 3
+		Jedis 函数：jedis.zrangeByScoreWithScores(k, "-inf", "+inf", 0, 3);
+
+88.
 
