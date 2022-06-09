@@ -39,3 +39,10 @@ Linux-创建共享目录：
 4.卸载远程目录：
 	umount /data/share
 
+
+
+注：
+1.确保 NFS 服务端 防火墙关闭 或者 端口设置为白名单：
+	① rpcbind.service  端口 111。
+	② nfs.service	会启用多个端口，建议初级阶段可关闭防火墙。
+
