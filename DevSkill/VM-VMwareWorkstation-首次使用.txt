@@ -1,0 +1,22 @@
+关于 VMware Workstation Pro ：
+
+序：为什么从免费的 Oracle VM VirtualBox 转为 VMware Workstation Pro：
+
+	Oracle VM VirtualBox v6.1.32 安装 Windows 虚拟机(XP、win7_x64)有问题。
+
+
+1.VMware Workstation Pro 16许可证密钥：
+
+	ZF3R0-FHED2-M80TY-8QYGC-NPKYF
+
+2.Ctrl + Alt  鼠标从虚拟机中移出。
+
+3.修改虚拟机数据保留路径：
+	菜单面板 -> 编辑 -> 首选项 -> 工作区 -> 修改虚拟机默认位置。
+
+
+
+使用后感悟：
+
+VMware Workstation Pro 付费，VMware 在虚拟机领域算是领先地位。使用上在 操作提示、帮助文档，流畅程度上目前都优于 Oracle VM VirtualBox。
+
