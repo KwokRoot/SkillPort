@@ -1,0 +1,61 @@
+DB-H2DB-H2Database使用技巧：
+
+
+1.H2-H2Database 数据库部署:
+
+	① 下载 Zip 包，如：h2-2019-10-14.zip
+	② 解压，直接执行 bin 目录下的 h2.bat、h2.sh 文件。
+	③ 也可执行 service 目录下的命令安装为 Windows 系统服务。
+
+	注：默认启动服务后会在当前用户根目录中生成 `.h2.server.properties` 文件，可增加、修改相关的启动参数，如启动端口、Web Tool 访问密码等。
+
+	例：
+		webAdminPassword=123456
+		webAllowOthers=false
+		webPort=8082
+		webSSL=false
+
+
+2.Web Console 页面 Remove后 恢复：
+    删除 ~/.h2.server.properties 文件，重启Web Console Server。(注：~ 指用户目录，即：System.getProperty("user.home")的值。)
+
+
+3.JAR包方式启动及查看帮助文档：
+
+	执行：java -cp h2-1.4.200.jar org.h2.tools.Server -help
+
+	Starts the H2 Console (web-) server, TCP, and PG server.
+	Usage: java org.h2.tools.Server <options>
+	When running without options, -tcp, -web, -browser and -pg are started.
+	Options are case sensitive. Supported options are:
+	[-help] or [-?]         Print the list of options
+	[-web]                  Start the web server with the H2 Console
+	[-webAllowOthers]       Allow other computers to connect - see below
+	[-webDaemon]            Use a daemon thread
+	[-webPort <port>]       The port (default: 8082)
+	[-webSSL]               Use encrypted (HTTPS) connections
+	[-webAdminPassword]     Password of DB Console administrator
+	[-browser]              Start a browser connecting to the web server
+	[-tcp]                  Start the TCP server
+	[-tcpAllowOthers]       Allow other computers to connect - see below
+	[-tcpDaemon]            Use a daemon thread
+	[-tcpPort <port>]       The port (default: 9092)
+	[-tcpSSL]               Use encrypted (SSL) connections
+	[-tcpPassword <pwd>]    The password for shutting down a TCP server
+	[-tcpShutdown "<url>"]  Stop the TCP server; example: tcp://localhost
+	[-tcpShutdownForce]     Do not wait until all connections are closed
+	[-pg]                   Start the PG server
+	[-pgAllowOthers]        Allow other computers to connect - see below
+	[-pgDaemon]             Use a daemon thread
+	[-pgPort <port>]        The port (default: 5435)
+	[-properties "<dir>"]   Server properties (default: ~, disable: null)
+	[-baseDir <dir>]        The base directory for H2 databases (all servers)
+	[-ifExists]             Only existing databases may be opened (all servers)
+	[-ifNotExists]          Databases are created when accessed
+	[-trace]                Print additional trace information (all servers)
+	[-key <from> <to>]      Allows to map a database name to another (all servers)
+	The options -xAllowOthers are potentially risky.
+	For details, see Advanced Topics / Protection against Remote Access.
+	See also https://h2database.com/javadoc/org/h2/tools/Server.html
+
+

@@ -1,0 +1,24 @@
+Linux-CentOS-首次使用配置项:
+
+注：以下配置基于 CentOS 版本 v7。
+
+
+1.网卡配置:
+	① 修改配置：
+		vi /etc/sysconfig/network-scripts/ifcfg-en*
+		修改 `ONBOOT=no` 为 `ONBOOT=yes`
+	② 重启网络服务：
+		systemctl restart network
+	
+	注：静态IP配置请参考《Linux-CentOS-设置静态IP.txt》
+
+
+2.hostname 配置：
+
+	hostnamectl set-hostname test01
+
+
+3.yum安装基本依赖库。
+	注：请参考《Linux-CentOS-基本依赖库yum方式安装.txt》
+
+
