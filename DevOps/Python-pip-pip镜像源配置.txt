@@ -1,0 +1,58 @@
+Python-pip-pip镜像源配置：
+
+1.持久化配置镜像源：
+	① Linux下:
+		放在~/.pip/pip.conf
+	② windows下:
+		当前用户文件夹\pip\pip.ini
+
+	③ 编辑 `pip.ini`：
+	```
+	[global]
+	index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+	[install]
+	trusted-host = https://pypi.tuna.tsinghua.edu.cn
+	```
+
+
+2.验证：
+	pip config list
+
+
+3.下载时临时指定镜像源：
+	pip install numpy -i https://pypi.org/simple
+	
+	# 信任 http 协议的源
+	pip install numpy -i http://pypi.douban.com/simple --trusted-host pypi.douban.com    
+
+
+
+拓展：
+
+	国内常用镜像源：
+
+	① 阿里镜像:
+		https://mirrors.aliyun.com/pypi/simple/
+
+	② 百度镜像:
+		https://mirror.baidu.com/pypi/simple/
+
+	③ 清华镜像:
+		https://pypi.tuna.tsinghua.edu.cn/simple/
+
+	④ 中科大镜像:
+		https://pypi.mirrors.ustc.edu.cn/simple/
+
+	⑤ 豆瓣镜像:
+		http://pypi.douban.com/simple/
+
+	⑥ 搜狐镜像:
+		http://mirrors.sohu.com/Python/
+	 
+	⑦ 华中科大镜像:
+		https://pypi.hustunique.com/
+
+	⑧ 山东理工大学镜像:
+		https://pypi.hustunique.com/
+
+

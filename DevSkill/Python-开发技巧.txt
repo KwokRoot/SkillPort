@@ -88,20 +88,27 @@ Python-开发技巧：
 		for q, a in zip(questions, answers):
 		    print('Q: {0}, A: {1}'.format(q, a))
 
-18.集合推导式：
+18.Python 推导式：
+
+	Python 推导式是一种独特的数据处理方式，可以从一个数据序列构建为另一个新的数据序列结构。
+		
+		列表推导式：[表达式 for 变量 in 列表] 或 [表达式 for 变量 in 列表 if 条件]
+		字典推导式: {表达式 for 变量 in 列表} 或 {表达式 for 变量 in 列表 if 条件}
+
 	① 例1：
 		ls = [1, 2, 3]
-		a = [x ** 2 for x in ls]
-		print(a)
+		a1 = [x ** 2 for x in ls]
+		print(a1)
+
+		a2 = [(x, x ** 2) for x in ls]
+		print(a2)
 
 	② 例2：
-		ls = [1, 2, 3]
-		a = [(x, x ** 2) for x in ls]
+		a = {x for x in 'abcdabceabcdf' if x not in 'abc'}
 		print(a)
 
 	③ 例3：
-		a = {x for x in 'abcdabceabcdf' if x not in 'abc'}
-		print(a)
+		`dict` 键值反转：{v: k for k, v in d.items()}
 
 19.矩阵转换快捷方式(将 3X4 的矩阵列表转换为 4X3 列表)：
 	matrix = [
@@ -236,6 +243,10 @@ Python-开发技巧：
 	拓展：
 		类似的有 f(格式化)<注：`f-string` Python3.6+>、b(字节)、u(unicode)<Python3 默认为 Unicode 编码> 等字符串前缀，字符串处理可参考 Python3 中 str.format()、str.encode("utf-8")/bytes.decode("utf-8")、str.encode("unicode_escape")/bytes.decode("unicode_escape") 等函数。
 
+		① `f` 表达式示例：
+			name = "kwok"
+			print(f"姓名：{name}")
+
 	注：Python2 源码文件默认使用 `ascii` 编码，Python3 源码文件默认使用 `unicode` 编码。
 
 30.Python 解释器编码的定义：
@@ -282,11 +293,11 @@ Python-开发技巧：
 	拓展：
 		字符串格式化其他2种格式：
 		
-		# Python2.6+ 可使用 `str.format()`。format() 函数中大括号 `{}`、 `:` 作为特殊字符代替 `%`。
-		print("总计: {}".format(len(range(5))))
+		# Python2.6+ 可使用 `str.format()`。format() 函数中大括号 `{}`(取值)、 `:`(格式) 作为特殊字符代替 `%`。
+		print("总计: {:+.2f}".format(len(range(5))))
 
 		# f-string` - Python3.6+ 引入的字符串格式化。
-		print(f"总计: {len(range(5))}")
+		print(f"总计: {len(range(5)):+.2f}")
 
 34.Python 遍历目录中的文件：
 	# 默认忽略访问权限等异常，参考 `os.walk()` 方法中的 `onerror` 参数。
@@ -296,6 +307,68 @@ Python-开发技巧：
 	    # for name in dirs:
 	    #     print(os.path.join(root, name))
 
-35.
+35.关于 Python 运算符：
+	
+	① python 中 `&` 、`|`、`~`、`^` 代表的是位运算符， `and` 、`or`、`not` 代表逻辑运算符。
+	
+	② `in` 成员运算符，判断该值在不在指定的序列中。
+	
+	③ `is` 身份运算符，判断两个标识符是不是引用自一个对象。`is` 与 `==` 区别：is 用于判断两个变量引用对象是否为同一个(同一块内存空间)， == 用于判断引用变量的值是否相等。
+	
+	④ 幂指数运算
+		print(2**3)
+		#输出：8
+	
+	⑤ 除
+		print(5/2)
+		#输出：2.5
+
+	⑥ 整除
+		print(5//2)
+		#输出：2
+
+36.Python3 与 Python2 常用操作的不同：
+
+	① Python3 默认使用 UTF-8 编码，Python2 默认采用的 ASCII 编码，Python2 需要定义编码集(即：coding: UTF-8)才能支持中文或其他非英文字符，而 Python3 直接支持中文或其它非英文字符。
+
+	② Python3 中的 print 函数，取代 Python2 print 语句。即：print('hello', 'world.') 取代 print 'hello, world.' 。
+
+	③ 在 Python3 里，只有一种整数类型 int，表示为长整型，范围是无限大。没有 python2 中的 Long。
+
+	④ 在 Python3 里，bool 是 int 的子类，True 和 False 可以和数字相加， True==1、False==0 会返回 True，但可以通过 is 来判断类型 1 is True 会返回 False。在 Python2 中是没有布尔型的，它用数字 0 表示 False，用 1 表示 True。
+
+	⑤ 在 Python3 里，不等于只有 `！=` 这一种写法，去掉了 `<>`；在 Python 2 里 `!=` 和 `<>` 都可表示不等于。 
+
+	⑥ python3.6+ ，dict 类型变为有序对象集合，即 key 的输出顺序与输入顺序相同。
+
+37.Python 内置函数 eval()、exec()、compile() 使用示例：
+
+	① eval() 函数执行一个字符串表达式，并返回表达式的值。可以把集合类型 print 的字符串值，重新加载为集合类型。
+		例：
+			print(eval("a + b", {"a": 1, "b": 2}))
+			# 输出：3
+
+			print(type(eval("{'a': 1, 'b': 2, 'c': 3}")))
+			#输出：<class 'dict'>
+
+
+	② exec() 函数执行字符串 Python 语句，相比于 eval，exec 可以执行更复杂的 Python 代码。exec 返回值永远为 None。
+		例：
+			code = """for i in range(num):
+			    print("time: %d" % i)
+			"""
+			exec(code, {"num": 5})
+
+	③ compile() 函数将一个字符串编译为字节代码。如果某个字符串要多次 exec、eval 的话，使用 compile() 只用编译一次就可以反复调用，避免重复热编译。
+		例：
+			code_obj = compile('for i in range(1, 4): print(i)', "file.py", "exec")
+
+			print(code_obj) 
+			# 输出：<code object <module> at 0x041EFA70, file "file.py", line 1>
+
+			exec(code_obj)
+			exec(code_obj)
+
+38.
 
 

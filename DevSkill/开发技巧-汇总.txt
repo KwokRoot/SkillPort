@@ -806,5 +806,13 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		Redis 命令：ZRANGEBYSCORE myzset -inf +inf WITHSCORES LIMIT 0 3
 		Jedis 函数：jedis.zrangeByScoreWithScores(k, "-inf", "+inf", 0, 3);
 
-88.
+88.MySQL 文本字段 模糊匹配 及 正则匹配 语法：
+	MySQL 模糊匹配：
+		SELECT * from runoob WHERE runoob_author LIKE '%COM%'
+
+	MySQL 正则匹配：
+		SELECT name FROM person WHERE name REGEXP '^[aeiou]|ok$';
+
+89.
+
 
