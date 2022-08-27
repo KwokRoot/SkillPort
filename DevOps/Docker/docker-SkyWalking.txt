@@ -1,0 +1,31 @@
+Apache SkyWalking:
+
+
+docker 部署：
+
+1.创建虚拟局域网：
+docker network create --subnet=172.68.0.0/16 oap-net
+
+2.SkyWalking OAP Server:
+
+2-1.H2储存方式：
+docker run --name oap-server -h oap-server --network oap-net --ip 172.68.0.201 -p 11800:11800 -p 12800:12800 --restart always -d apache/skywalking-oap-server:8.3.0-es7
+
+2-2.ES储存方式：
+
+docker run --name oap-server -h oap-server --network oap-net --ip 172.68.0.201 -p 11800:11800 -p 12800:12800 --restart always -d -e SW_STORAGE=elasticsearch7 -e SW_STORAGE_ES_CLUSTER_NODES=10.10.81.197:9200,10.10.81.198:9200,10.10.81.199:9200 apache/skywalking-oap-server:8.3.0-es7
+
+
+3.SkyWalking UI：
+
+docker run --name oap-ui -h oap-ui --network oap-net --ip 172.68.0.202 -p 8080:8080 --add-host oap-server:172.68.0.201 --restart always -d -e SW_OAP_ADDRESS=oap-server:12800 apache/skywalking-ui
+
+
+代理使用示例：
+
+Windows：
+java -javaagent:D:\kwok\work\SkyWalking\agent\skywalking-agent.jar=agent.service_name=program-a,agent.instance_name=program-a-001 -jar program-a-1.0-SNAPSHOT.jar
+
+Linux：
+java -javaagent:/opt/devops/soft/skywalking/agent/skywalking-agent.jar=agent.service_name=program-a,agent.instance_name=program-a-002 -jar program-a-1.0-SNAPSHOT.jar
+

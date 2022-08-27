@@ -1,0 +1,48 @@
+1.运行 Mongo Server：
+docker run --name mongodb -p 27017:27017 -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=123456 -d mongo
+
+
+2.运行 mongo-express Web 管理平台：
+docker run --name mongo-express --link mongodb -e ME_CONFIG_MONGODB_SERVER=mongodb -e ME_CONFIG_MONGODB_AUTH_USERNAME=root -e ME_CONFIG_MONGODB_AUTH_PASSWORD=123456 -p 18081:8081 -d mongo-express
+
+
+3.docker-compose 同时运行 Mongo Server 和 mongo-express：
+
+① 编辑 `docker-compose.yml`
+
+```yml
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    # restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+    ports:
+      - 27017:27017
+
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 18081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 123456
+      ME_CONFIG_MONGODB_URL: mongodb://root:123456@mongo:27017/
+    links:
+      - mongo
+
+```
+
+② 后台启动组合容器
+docker-compose -f docker-compose.yml up -d
+
+③ 停止移除组合容器
+docker-compose -f docker-compose.yml rm -s
+
+

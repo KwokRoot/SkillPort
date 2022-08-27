@@ -1,0 +1,14 @@
+RabbitMQ 虚拟化部署：
+
+下载镜像：
+docker pull rabbitmq:management
+
+
+运行容器：
+docker run --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_VHOST=test -d rabbitmq:3.8.14-management
+
+
+运行容器，修改初始用户及密码：
+docker run --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 -e RABBITMQ_DEFAULT_USER=root -e RABBITMQ_DEFAULT_PASS=123456 -e RABBITMQ_DEFAULT_VHOST=test -d rabbitmq:3.8.14-management
+
+

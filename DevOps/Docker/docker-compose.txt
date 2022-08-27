@@ -1,0 +1,9 @@
+docker-compose 常用命令：
+
+
+① 后台启动组合容器
+docker-compose -f docker-compose.yml up -d
+
+② 停止移除组合容器
+docker-compose -f docker-compose.yml rm -s
+
