@@ -1,0 +1,85 @@
+Docker-安装-Linux离线安装：
+
+# 创建目录
+mkdir -p /opt/docker/data
+cd /opt/docker
+
+# 下载 Docker 离线安装包并解压
+wget http://share.net/docker/docker-19.03.9.tgz
+tar -zxvf docker-19.03.9.tgz
+rm -f docker-19.03.9.tgz
+
+# 将相关命令拷贝到 /usr/bin，方便直接执行命令
+cp docker/* /usr/bin/
+
+# 启动 Docker 守护程序
+dockerd &
+
+# 验证 Docker 是否安装成功
+docker info
+
+
+# 注册为系统服务：
+
+vi /usr/lib/systemd/system/docker.service
+
+```
+[Unit]
+Description=Docker Application Container Engine
+Documentation=https://docs.docker.com
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/dockerd
+ExecReload=/bin/kill -s HUP $MAINPID
+LimitNOFILE=infinity
+LimitNPROC=infinity
+TimeoutStartSec=0
+Delegate=yes
+KillMode=process
+Restart=on-failure
+StartLimitBurst=3
+StartLimitInterval=60s
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+# 启动 / 停止 docker 服务
+systemctl start docker
+systemctl stop docker
+systemctl restart docker
+systemctl status docker
+ps aux|grep docker
+
+# 开机自启/取消开机自启 docker 服务
+systemctl enable docker
+systemctl disable docker
+
+
+# 删除默认 data-root 数据目录
+rm -fr /var/lib/docker
+
+# 设置默认 root 目录
+vim /etc/docker/daemon.json 
+{
+  "insecure-registries":
+  [
+    "hub.docker.me"
+  ],
+  "data-root": "/opt/docker/data"
+}
+
+
+# 拓展：
+	
+	## CentOS yum 在线安装：
+
+		yum install -y yum-utils
+		yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+		yum install docker-ce-19.03.15 docker-ce-cli-19.03.15 containerd.io docker-compose-plugin
+
+
