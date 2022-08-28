@@ -3,7 +3,7 @@ version: '3'
 services:
 
   mongo:
-    image: mongo
+    image: mongo:4.2.22
     # restart: on-failure
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -13,7 +13,7 @@ services:
 
 
   mongo-express:
-    image: mongo-express
+    image: mongo-express:1.0.0-alpha
     restart: always
     ports:
       - 18081:8081

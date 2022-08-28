@@ -1,7 +1,7 @@
 RabbitMQ 虚拟化部署：
 
 下载镜像：
-docker pull rabbitmq:management
+docker pull rabbitmq:3.8.14-management
 
 
 运行容器：

@@ -1,0 +1,28 @@
+1.问题：
+
+使用以下命令创建的宿主机数据卷由于文件系统兼容问题，重启 mongodb 容器时会失败。
+
+```bash
+docker run --name mongodb -p 27017:27017 -v D:\Kwok\Work\docker\mongodb\data:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=123456 -d mongo:4.2.22
+```
+
+异常日志[见图]：
+	docker-Mongo-StoreData-Error.png
+
+
+2.原因[见图]：
+	docker-Mongo-StoreData官方说明.png
+	docker-Mongo-StoreData官方说明(译).png
+
+
+3.解决方案：
+
+docker 创建内部数据卷再挂载：
+
+① 创建内部数据卷：
+docker volume create mongodbdata
+
+② 挂载内部数据卷：
+docker run --name mongodb -p 27017:27017 -v mongodbdata:/data/db -e MONGO_INITDB_ROOT_USERNAME=root -e MONGO_INITDB_ROOT_PASSWORD=123456 -d mongo:4.2.22
+
+
