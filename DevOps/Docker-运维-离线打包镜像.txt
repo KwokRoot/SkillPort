@@ -1,0 +1,24 @@
+docker 离线打包镜像
+
+
+① 导出镜像：
+docker save nginx:1.23.1 -o nginx.tar
+
+② 载入镜像：
+docker load -i nginx.tar
+
+③ 列出镜像：
+docker images
+
+
+
+关联：
+
+docker 离线打包容器并导入为镜像：
+
+① 导出容器：
+docker export redis -o redis.tar
+
+② 导入为镜像：
+docker import redis.tar redis:v1.0.0
+

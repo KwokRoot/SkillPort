@@ -1,0 +1,6 @@
+Docker 命令行获取镜像版本:
+
+docker search ${name}
+curl https://registry.hub.docker.com/v1/repositories/${name}/tags
+
+

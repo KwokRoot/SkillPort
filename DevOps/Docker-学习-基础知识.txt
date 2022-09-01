@@ -83,7 +83,26 @@ Docker-学习-基础知识：
 	① 查看容器日志：
 		docker logs -f ${id}
 
+	② 管理网络：
+		1) 创建虚拟局域网：
+		   docker network create --subnet=10.10.68.0/24 my-net
+		2) 使用自定义局域网：
+		   docker run --network my-net
+		3) 展示网络详情：
+		   docker network inspect my-net
+		4) 移除没有被容器使用的网络：
+		   docker network prune
 
+	③ 管理数据卷：
+		1) 创建内部数据卷：
+		   docker volume create mongodbdata
+		2) 使用内部数据卷：
+		   docker run -v mongodbdata:/data/db
+		3) 查看所有内部数据卷：
+		   docker volume ls
+		4) 移除没有被容器使用的数据卷(包括运行及停止的容器)
+		   docker volume prune
+		
 
 其他示例：
 
