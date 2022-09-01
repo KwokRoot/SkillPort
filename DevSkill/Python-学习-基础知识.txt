@@ -98,11 +98,14 @@ Python-学习-基础知识：
 	# ④ 获取对象的属性及方法，并标识属性及方法。
 	print([(name, 'func' if callable(getattr(obj, name)) else 'attr') for name in dir(obj)])
 
-	# ⑤打印 `pydoc` 帮助信息，获取属性及方法的说明文档。
+	# ⑤ 打印 `pydoc` 帮助信息，获取属性及方法的说明文档。
 	help(obj)
 	
 	help("sys")
 	
 	help("open")
+
+	# ⑥ 启动一个 HTTP 服务展示说明文档。
+	python -m pydoc -p 1234
 
 
