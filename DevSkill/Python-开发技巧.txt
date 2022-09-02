@@ -23,9 +23,14 @@ Python-开发技巧：
 6.获取脚本执行参数：
 	sys.argv 获取程序参数，sys.argv[0] 第一个参数为脚本名。
 
-7.执行 Shell 脚本：
+7.执行 Shell 脚本(注：python 3.0 之后移除此命令，`commands` 使用 `subprocess` 代替)：
+	① Python2
 	import commands
 	line = commands.getstatusoutput('ls ' + app_lib_path + '/*.jar')
+
+	② Python3
+	import subprocess
+	subprocess.getstatusoutput('ls ' + app_lib_path + '/*.jar')
 
 8.创建日志目录：
 	BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -369,6 +374,24 @@ Python-开发技巧：
 			exec(code_obj)
 			exec(code_obj)
 
-38.
+38.Python `whl` 格式依赖包的版本 与 操作系统(win/linux/mac)、操作系统版本、Python 版本 等因素有关，可移植性较差，建议在线安装相关的依赖包。
 
+	wheel 命名格式： 
+		{distribution}-{version}-{python tag}-{abi tag}-{platform tag}.whl.
+	例：
+		numpy-1.23.2-pp38-pypy38_pp73-win_amd64.whl
+		numpy-1.23.2-pp38-pypy38_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+	详情见：
+		https://peps.python.org/pep-0425/
+
+拓展：
+	PIP 安装方式：
+		1.在线安装 ：pip install Packages
+		2.源码安装 ：pip install Packages.tar.gz
+		3.whl包安装：pip install Packages.whl
+
+39.Python 脚本 经常与操作系统的定时任务(如 Linux crontab、Windows 任务计划程序)联用，实现脚本定时执行(方式之一)。
+	例：30 3 * * * /opt/devops/venv/python /opt/devops/src.py >> /opt/devops/logs/log.txt 2>&1
+
+40.
 
