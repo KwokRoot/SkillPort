@@ -393,5 +393,8 @@ Python-开发技巧：
 39.Python 脚本 经常与操作系统的定时任务(如 Linux crontab、Windows 任务计划程序)联用，实现脚本定时执行(方式之一)。
 	例：30 3 * * * /opt/devops/venv/python /opt/devops/src.py >> /opt/devops/logs/log.txt 2>&1
 
-40.
+40.`sys.path` 与 `os.environ` 区别：
+	① sys.path.append("D:\Kwok\Work\Other") 添加的是 `Python` 的模块搜索路径(module search path)。
+	② os.environ['PATH'] += ';D:\Kwok\Work\Other' 添加的是 `CMD` 执行依赖的环境变量，`os.system(CMD)` 执行使用的是环境变量。
 
+41.
