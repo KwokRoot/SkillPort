@@ -75,7 +75,11 @@ Python-开发技巧：
 	del dict['k']	删除字典变量中某 Key。
 
 16.Python3 启用一个简单的 Web 服务：
-	python -m http.server 18080
+	python -m http.server [端口号，默认8000]
+	
+	拓展：
+		Python2 启用一个简单的 Web 服务：
+			python -m SimpleHTTPServer [端口号，默认8000]
 
 17.遍历方式：
 	① 字典中遍历时，关键字和对应的值可以使用 items() 同时遍历：
