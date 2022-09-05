@@ -1,0 +1,37 @@
+Python 快速搭建文件上传服务器(python-upload-file-server)：
+
+
+① 项目名：
+	droopy
+	
+② 创建上传目录：
+	mkdir -p /opt/droopy/uploads
+	cd /opt/droopy
+
+③ 下载 droopy 脚本：
+	python2(兼容：Python2.7):
+		http://stackp.online.fr/wp-content/uploads/droopy
+	python3(兼容：Python3.7，Python2.7。不兼容：Python3.9。):
+		https://github.com/stackp/Droopy
+
+④ droopy 帮助文档：
+
+```
+droopy [options] [PORT]
+	-d DIRECTORY	--directory DIRECTORY   set the directory to upload files to
+	-m MESSAGE		--message MESSAGE       set the message
+	-p PICTURE		--picture PICTURE       set the picture
+	-a USER:PASS	--auth USER:PASS        set the authentication credentials
+	......
+```
+
+
+⑤ 运行示例：
+	
+	# 方式一：直接运行，默认端口：8000
+	python droopy
+
+	# 方式二：配置参数运行 
+	python droopy -d uploads -p logo.png -m "Hello, Please send me your file." -a admin:admin 8080
+	
+

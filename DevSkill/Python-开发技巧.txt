@@ -398,3 +398,5 @@ Python-开发技巧：
 	② os.environ['PATH'] += ';D:\Kwok\Work\Other' 添加的是 `CMD` 执行依赖的环境变量，`os.system(CMD)` 执行使用的是环境变量。
 
 41.
+
+
