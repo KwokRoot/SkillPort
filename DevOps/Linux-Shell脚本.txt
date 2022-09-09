@@ -1,0 +1,79 @@
+1.脚本第一行说明：
+
+#!/bin/bash
+或 #!/bin/sh
+
+#! 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 `Shell`(`bash` 兼容 `sh`，在 Linux 系统上 `/bin/sh` 一般软链接到 `/bin/bash`)。
+
+
+2.变量定义：
+
+① 变量名区分大小写。
+② `=` 等号两边不能有空格。
+例：
+	1) var=hello
+	2) VAR='hello'
+
+③ 命令执行结果赋值给变量 2 种方式：
+例：
+	1) for file in `ls /etc`
+	2) for file in $(ls /etc)
+
+
+3.变量使用：
+
+① ${var}(推荐)：该方式能识别变量边界。例：${Skill}Script 。
+② $var
+
+
+4.删除变量
+
+unset var
+
+
+5.脚本执行：
+
+① 授予脚本执行权限，直接执行脚本：
+	1) chmod +x ./test.sh
+	2) ./test.sh
+
+② 作为 `sh` 命令参数执行。
+	/bin/sh test.sh
+
+
+
+Shell 脚本示例：
+
+
+# 获取本机IP：
+
+centos7：
+IP=`ifconfig|grep 'inet' |sed 's/:/ /g' |awk '{print $2}'|grep -E -v '127.0.0.1'|head -1`
+echo ${IP}
+
+
+# 删除 更新日期 30 天之前 以 `.gz` 结尾的文件：
+
+find ./ -mtime +30 -type f -name "*.gz" | xargs rm -rf;
+find ./ -mtime +30 -type f -name "*.gz" -exec rm -f {} \;
+
+
+# 关于 `cp` 命令：
+
+1.cp -f s1 d1 覆盖复制。
+2.解决 alias cp='cp -i' 脚本使用 cp 命令提示的问题：
+	①临时取消别名：unalias cp && cp -f s1 d1 (此方式不起作用)
+	②命令前加`\`，如 `\ls` 则直接调用ls的原始命令，而不会使用 alias 设置的带有 color 选项的命令。即使用 '\cp  -f s1 d1'。
+
+
+# 关于 `lsof` 命令：
+
+lsof -i:8080   查看端口占用
+lsof nohup.out 查看文件使用进程 pid
+
+
+# `|` 管道 与 统计 `wc` 命令合用查看某目录文件目录数：
+
+ll /proc/ | wc -l
+
+
