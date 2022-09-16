@@ -7,12 +7,12 @@ yum -y install zlib zlib-devel
 yum -y install pcre pcre-devel
 yum -y install openssl openssl-devel
 yum -y install libtool
-yum -y install telnet
 yum -y install patch
-yum -y install wget
+yum -y install wget curl
 yum -y install lsof
 yum -y install unzip zip
 yum -y install vim
+yum -y install lrzsz
 yum -y install telnet
 yum -y install iproute
 yum -y install net-tools

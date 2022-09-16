@@ -1,0 +1,29 @@
+# 生成镜像以 CentOS:7 镜像为基础
+FROM centos:7
+
+# 指定作者信息
+MAINTAINER by KwokRoot
+
+# 1.修改 yum 源为 aliyun 镜像源
+# 2.yum 安装 wget、openssh-server、telnet、net-tools、iproute、vim 工具
+# 3.配置 SSHServer
+# 4.清除缓存及临时文件
+# 5.设置用户名密码
+# 6.修改时区
+RUN cd /etc/yum.repos.d && mkdir bak && mv *.repo bak/ \
+    && curl -s -o ./Centos-7.repo https://mirrors.aliyun.com/repo/Centos-7.repo \
+    && curl -s -o ./epel.repo https://mirrors.aliyun.com/repo/epel-7.repo \
+    && sed -i -e '/mirrors.cloud.aliyuncs.com/d' -e '/mirrors.aliyuncs.com/d' Centos-7.repo \
+    && yum clean all && yum makecache \
+    && yum install -y wget openssh-server telnet net-tools iproute vim \
+    && /usr/bin/ssh-keygen -A &&  mkdir /var/run/sshd && echo 'UseDNS no' >>  /etc/ssh/sshd_config && sed -i -e '/pam_loginuid.so/d' /etc/pam.d/sshd \
+    && yum clean all && rm -rf /var/tmp/* && rm -rf /var/cache/yum/* \
+    && echo 'root:123456' | chpasswd \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+EXPOSE 22
+
+# CMD ["/usr/sbin/sshd","-D"]
+ENTRYPOINT ["/usr/sbin/sshd","-D"]
+
+

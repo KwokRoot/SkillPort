@@ -1,0 +1,62 @@
+Java-JShell-Java交互式命令行工具 JShell 首次使用：
+
+
+JShell 是 JDK9 新增的一个交互式的编程环境工具。官方定义为 REPL(Read-Eval-Print Loop，读取-求值-输出 循环）工具，使 Java 可以通过一种解释性的方式进行交互。
+
+
+# 创建工作目录
+mkdir -p /opt/jshell
+cd /opt/jshell
+
+
+# 下载依赖 jar 包
+wget https://repo1.maven.org/maven2/cn/hutool/hutool-all/5.8.6/hutool-all-5.8.6.jar
+wget https://repo1.maven.org/maven2/com/github/oshi/oshi-core/6.2.2/oshi-core-6.2.2.jar
+wget https://repo1.maven.org/maven2/net/java/dev/jna/jna/5.12.1/jna-5.12.1.jar
+wget https://repo1.maven.org/maven2/net/java/dev/jna/jna-platform/5.12.1/jna-platform-5.12.1.jar
+wget https://repo1.maven.org/maven2/org/slf4j/slf4j-api/1.7.36/slf4j-api-1.7.36.jar
+
+
+# 获取系统信息
+vim test.java
+```
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.system.oshi.OshiUtil;
+
+public class Test_HuTool {
+
+	public static void main(String[] args) throws Exception {
+		
+		System.out.println(OshiUtil.getOs());
+		
+		System.out.println(StrUtil.repeat("*", 36));
+		System.out.println(OshiUtil.getMemory());
+		
+		System.out.println(StrUtil.repeat("*", 36));
+		System.out.println(OshiUtil.getCpuInfo());
+		
+	}
+}
+```
+
+
+# 启动 jshell 命令执行窗口，并加载相关的 jar 包
+jshell --class-path ./hutool-all-5.8.6.jar:./oshi-core-6.2.2.jar:./jna-5.12.1.jar:./jna-platform-5.12.1.jar:./slf4j-api-1.7.36.jar
+
+
+jshell> 
+
+
+# 导入文件源码
+/open test.java
+
+# 列出输入的源码
+/list
+
+# 执行程序
+Test_HuTool.main(null)
+
+# 退出
+/exit
+
+

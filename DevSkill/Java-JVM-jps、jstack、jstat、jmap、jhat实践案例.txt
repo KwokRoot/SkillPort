@@ -1,0 +1,105 @@
+Java-JVM-jps、jstack、jstat、jmap、jhat 实践案例：
+
+
+一、CPU 占用过高排查
+
+① 获取 PID：
+top / jps -l
+示例：154329
+
+
+② 查看该进程的线程情况
+top -Hp PID
+例：top -Hp 154329
+示例：191983
+
+
+③ 线程号转换为16进制
+printf "%x" TID
+例：printf "%x" 191983
+结果：2edef
+
+
+④ 查看线程栈情况
+jstack [-F] PID | grep TID -A 10
+或：jstack [-F] PID | grep 0xTID -A 10
+例：jstack 154329 | grep 191983 -A 10
+
+
+
+二、死锁问题
+
+① jps 查看 java 进程
+jps -l
+
+② jstack 查看死锁问题
+jstack PID
+
+示例：
+======================================================================
+"Thread-4":
+ at com.spareyaya.jvm.service.DeadLockService.service2(DeadLockService.java:35)
+ - waiting to lock <0x00000000f5035ae0> (a java.lang.Object)
+ - locked <0x00000000f5035af0> (a java.lang.Object)
+ at com.spareyaya.jvm.controller.JVMController.lambda$deadLock$1(JVMController.java:41)
+ at com.spareyaya.jvm.controller.JVMController$$Lambda$457/1776922136.run(Unknown Source)
+ at java.lang.Thread.run(Thread.java:748)
+"Thread-3":
+ at com.spareyaya.jvm.service.DeadLockService.service1(DeadLockService.java:27)
+ - waiting to lock <0x00000000f5035af0> (a java.lang.Object)
+ - locked <0x00000000f5035ae0> (a java.lang.Object)
+ at com.spareyaya.jvm.controller.JVMController.lambda$deadLock$0(JVMController.java:37)
+ at com.spareyaya.jvm.controller.JVMController$$Lambda$456/474286897.run(Unknown Source)
+ at java.lang.Thread.run(Thread.java:748)
+
+Found 1 deadlock.
+======================================================================
+
+
+
+三、jstat 分析 gc 活动情况
+
+jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
+示例：jstat -gcutil -t -h4 154329 1000 8
+
+Timestamp         S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+     33637784.0   0.00 100.00  58.93  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637785.0   0.00 100.00  61.10  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637786.0   0.00 100.00  61.80  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637787.0   0.00 100.00  61.80  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+Timestamp         S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
+     33637788.0   0.00 100.00  62.10  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637789.0   0.00 100.00  62.27  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637790.0   0.00 100.00  62.74  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+     33637791.0   0.00 100.00  64.26  37.13  89.14  81.10 1606849 67777.817     0    0.000 67777.817
+
+
+字段说明：
+
+Timestamp 距离 jvm 启动的时间
+S0、S1、E 是新生代的两个 Survivor 和 Eden
+O 是 老年代
+M 是 Metaspace
+CCS 使用压缩比例
+YGC 和 YGCT 分别是新生代 gc 的次数和时间
+FGC 和 FGCT 分别是老年代 gc 的次数和时间
+GCT 是 gc 的总时间。
+
+
+
+四、OOM 问题排查
+
+① 发生 OOM 时保存内存快照启动参数配置：
+-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof
+
+② jmap dump 出内存快照
+jmap -dump:live,format=b,file=heap.hprof PID
+
+③ 工具分析内存快照
+	1) JavaVisualVM[JDK8](jdk8+：http://visualvm.github.io)
+	2) jmc(JavaMissionControl)[JDK8]
+	3) Eclipse Memory Analyzer 插件(Windows -> Perspective -> Open Perspective -> Memory Analyzers)
+	4) Eclipse 的 MAT 插件
+	5) jhat heap.hprof
+
+
