@@ -1,0 +1,54 @@
+Alpine Linux apk 命令的使用：
+
+官网：https://www.alpinelinux.org
+
+Alpine Linux is an independent(独立的), non-commercial(非商业的), general purpose(通用的) Linux distribution designed for power users who appreciate security(安全), simplicity(简单) and resource efficiency(高效). Alpine Linux is built around musl libc and busybox. 
+
+
+一、配置 apk 国内镜像源：
+
+① 永久修改镜像源地址(推荐)：
+vim /etc/apk/repositories
+```
+https://dl-cdn.alpinelinux.org/alpine/v3.14/main
+https://dl-cdn.alpinelinux.org/alpine/v3.14/community
+```
+
+修改为：
+
+```
+https://mirrors.aliyun.com/alpine/v3.14/main
+https://mirrors.aliyun.com/alpine/v3.14/community
+```
+
+拓展：
+# 切换为阿里镜像源
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
+# 切换为中科大镜像源
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+
+② 临时指定镜像源地址(经测试，只有 `/etc/apk/repositories` 中镜像源地址都不能使用时，--repository 临时指定的镜像源才有用)：
+apk add --update-cache --repository https://mirrors.aliyun.com/alpine/v3.16/main/ --allow-untrusted git
+
+
+
+二、apk 命令参数
+
+① 更新包索引
+apk update
+
+② 搜索包(官网包搜索：https://pkgs.alpinelinux.org/packages)
+apk search jdk
+
+③ 查询包信息
+apk info -a openjdk17-jdk
+
+④ 安装包
+apk add openjdk17-jdk
+
+⑤ 移除包
+apk del openjdk17-jdk
+
+

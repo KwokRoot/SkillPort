@@ -1,0 +1,58 @@
+DevOps-WebServer(Nginx、Httpd、IIS) 搭建 Http 文件服务：
+
+一、Nginx
+
+vim /etc/nginx/nginx.conf
+
+```
+location /download {
+    
+    autoindex on;  # 开启目录浏览功能。
+    autoindex_exact_size off;  # 默认开启为 on，显示出文件的确切大小，单位是 bytes。关闭为off，显示出文件大概大小，单位为kB，MB或GB。
+    autoindex_localtime on;  # 默认为 off，显示的文件时间为 GMT 时间。修改为 on 后，显示的文件时间为文件的服务器本地时间。
+    
+    #root  D:/kwok/SoftPackage/ISO/download;
+    alias  D:/kwok/SoftPackage/ISO;  #指定实际目录绝对路径
+}
+```
+注：root 与 alias 主要区别在于 nginx 如何处理 location 后面的 uri，这使两者分别以不同的方式将请求映射到服务器文件目录上。
+	root 处理方式：root 路径 + 原始的 location 路径。
+	alias 处理方式：alias 路径 + 去除URI中 localtion 匹配到的字段的剩余路径。
+!!!注：Nginx 路径建议不要有中文，可能会存在编码问题，出现中文路径访问不到的问题。
+
+
+
+二、Httpd(Apache HTTP Server)
+
+① vim /etc/httpd/conf/httpd.conf
+```xml
+<Directory "/var/www/html">
+Options +Indexes //开启目录列表索引模式
+</Directory>
+```
+
+② vim /etc/httpd/conf.d/welcome.conf   # 首页目录不能索引的问题：默认配置项 `Options -Indexes` 修改为 `Options +Indexes`。
+```xml
+<LocationMatch "^/+$">
+    Options +Indexes
+    ErrorDocument 403 /.noindex.html
+</LocationMatch>
+```
+
+
+
+三、IIS(Internet Information Services)
+
+1.确认 `控制面板 - 程序和功能 - 启动或关闭Windows功能 - Web 服务器(IIS)`  或 `服务器管理器 - 添加角色和功能 - 服务器角色 - Web 服务器(IIS)` 功能已启动。 
+  确认 `Web 服务器(IIS) - Web 服务器 - 常见 HTTP 功能 - 目录浏览` 已安装。
+
+2.控制面板 - 管理工具 - Internet Information Services (IIS)管理器 目录
+
+配置项：
+	① Default Web Site - 基本(高级)设置 - 物理路径
+	② 目录浏览：应用
+	③ MIME 类型：
+		拓展名:			.*
+		MIME 类型：		*/*
+
+

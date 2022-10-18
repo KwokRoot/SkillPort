@@ -1,0 +1,52 @@
+Linux 审计服务 Audit 监控目录内文件变化：
+
+audit 工具是 Linux 系统中负责审计的进程，可以用来记录 Linux 系统的一些操作，比如系统调用，文件修改，执行的程序，系统登入登出和记录所有系统中所有的事件，我们可以通过配置 aidutd 规则来对 Linux 服务器中发生的一些用户行为和用户操作进行监控。
+
+
+# 安装
+# sudo -i
+yum -y install audit
+
+# 启动
+systemctl start auditd.service
+
+# 状态
+systemctl status auditd.service
+
+# 重启
+service auditd restart
+
+# 常用命令
+auditctl -w <filename|path> -p rwax -k keyMark
+
+## 添加规则
+auditctl -w /opt/app/applications/file-server/ -p rwax -k monitor-myapp
+
+## 查看规则
+auditctl -l
+
+## 删除规则
+auditctl -W /opt/app/applications/file-server/ -p rwax -k monitor-myapp
+
+## 删除所有规则
+auditctl -D
+
+
+# 监控日志
+tail -100f /var/log/audit/audit.log
+less /var/log/audit/audit.log | grep monitor-myapp
+
+
+# 日志示例
+```
+type=SYSCALL msg=audit(1665631058.042:184): arch=c000003e syscall=257 success=yes exit=3 a0=ffffffffffffff9c a1=1966550 a2=90800 a3=0 items=1 ppid=21133 pid=22471 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts1 ses=209096 comm="ls" exe="/usr/bin/ls" key="monitor-myapp"
+type=CWD msg=audit(1665631058.042:184):  cwd="/opt/app/applications/file-server"
+type=PATH msg=audit(1665631058.042:184): item=0 name="." inode=1048580 dev=fd:11 mode=040755 ouid=0 ogid=0 rdev=00:00 objtype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+type=PROCTITLE msg=audit(1665631058.042:184): proctitle=6C73002D2D636F6C6F723D6175746F
+
+type=SYSCALL msg=audit(1665631058.042:185): arch=c000003e syscall=191 success=no exit=-61 a0=7ffd33d72470 a1=7f982f3e0104 a2=7ffd33d72430 a3=14 items=1 ppid=21133 pid=22471 auid=1001 uid=1001 gid=1001 euid=1001 suid=1001 fsuid=1001 egid=1001 sgid=1001 fsgid=1001 tty=pts1 ses=209096 comm="ls" exe="/usr/bin/ls" key="monitor-myapp"
+type=CWD msg=audit(1665631058.042:185):  cwd="/opt/app/applications/file-server"
+type=PATH msg=audit(1665631058.042:185): item=0 name="README.md" inode=1048906 dev=fd:11 mode=0100644 ouid=0 ogid=0 rdev=00:00 objtype=NORMAL cap_fp=0000000000000000 cap_fi=0000000000000000 cap_fe=0 cap_fver=0
+type=PROCTITLE msg=audit(1665631058.042:185): proctitle=6C73002D2D636F6C6F723D6175746F
+```
+

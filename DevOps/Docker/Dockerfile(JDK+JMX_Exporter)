@@ -1,0 +1,36 @@
+# JDK+JMX_Exporter(https://github.com/prometheus/jmx_exporter)
+### JAR 包构建为 docker 镜像
+
+FROM openjdk:17-oracle
+
+# 指定作者信息
+MAINTAINER by KwokRoot
+
+# COPY、ADD 复制文件命令以下方式都可使用
+# COPY springboot-web-demo.jar /opt/
+# COPY jmx_prometheus_javaagent-0.17.2.jar /opt/
+# COPY config.yaml /opt/
+
+COPY springboot-web-demo.jar jmx_prometheus_javaagent-0.17.2.jar config.yaml /opt/
+
+# ADD springboot-web-demo.jar jmx_prometheus_javaagent-0.17.2.jar config.yaml /opt/
+
+# ADD http://192.168.200.200/soft/1/springboot-web-demo.jar /opt/
+# ADD http://192.168.200.200/soft/1/jmx_prometheus_javaagent-0.17.2.jar /opt/
+# ADD http://192.168.200.200/soft/1/config.yaml /opt/
+
+WORKDIR /opt/
+CMD java -javaagent:./jmx_prometheus_javaagent-0.17.2.jar=12345:config.yaml -jar springboot-web-demo.jar
+EXPOSE 1818 12345
+
+
+
+### 运行命令：
+
+# 构建镜像
+# docker build -t my-java-app:v0.0.1 .
+
+# 运行容器
+# docker run -it -d --name my-java-app -p 1818:1818 -p 12345:12345 my-java-app:v0.0.1
+
+
