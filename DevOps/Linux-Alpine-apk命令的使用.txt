@@ -21,7 +21,8 @@ https://mirrors.aliyun.com/alpine/v3.14/main
 https://mirrors.aliyun.com/alpine/v3.14/community
 ```
 
-拓展：
+或 使用 `sed` 命令“一键切换”：
+
 # 切换为阿里镜像源
 sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
@@ -50,5 +51,12 @@ apk add openjdk17-jdk
 
 ⑤ 移除包
 apk del openjdk17-jdk
+
+
+
+拓展
+
+① Alpine 安装 telnet
+apk add busybox-extras
 
 

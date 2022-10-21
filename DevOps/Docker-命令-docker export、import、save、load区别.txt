@@ -1,0 +1,50 @@
+Docker-命令-docker export、import、save、load 区别：
+
+1.docker export 和 docker import
+
+# 导出容器快照(docker export 或 docker container export)
+docker export -o xxx.tar ${容器 ID}/${容器 Name}
+docker export ${容器 ID}/${容器 Name} > xxx.tar
+
+# 导入容器快照到本地镜像库(docker import 或 docker image import)
+docker import xxx.tar imageName:tag
+
+使用场景：容器系统配置和安装常用软件后，制作为基础镜像。
+注：docker export 导出的镜像是不带镜像构建历史的(不同于客户端操作记录[history]，客户端操作记录不会自动删除)。如果原本的镜像有 3 层，export 之后会有 4 层，最后一层为镜像运行到 export 之间对文件系统的操作，不会显示在构建历史中。
+
+
+2.docker save 和 docker load
+
+# 导出镜像(docker save 或 docker image save)
+docker save -o xxx.tar ${imageID/imageName}:tag
+
+# 导入镜像(docker load 或 docker image load)
+docker load -i xxx.tar
+docker load < xxx.tar
+
+使用场景：生产环境没有外网，将镜像打包成 tar，拷贝到生产环境，再导入。
+注：docker load 会自动导入原镜像版本。
+
+
+3.区别：
+
+① docker export 保存的是容器（container)，docker save 保存的是镜像（image）。docker export 比 docker save 保存的包要小，原因是 save 保存的是一个分层的文件系统，export 导出的只是一层文件系统。
+
+② docker import、load 载入的时候，两者都会恢复为镜像。docker import 可以对镜像指定新名称及版本号，docker load 无法对镜像重命名。
+
+
+
+拓展：
+
+1.把容器快照直接生成镜像(docker commit 或 docker container commit)
+
+docker commit ${容器 ID/容器 Name} imageName:tag
+
+选项说明：
+	-a : 提交的镜像作者；
+	-m : 提交时的说明文字；
+	-p : 在commit时，将容器暂停；
+
+使用场景：容器系统配置和安装常用软件后，制作为基础镜像。像是 docker export 和 docker import 命令的复合体。
+
+
