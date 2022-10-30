@@ -1,0 +1,58 @@
+Go-学习-基础知识:
+
+# Go 环境设置：
+
+GOROOT 	Go 安装目录，存放着 Go 源码及 API
+GOPATH 	Go 工作目录，存放着自己写的 Go 代码及依赖包。(注：在不使用 Go modules[v1.11+] 管理时依赖包时，默认去 GOPATH、GOROOT 的 src 下找包。)
+PATH	添加 PATH 路径。$GOROOT/bin:$PATH(Linux); %GOROOT%\bin(Windows)
+
+临时环境变量设置
+# Windows
+set GOPATH=D:\kwok\work\GoWork
+# Linux
+export GOPATH=/kwok/work/gowork
+
+查看版本
+go version
+
+查看环境变量：
+go env
+
+！！！注：如果 `go env` 查看的环境变量和设置的不一致，需检查用户变量中是否安装时被默认设置了以上变量为用户根目录，`用户变量`的优先级高于`系统变量`。也可以使用 `go env -w key=value` 设置。
+
+
+# Go 代理设置
+
+注：Go v1.13+，GOPROXY 默认 https://proxy.golang.org，执行 `go mod download` 时会用到。
+
+方式一(系统环境变量)：
+	export GOPROXY=https://mirrors.aliyun.com/goproxy/
+方式二(Go 环境变量)：
+	go env -w GOPROXY=https://goproxy.cn,direct
+
+
+# Go 基本命令
+
+go get
+go fmt
+go build
+go run
+go install
+go mod
+
+go help <command>
+
+
+# 集成开发工具 IDE
+
+Goland
+LiteIDE
+GoClipse
+
+
+# 语言特点：
+
+1.Go 指针(&)
+2.Go 并发(goroutine)
+3.Go 管道(channel)
+
