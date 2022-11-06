@@ -401,6 +401,19 @@ Python-开发技巧：
 	① sys.path.append("D:\Kwok\Work\Other") 添加的是 `Python` 的模块搜索路径(module search path)。
 	② os.environ['PATH'] += ';D:\Kwok\Work\Other' 添加的是 `CMD` 执行依赖的环境变量，`os.system(CMD)` 执行使用的是环境变量。
 
-41.
+41.按行读取文件方式：
+方式一：
+with open(r"F:\opt\123.txt") as f:
+    lines = f.read().splitlines()
+
+方式二：
+# 注：直接使用 `f.readlines()` 读取的每行带 `\n` 换行符。
+with open(r"F:\opt\123.txt") as f:
+    # lines = [line.rstrip() for line in f.readlines()]
+    lines = [line[:-1] for line in f.readlines()]
+
+42.PyCharm 快速输入 `for` 迭代结构的默认快捷方式：
+iter → Tab
+# 注：为什么不是 `for`，因为 `for` 是关键字，输入 `for` 会产生歧义使之变得不快捷。
 
 
