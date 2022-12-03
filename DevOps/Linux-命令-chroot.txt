@@ -1,0 +1,82 @@
+chroot(change root)，将程序运行环境切换到指定目录。
+
+
+1.脚本创建 CHROOT 环境示例：
+
+① vim createkwok.sh
+
+```bash
+chr=/opt/kwork
+
+mkdir -p $chr
+mkdir -p $chr/{bin,lib,lib64,root,tmp,opt}
+cd $chr
+
+# 注：目录下必须包含 `/bin/bash` 命令。
+cp -v /bin/{bash,ls,echo,cat,vi,rm} $chr/bin
+# 查看执行文件依赖库
+# ldd /bin/bash
+
+# 复制 `/bin/bash` 依赖库到 CHROOT 环境
+list="$(ldd /bin/bash | egrep -o '/lib.*\.[0-9]')"
+# echo $list
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+# 复制 `/bin/ls` 依赖库到 CHROOT 环境
+list="$(ldd /bin/ls | egrep -o '/lib.*\.[0-9]')"
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+# 复制 `/bin/echo` 依赖库到 CHROOT 环境
+list="$(ldd /bin/echo | egrep -o '/lib.*\.[0-9]')"
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+# 复制 `/bin/cat` 依赖库到 CHROOT 环境
+list="$(ldd /bin/cat | egrep -o '/lib.*\.[0-9]')"
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+# 复制 `/bin/vi` 依赖库到 CHROOT 环境
+list="$(ldd /bin/vi | egrep -o '/lib.*\.[0-9]')"
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+# 复制 `/bin/rm` 依赖库到 CHROOT 环境
+list="$(ldd /bin/rm | egrep -o '/lib.*\.[0-9]')"
+for i in $list; do cp -v --parents "$i" "${chr}"; done
+
+chroot `pwd`
+
+```
+
+② 执行脚本，创建 CHROOT 环境
+chmod +x createkwok.sh
+./createkwok.sh
+
+③ 退出 CHROOT 环境
+exit
+
+
+2.使用 alpinelinux(www.alpinelinux.org) Mini root filesystem 版本直接解压到 `/opt/kwork` 后，执行 `chroot /opt/kwork bin/sh` 进入 CHROOT 环境。
+
+
+3.JDK 安装示例：
+
+① 退出 CHROOT 环境：
+	exit
+
+cd /opt/kwork/
+list="$(ldd opt/jdk-17/bin/java | egrep -o '/lib.*\.[0-9]')"
+# echo $list
+for i in $list; do cp -v --parents "$i" "."; done
+
+ldd opt/jdk-17/bin/java
+# 将依赖库都复制到 /opt/kwork/lib64/ 目录
+cp /opt/kwork/opt/jdk-17/bin/../lib/libjli.so lib64/
+cp /lib64/librt.so.1 lib64/
+cp /lib64/libm.so.6 lib64/
+
+② 进入 CHROOT 环境：
+	chroot /opt/kwork/ /bin/bash
+
+③  CHROOT 环境中执行 java 命令
+	cd /opt/jdk-17/bin/
+	java -version
+
