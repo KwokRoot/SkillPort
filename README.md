@@ -8,25 +8,31 @@
 │  README.md
 │
 ├─DevIdea
-│      JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
-│      Python优缺点总结.txt
-│      Web用户身份识别机制.txt
-│      前端趋势思考-LayUI官网下线公告.png
-│      后台多接口合并遇到的问题.txt
-│      多维度标识单值表示法.txt
-│      掌握一门编程开发语言的层级步骤.txt
-│      接手旧系统维护策略.txt
-│      接手旧系统重构策略.txt
-│      测试线、灰度线、正式线.txt
-│      系统间数据更新策略.txt
-│      系统间消息同步策略.txt
-│      系统高可用实现方案.txt
-│      认证授权体系.txt
-│      软件监控的三个层次(扁鹊三兄弟故事).txt
-│      集群与分布式与微服务.txt
-│      面对新项目应对策略.txt
-│      面对旧系统新需求应对策略.txt
-│      面对紧急临时需求应对策略.txt
+│  │  JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
+│  │  Python优缺点总结.txt
+│  │  Web用户身份识别机制.txt
+│  │  前端趋势思考-LayUI官网下线公告.png
+│  │  后台多接口合并遇到的问题.txt
+│  │  多维度标识单值表示法.txt
+│  │  掌握一门编程开发语言的层级步骤.txt
+│  │  接手旧系统维护策略.txt
+│  │  接手旧系统重构策略.txt
+│  │  测试线、灰度线、正式线.txt
+│  │  第三方外部系统接入接口设计.md
+│  │  系统间数据更新策略.txt
+│  │  系统间消息同步策略.txt
+│  │  系统高可用实现方案.txt
+│  │  认证授权体系.txt
+│  │  软件监控的三个层次(扁鹊三兄弟故事).txt
+│  │  运维开发过程中解决问题的常规逻辑.txt
+│  │  集群与分布式与微服务.txt
+│  │  面对新项目应对策略.txt
+│  │  面对旧系统新需求应对策略.txt
+│  │  面对紧急临时需求应对策略.txt
+│  │
+│  └─image
+│          sign验证模式时序图.jpg
+│          token验证模式时序图.jpg
 │
 ├─DevOps
 │  │  DB-H2DB-H2Database使用.txt
@@ -64,6 +70,7 @@
 │  │  Linux-Vim常用命令.txt
 │  │  Linux-修改JAR包配置文件.txt
 │  │  Linux-创建共享目录.txt
+│  │  Linux-命令-chroot.txt
 │  │  Linux-常用命令.txt
 │  │  Linux-时间同步配置.txt
 │  │  Linux-清理磁盘空间.txt
@@ -191,6 +198,7 @@
         Java-Https-服务器自签名证书不被信任的解决办法.txt
         Java-JShell-Java交互式命令行工具JShell首次使用.txt
         Java-JVM-jps、jstack、jstat、jmap、jhat实践案例.txt
+        Java-JVM-汇总.md
         Java-Spring-获取HttpServletRequest实例.txt
         Java-SpringBoot-Junit测试时初始化上下文之前执行方法的方式.txt
         Java-SpringBoot-SpringBoot依赖JAR包外置的2种方案.txt
