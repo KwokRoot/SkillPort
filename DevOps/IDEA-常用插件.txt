@@ -24,3 +24,7 @@ IDEA-常用插件：
 20.保存时优化代码：Save Actions
 
 
+21.builder 自动生成：Builder-Generator
+22.对象同名属性转化：GenerateO2O
+
+
