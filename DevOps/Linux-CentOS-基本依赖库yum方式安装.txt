@@ -11,10 +11,13 @@ yum -y install patch
 yum -y install wget curl
 yum -y install lsof
 yum -y install unzip zip
-yum -y install vim
-yum -y install lrzsz
 yum -y install telnet
 yum -y install iproute
-yum -y install net-tools
 
+
+yum -y install net-tools
+yum -y install vim
+yum -y install lrzsz
+yum -y install git
+yum -y install rsync
 
