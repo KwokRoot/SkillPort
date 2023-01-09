@@ -5,5 +5,13 @@ Git命令：
 	①git reset commitId  本地重置到某个提交记录。
 	②git push --force  强行推送至服务器。
 
-2、
+2、Git 仅 clone 某个分支最后文件版本，不下载文件历史版本记录。
 	
+	git clone -b 版本 --depth=1 仓库地址
+	
+	# 用 `--depth=1` 是限制 clone 的深度，不会下载 Git 的历史记录，这样能加快克隆速度。
+	示例：git clone -b v7.1.1 --depth=1 https://github.com/elastic/beats.git
+
+3、
+
+
