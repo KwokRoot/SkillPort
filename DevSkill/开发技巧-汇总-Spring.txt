@@ -12,4 +12,12 @@
 	② Java -Dkey=value -jar *.jar 启动参数中设置：
 		-Dlogging.level.root=DEBUG
 
+4.Spring `@EnableScheduling` 定时任务 `cron` 表达式设置为 `-` 为不执行任务。
+	用法示例：
+    	① 配置中直接设置为 `-`
+    		task.cron = - 
+    	② 设置 SpringEL 表达式默认值为 `-`，当配置文件中 `task.cron` 缺省 或 配置为 `task.cron = -` 任务均不执行。
+    		@Scheduled(cron = "${task.cron:-}")
+	注：可参考 `org.springframework.scheduling.annotation.Scheduled#CRON_DISABLED` 实现
+
 
