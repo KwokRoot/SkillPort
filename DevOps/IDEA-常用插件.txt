@@ -26,5 +26,6 @@ IDEA-常用插件：
 
 21.builder 自动生成：Builder-Generator
 22.对象同名属性转化：GenerateO2O
+23.生成 UML 时序图 ：Sequence Diagram
 
 
