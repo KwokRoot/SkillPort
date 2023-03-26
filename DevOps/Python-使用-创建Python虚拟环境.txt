@@ -1,0 +1,19 @@
+Python-projectPython虚拟环境：
+
+
+意义：解决不同项目间依赖包版本冲突。
+
+1.创建 Python 虚拟环境：
+	mkdir -p /opt/python/python-project
+	python3 -m venv /opt/python/python-project
+
+2.激活虚拟环境：
+	source /opt/python/python-project/bin/activate
+	
+	# Windows：`<work-dir>\Scripts\activate.bat`
+	# Linux：  `source <work-dir>/bin/activate`
+
+3.退出虚拟环境：
+	虚拟模式下退出命令：deactivate
+
+

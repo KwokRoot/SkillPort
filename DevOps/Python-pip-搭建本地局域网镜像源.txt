@@ -1,0 +1,38 @@
+Python-pip-搭建本地局域网镜像源：
+
+
+前提条件：作为镜像源的服务器能联网下载远程 pip 仓库依赖包。
+
+1.安装 pip2pi 工具
+pip install pip2pi
+
+2.下载包
+mkdir -p /opt/pip-package
+cd /opt/pip-package
+
+# pip freeze > /opt/pip-package/requirements.txt
+# wget http://127.0.0.1/requirements.txt
+
+/opt/python/python36/bin/pip2tgz /opt/pip-package -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
+
+3.建立本地源索引
+rm requirements.txt
+/opt/python/python36/bin/pip2pi /opt/pip-package *
+
+
+4.配置 nginx
+server {
+    listen 18189;
+    
+    location /pypi{
+        alias /opt/pip-package;
+        autoindex on;
+        autoindex_exact_size off;
+        autoindex_localtime on;
+    }
+}
+
+
+5.其他服务器使用镜像源
+pip3 install -r requirements.txt -i http://10.10.110.110:18189/pypi/simple/ --trusted-host 10.10.110.110
+

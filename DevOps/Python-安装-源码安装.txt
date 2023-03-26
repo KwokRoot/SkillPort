@@ -1,0 +1,62 @@
+Python 3.x.x 源码安装：
+
+1. 安装Linux系统依赖类库
+yum -y install gcc
+yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel libffi-devel
+
+2. 下载 Python 源码包
+mkdir -p /opt/python/python37
+cd /opt/python/python37
+
+wget http://172.1.1.10/other/Python-3.7.16.tgz
+tar -zxvf Python-3.7.16.tgz
+
+3. 编译
+cd Python-3.7.16
+./configure --prefix=/opt/python/python37
+
+4. 安装
+make && make install
+
+5. 测试
+cd /opt/python/python37
+./bin/python3 -V
+
+6. 创建软连接
+# mv /bin/python /bin/python.bak
+# ln -sf /opt/python/python37/bin/python3.7 /bin/python
+
+ln -sf /opt/python/python37/bin/python3.7 /bin/python3
+ln -sf /opt/python/python37/bin/pip3 /bin/pip3
+ls -l /bin/python*
+python -V
+
+
+
+拓展：
+
+① 安装 Python3 后，yum 命令不能使用(yum需要用 python2 执行)。
+
+错误1：
+```
+File "/bin/yum", line 30
+    except KeyboardInterrupt, e:
+```
+
+解决1：
+vi /usr/bin/yum
+```
+#!/usr/bin/python  修改为 #!/usr/bin/python2.7
+```
+
+错误2：
+```
+File "/usr/libexec/urlgrabber-ext-down", line 28
+   except OSError, e:
+```
+
+解决2：
+vi /usr/libexec/urlgrabber-ext-down
+```
+#!/usr/bin/python  修改为 #!/usr/bin/python2.7
+```
