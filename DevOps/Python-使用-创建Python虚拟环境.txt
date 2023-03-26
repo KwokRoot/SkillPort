@@ -1,4 +1,4 @@
-Python-projectPython虚拟环境：
+创建 Python 虚拟环境：
 
 
 意义：解决不同项目间依赖包版本冲突。
