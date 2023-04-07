@@ -813,6 +813,26 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 	MySQL 正则匹配：
 		SELECT name FROM person WHERE name REGEXP '^[aeiou]|ok$';
 
-89.
+89.Redis 遍历 Set 结构类型获取所有成员。
+	代码示例：
+		String key = "log";
+		String cursor = "0";
+		ScanParams scanParams = new ScanParams();
+		scanParams.count(10000);
+		scanParams.match("*");
+
+		do {
+		    ScanResult<String> sscan = jedis.sscan(key, cursor, scanParams);
+		    cursor = sscan.getCursor();
+		    System.out.println(sscan.getCursor());
+		    System.out.println(sscan.getResult().size());
+		} while (!"0".equals(cursor));
+
+	注：
+		1、游标值为 "0" 开始迭代，游标再次为 "0"，完成一次完整迭代。
+		2、count 默认每次返回 10，每次迭代返回的元素数量不固定。(例 Set 结构中储存 100w 数据，删除大部分数据，剩余 1000 条后，遍历获取数据每次 sscan 返回的 count 非常不稳定。)
+		3、Set 结构直接获取所有成员：jedis.smembers(key);
+
+90.
 
 
