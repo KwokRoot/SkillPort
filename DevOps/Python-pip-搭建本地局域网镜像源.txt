@@ -16,9 +16,12 @@ cd /opt/pip-package
 /opt/python/python36/bin/pip2tgz /opt/pip-package -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 3.建立本地源索引
-rm requirements.txt
-/opt/python/python36/bin/pip2pi /opt/pip-package *
+rm -f requirements.txt
+/opt/python/python36/bin/dir2pi /opt/pip-package
 
+
+注：步骤2、步骤3 可使用 `pip2pi` 命令一次性完成(pip2pi = pip2tgz + dir2pi)。
+/opt/python/python36/bin/pip2pi /opt/pip-package -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
 4.配置 nginx
 server {
