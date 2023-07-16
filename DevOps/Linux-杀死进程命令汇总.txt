@@ -1,0 +1,38 @@
+Linux-杀死进程命令汇总
+
+## kill
+kill 杀死指定 PID 的进程，先用 ps 查找进程号，然后用 kill 杀掉
+kill ${pid}
+
+强制杀死进程
+kill -9 ${pid}
+
+
+## killall
+killall 命令杀死指定名字的所有进程
+
+### 安装killall命令
+yum install -y psmisc
+
+killall nginx
+
+
+## pkill
+pkill 与 killall 相似，如果进程名不完整，killall 会报错。pkill 或者 pgrep 只要给出进程名的一部分就可以终止进程。
+pkill nginx
+pkill -u user1,user2 //结束用户的所有进程
+
+
+
+拓展：
+
+pkill <＝> pgrep + kill
+
+pgrep 进程名 <=> ps -aux | grep 进程名 | grep -v grep| awk '{print $2}'
+pidof <=>  pgrep
+
+等价组合：
+pgrep nginx | xargs kill -s 9
+ps -ef | grep nginx | grep -v grep | awk '{print $2}' | xargs kill -9
+kill -s 9 `pgrep nginx`
+
