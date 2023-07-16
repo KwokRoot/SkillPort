@@ -1,0 +1,48 @@
+# Python-pyenv-Python版本管理：
+pyenv: Python 版本管理
+源码：https://github.com/pyenv/pyenv
+
+
+# 编译
+mkdir /opt/pyenv && cd /opt/pyenv
+tar -zxvf pyenv-2.3.22.tar.gz
+cd /opt/pyenv/pyenv-2.3.22
+src/configure && make -C src
+
+
+# 环境变量
+echo '### PYENV ###' >> ~/.bashrc
+echo 'export PYENV_ROOT="/opt/pyenv/pyenv-2.3.22"' >> ~/.bashrc
+echo 'command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+
+source ~/.bashrc
+
+
+# Python 版本安装
+
+默认下载地址：https://www.python.org/ftp/python/3.6.8/Python-3.6.8.tar.xz
+
+## 从国内镜像源下载不同版本 Python 包 
+mkdir $(pyenv root)/cache
+### mkdir `pyenv root`/cache
+
+python_ver=3.6.8
+# 阿里镜像源
+wget https://npm.taobao.org/mirrors/python/$python_ver/Python-$python_ver.tar.xz -P $(pyenv root)/cache
+# 华为镜像源
+wget https://mirrors.huaweicloud.com/python/$python_ver/Python-$python_ver.tar.xz -P $(pyenv root)/cache
+
+## 安装不同版本 Python
+pyenv install 2.7.18 3.6.8 
+
+
+# 设置 Python 版本
+pyenv shell <version> ： select just for current shell session.
+pyenv local <version> ： current directory (or its subdirectories).
+pyenv global <version>： select globally for your user account.
+
+例：
+pyenv global 3.6.8
+### 更多命令使用请参考帮助文档：pyenv -h
+

@@ -1,0 +1,56 @@
+# JAVA-jenv-JDK版本管理
+jenv: JDK 版本管理
+源码：https://github.com/jenv/jenv
+
+
+# 编译
+mkdir /opt/jenv && cd /opt/jenv
+tar -zxvf jenv-0.5.6.tar.gz
+cd /opt/jenv/jenv-0.5.6
+
+
+# 环境变量
+echo '### JENV ###' >> ~/.bashrc
+echo 'export JENV_ROOT="/opt/jenv/jenv-0.5.6"' >> ~/.bashrc
+echo 'export PATH="$JENV_ROOT/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(jenv init -)"' >> ~/.bashrc
+
+source ~/.bashrc
+
+
+# 验证 jenv 安装
+jenv doctor
+
+
+# JDK 版本下载
+mkdir /opt/java && cd /opt/java
+
+# JDK8
+wget https://repo.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-linux-x64.tar.gz
+tar -zxvf jdk-8u202-linux-x64.tar.gz
+jenv add /opt/java/jdk1.8.0_202
+
+# JDK17
+wget https://repo.huaweicloud.com/openjdk/17.0.2/openjdk-17.0.2_linux-x64_bin.tar.gz
+tar -zxvf openjdk-17.0.2_linux-x64_bin.tar.gz
+jenv add /opt/java/jdk-17.0.2
+
+
+# 设置 JDK 版本
+jenv shell <version> ： select just for current shell session.
+jenv local <version> ： current directory (or its subdirectories).
+jenv global <version>： select globally for your user account.
+
+
+例：
+jenv versions
+jenv global 17
+
+测试：
+echo ${JAVA_HOME}
+java -version
+javac -version
+
+
+### 更多命令使用请参考帮助文档：jenv -h
+
