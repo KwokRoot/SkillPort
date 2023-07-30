@@ -1,0 +1,39 @@
+# Linux-syslog
+## rsyslog(rocket-fast system for log)
+
+
+### 检测安装
+rpm -qa |grep rsyslog
+yum install -y rsyslog
+
+rsyslog 即可配置为 syslog 日志接收端，又可作为日志发送端。
+rsyslog 主配置文件 `/etc/rsyslog.conf`。
+
+
+
+一、服务端配置(开启 UDP/TCP 端口)：
+
+# Provides UDP syslog reception
+#$ModLoad imudp
+#$UDPServerRun 514
+
+# Provides TCP syslog reception
+#$ModLoad imtcp
+#$InputTCPServerRun 514
+
+### 注：系统防火墙端口也许配置白名单。
+
+
+二、客户端配置：
+# [模块.等级] [转发协议][日志服务器地址]:[日志服务器端口]。转发协议的参数 `@@` 为 TCP协议，对应的接收端也需要配置接受 TCP协议，`@` 为 UDP协议。
+# *.* @@remote-ip:514
+
+
+systemctl status rsyslog
+systemctl restart rsyslog
+
+
+注：
+① 测试时可使用 `logger "hello"` 命令，将日志写入 `/var/log/messages`。
+② 可使用 `rsyslog-mysql` 等模块，将 syslog 日志写入到数据库中。
+
