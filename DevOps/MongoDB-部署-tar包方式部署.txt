@@ -1,0 +1,68 @@
+MongoDB-部署-tar包方式部署
+
+# 依赖库
+yum -y install libcurl openssl xz-libs
+
+mkdir -p /data/mongodb && cd /data/mongodb
+tar -zxvf mongodb-linux-x86_64-rhel70-6.0.8.tgz 
+rm -fr mongodb-linux-x86_64-rhel70-6.0.8.tgz
+mv mongodb-linux-x86_64-rhel70-6.0.8 mongodb6.0.8
+
+cd mongodb6.0.8
+mkdir -p /data/mongodb/mongodb6.0.8/{data,logs}
+# ln -s  /data/mongodb/mongodb6.0.8/bin/* /usr/local/bin/
+
+# 启动
+cd /data/mongodb/mongodb6.0.8
+./bin/mongod --port=27017 --dbpath=/data/mongodb/mongodb6.0.8/data --logpath=/data/mongodb/mongodb6.0.8/logs/mongodb.log --bind_ip=0.0.0.0 --fork
+
+# 防火墙
+firewall-cmd --permanent --add-port=27017/tcp && firewall-cmd --reload
+
+# 停止
+./bin/mongod --shutdown --dbpath=/data/mongodb/mongodb6.0.8/data
+
+
+
+### 拓展
+
+# 权限
+
+mongodb 客户端执行：
+```
+use admin
+
+db.createUser({
+  user: "admin",
+  pwd: "123456",
+  roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]
+})
+db.auth("admin", "123456")
+
+
+db.createUser({
+  user: "root",
+  pwd: "123456",
+  roles: [ { role: "root", db: "admin" } ]
+})
+db.auth("root", "123456")
+
+# db.system.users.remove({user:"root"})
+# db.system.users.find()
+```
+
+# 权限启动(--auth)
+./bin/mongod --port=27017 --dbpath=/data/mongodb/mongodb6.0.8/data --logpath=/data/mongodb/mongodb6.0.8/logs/mongodb.log --bind_ip=0.0.0.0 --auth --fork
+
+
+连接示例：
+mongodb://root:123456@10.10.68.112:27017/?authMechanism=DEFAULT&authSource=admin
+
+
+
+# windows 可视化工具
+MongoDB Compass
+
+# Linux 客户端工具
+mongodb-mongosh
+
