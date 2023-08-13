@@ -1,0 +1,93 @@
+MongoDB-部署-yum方式部署
+
+
+# 添加 mongodb yum 源
+vim /etc/yum.repos.d/mongodb-org-4.4.repo
+```
+[mongodb-org-4.4]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/4.4/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+```
+
+
+yum install -y mongodb-org-4.4.23 mongodb-org-server-4.4.23 mongodb-org-shell-4.4.23 mongodb-org-mongos-4.4.23 mongodb-org-tools-4.4.23
+
+# 固定 mongodb 版本，防止 yum upgrades
+
+vim /etc/yum.conf
+```
+exclude=mongodb-org,mongodb-org-server,mongodb-org-shell,mongodb-org-mongos,mongodb-org-tools
+```
+
+！！！注：默认路径建议不要修改，否则 SELinux 权限会造成启动失败。
+默认数据路径：/var/lib/mongo
+默认日志路径：/var/log/mongodb/mongod.log
+
+
+# CentOS7
+systemctl start mongod
+systemctl stop mongod
+systemctl restart mongod
+systemctl status mongod
+
+## 开机启动
+systemctl enable mongod
+
+
+# CentOS6
+service mongod start
+service mongod stop
+service mongod restart
+service mongod status
+
+## 开机启动
+chkconfig mongod on
+
+
+
+# 卸载
+service mongod stop
+yum erase $(rpm -qa | grep mongodb-org)
+
+## 删除数据目录
+rm -fr /var/lib/mongo
+rm -fr /var/log/mongodb
+
+
+
+# 默认路径修改
+
+mkdir -p /opt/devops/mongodb/{logs,data}
+chown -R mongod:mongod /opt/devops/mongodb/{logs,data}
+
+vim /etc/mongod.conf
+```
+修改：
+storage.dbPath
+systemLog.path
+```
+### 问题
+mongodb 进程权限默认会被 SELinux 管理，修改配置中默认 storage.dbPath 、systemLog.path 数据目录会造成启动失败。
+
+### 解决方案
+
+① 修改为默认路径或重新安装
+/var/lib/mongo
+/var/log/mongodb/mongod.log
+
+② 临时关闭 SELINUX 权限控制
+setenforce 0
+
+③ 永久关闭 SELINUX 权限控制
+vim /etc/selinux/config
+```
+SELINUX=enforcing 修改为 SELINUX=permissive 或 SELINUX=disabled
+```
+
+
+# 拓展
+SELinux 全称是 Security-Enhanced Linux，是一个内核级别的安全机制，从 Linux2.6 内核之后就将 SELinux 集成在了内核当中。SELinux 所采用委任式（MAC: Mandatory Access Control）存取权限控制系统资源，可针对特定程序与特定文件来进行权限的控制，即使是 root，在使用不同程序进程所取到的权限也不一样。Linux 默认访问控制标准是基于用户的自主访问控制(DAC: Discretionary Access Control)。
+
