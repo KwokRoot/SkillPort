@@ -1,0 +1,107 @@
+# MySQL-部署-yum方式部署
+
+
+# 删除已经存在 mysql
+rpm -qa|grep mysql
+rpm -e mysql mysql-libs
+yum -y remove mysql-server mysql mysql-libs
+
+
+# 配置yum源
+wget http://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm
+# yum -y install mysql57-community-release-el7-11.noarch.rpm
+rpm -ivh http://dev.mysql.com/get/mysql57-community-release-el7-9.noarch.rpm
+
+# yum 安装 mysql
+rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+# yum -y install mysql-server --nogpgcheck
+yum install mysql-community-server
+
+### 禁止 yum 更新 mysql
+vim /etc/yum.conf
+```
+exclude=mysql-community-client,mysql-community-common,mysql-community-libs,mysql-community-server
+```
+
+# mysql 配置
+mkdir -p /data/mysql/{data,log-bin}
+chown -R mysql:mysql /data/mysql
+
+vim /etc/my.cnf
+```
+server-id=1
+log-bin=/data/mysql/log-bin/mysql-bin
+
+# mysql 有一个全局变量 log_timestamps 默认为UTC
+log_timestamps=SYSTEM
+
+datadir=/data/mysql/data
+```
+
+systemctl start mysqld
+# service mysqld restart
+
+systemctl status mysqld
+# service mysqld status
+ps aux|grep mysql
+
+
+# 查找默认 root 密码
+grep 'temporary password' /var/log/mysqld.log
+mysql -uroot -p
+
+# 修改 root 密码
+set password = password('y3KhN@KxExvJ');
+
+# 添加 root 远程用户
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'y3KhN@KxExvJ' WITH GRANT OPTION;
+flush privileges;
+
+# 本地 root 用户无密码登录
+# ALTER USER 'root'@'localhost' IDENTIFIED BY '';
+
+# 创建其他用户
+CREATE USER 'kwok'@'%' IDENTIFIED BY '123456';
+
+# 删除用户
+DROP USER 'kwok'@'%';
+
+# 用户密码验证逻辑配置
+# SHOW VARIABLES LIKE 'validate_password%';
+# set global validate_password_policy=LOW;
+# set global validate_password_length=1;
+# flush privileges;
+
+# 关于 mysql 密码策略相关参数；
+① validate_password_length  固定密码的总长度；
+② validate_password_dictionary_file 指定密码验证的文件路径；
+③ validate_password_mixed_case_count  整个密码中至少要包含大/小写字母的总个数；
+④ validate_password_number_count  整个密码中至少要包含阿拉伯数字的个数；
+⑤ validate_password_policy 指定密码的强度验证等级，默认为 MEDIUM；
+	关于 validate_password_policy 的取值：
+		a.0/LOW：只验证长度；
+		b.1/MEDIUM：验证长度、数字、大小写、特殊字符；
+		c.2/STRONG：验证长度、数字、大小写、特殊字符、字典文件；
+⑥ validate_password_special_char_count 整个密码中至少要包含特殊字符的个数；
+
+
+
+# 当前用户权限
+SHOW GRANTS;
+
+# 数据库列表
+SHOW DATABASES;
+
+
+
+### 定期备份数据库
+# 创建备份用户，赋权
+GRANT SELECT, LOCK TABLES, SHOW VIEW, EVENT, TRIGGER, PROCESS, RELOAD, SUPER, REPLICATION CLIENT ON *.* TO 'backup'@'localhost' IDENTIFIED BY '123456';
+FLUSH PRIVILEGES;
+
+mkdir -p /opt/backup/mysql/
+
+mysqldump -u backup --all-databases -p'123456' > /opt/backup/mysql/backup_$(date +%Y%m%d%H%M%S).sql
+mysqldump -u backup -p'123456' -R --master-data=2 --all-databases > /opt/backup/mysql/backup_$(date +%Y%m%d%H%M%S).sql
+mysqldump -u backup -p'123456' -R --master-data=2 --all-databases | gzip > /opt/backup/mysql/backup_$(date +%Y%m%d%H%M%S).sql.gz
+
