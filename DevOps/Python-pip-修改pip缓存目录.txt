@@ -1,0 +1,42 @@
+# Python-pip-修改pip缓存目录
+
+
+# 默认 pip 缓存目录：
+### Windows: 
+	C:\Users\${用户名}\AppData\Local\pip\cache
+
+### Linux: 
+	~/.cache/pip
+
+
+# 修改方式：
+
+1.命令方式：pip config set global.cache-dir "D:\kwok\data\pip-cache"
+
+2.配置文件方式：
+① Windows:
+
+C:\Users\${用户名}\AppData\Roaming\pip\pip.ini(优先级高)
+或：
+C:\Users\${用户名}\pip\pip.ini
+
+```
+[global]
+cache-dir = D:\kwok\data\pip-cache
+```
+
+② Linux:
+
+~/.config/pip/pip.conf(优先级高)
+或：
+~/.pip/pip.conf
+
+```
+[global]
+cache-dir = /opt/pip-cache
+```
+
+
+# 验证：
+pip config list
+
