@@ -833,6 +833,8 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 		2、count 默认每次返回 10，每次迭代返回的元素数量不固定。(例 Set 结构中储存 100w 数据，删除大部分数据，剩余 1000 条后，遍历获取数据每次 sscan 返回的 count 非常不稳定。)
 		3、Set 结构直接获取所有成员：jedis.smembers(key);
 
-90.
+90.JAVA switch (flag){...} 语句中 `flag` 不能为 null，否则抛 NullPointerException 异常。
+
+91.
 
 

@@ -1,0 +1,31 @@
+# Python-Django-基础命令
+
+
+1.安装 Django 新版 pip install Django
+(python -m pip install Django)
+
+2.查看 Django 版本 
+python -m django --version
+
+3.创建 Django 项目 
+django-admin startproject test_django
+
+4.运行 Django 项目(非生产环境，生产环境推荐使用 Python+Django+Nginx+uWSGI)
+python manage.py runserver
+(python manage.py runserver 0.0.0.0:8000)
+
+5.启用 Django admin 模块
+python manage.py migrate
+python manage.py createsuperuser
+
+6.创建 Django 项目自定义模块
+python manage.py startapp apps
+python manage.py makemigrations
+python manage.py migrate
+
+
+
+拓展：
+	WSGI，全称 Web Server Gateway Interface，是为 Python 语言定义的 Web 服务器和 Web 应用程序或框架之间的一种简单而通用的接口。自从 WSGI 被开发出来以后，许多其它语言中也出现了类似接口。
+
+
