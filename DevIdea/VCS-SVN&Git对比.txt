@@ -1,0 +1,12 @@
+VCS-SVN & Git对比：
+
+
+# VCS 
+	VCS(Version Control System) 版本控制系统。
+
+# SVN
+	svn(Subversion)	集中式版本管理工具，按文件储存在中央服务器中央仓库(Repository)，维护有全局版本号，有网才能提交，属于非本地版本库，有严格的权限管控，适用于项目管理。
+
+# GIT
+	git 分布式版本管理工具，按元数据方式存储，适用于代码管理，客户端拥有完整的版本库。
+
