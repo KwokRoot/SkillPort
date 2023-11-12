@@ -1,0 +1,218 @@
+Git-基础命令
+
+# 配置 git
+
+## 查看 git 配置
+git config [--global] -l
+## 设置配置项
+git config [--global] user.name "${name}"
+git config [--global] user.email "${email}"
+
+
+# 从远程仓库克隆整个项目
+git clone ${url}
+
+# 初始化项目
+git init ${project-name}：创建或在当前目录初始化一个git代码库
+
+# 查看当前分支状态
+git status
+
+# 提交全部文件修改到暂存区
+git add .
+
+# 提交某些文件到暂存区
+git add <目录或文件> 
+
+# 重置暂存区的指定文件，与上一次 commit 保持一致，但工作区不变
+git reset [file]
+
+# 查看现在 commit 提交后，会提交哪些内容
+git diff --staged
+git diff --cached
+git diff ${commit-id}
+
+# 提交时显示所有diff信息
+git commit -v
+
+# 提交代码到本地仓库，并写提交注释
+git commit -m "<注释>"
+
+# 提交记录
+git log
+
+# 查看某人提交记录
+git log --author=someone
+
+# 文件提交历史详情
+git log -p ${filename}
+
+# 查看某次提交具体修改内容
+git show ${commit-id}
+
+# 文件历史修改记录
+git blame ${filename}
+
+
+# 显示所有远程仓库
+git remote -v
+
+# 获取线上最新版信息记录，不合并。
+git fetch
+
+# 下载远程仓库的所有变动
+git fetch [remote]
+
+# 拉取远程仓库的分支与本地当前分支合并
+git pull <远程仓库名> <远程分支名>
+
+# 拉取远程仓库的分支与本地某个分支合并
+git pull <远程仓库名> <远程分支名>:<本地分支名>
+
+# 上传本地指定分支到远程仓库
+git push [remote] [branch]
+
+# 强行推送当前分支到远程仓库，即使有冲突
+git push [remote] --force
+
+# 推送所有分支到远程仓库
+git push [remote] --all
+
+# 合并分支到当前分支
+git merge <分支名>
+# 合并分支出现冲突时，取消合并，一切回到合并前的状态
+git merge --abort
+
+# 变基合并分支到当前分支
+git rebase <分支名>
+
+
+
+# branch
+
+# 列出所有分支
+git branch -a
+
+# 查看远程分支
+git branch -r
+
+# 创建新分支
+git branch ${branch-name}
+
+# 某次提交创建新分支
+git branch ${branch-name} ${commit-id}
+
+# 切换分支
+git checkout ${branch-name}
+
+# 创建并切换到该分支
+git checkout -b ${branch-name}
+
+# 合并分支
+git merge ${branch-name}
+
+# 变基合并分支到当前分支
+git rebase <分支名>
+
+# 删除本地分支
+git branch -d ${branch-name}
+
+# 强制删除分支
+git branch -D [分支]
+# git branch -d 会在删除前检查 merge 状态。
+# git branch -D 是 git branch --delete --force 的简写，它会直接删除。
+
+
+# 删除远程仓库的分支
+git push origin --delete [分支]
+
+
+
+# tag
+
+# 创建新标签
+git tag ${tag-name}
+# 历史版本创建标签
+git tag -a v0.1 -m "注释" ${commit-id}
+
+# 标签列表
+git tag [-l]
+
+# 标签详情
+git show ${tag-name}
+
+# 远程标签列表
+git ls-remote --tags origin
+
+# 推送所有本地 tag 到远程
+git push origin --tags
+
+# 推送本地指定 tag 到远程
+git push origin ${tag-name}
+
+# 拉取远程指定tag
+git fetch origin [远程tag名]
+
+# 删除标签
+git tag -d ${tag-name}
+
+# 删除本地所有的标签 
+git tag -l | xargs git tag -d
+
+# 删除远程指定tag
+git push origin :refs/tags/[远程tag名]
+
+# 从远程拉取所有信息
+git fetch origin --prune
+
+
+
+# stash
+
+# 存储修改，并且将 git 的工作状态切回到 上次提交的 HEAD 上。
+git stash save ["message"]
+
+# 查看所有 stash 列表
+git stash list 
+
+# 查看某个特定 stash 与当前目录的差异。默认最新保存的 stash。
+git stash show [stash]
+
+# 查看详细的差异
+git stash show -p
+
+# 将某个 stash 变更应用到当前工作目录。这个 stash 不会从 stash 列表中移除。如果不指定 stash，默认会应用最新的 stash。
+git stash apply [stash]
+
+# git stash apply 类似，但在应用完 stash 后会将该 stash 从 stash 列表中删除。
+git stash pop [stash]
+
+# 删除某个 stash，从 stash 列表中移除。如果不指定 stash，默认会删除最新的 stash。
+git stash drop [stash]
+
+# 删除所有的stash，它会清除所有保存的 stash 记录，！！！慎用。
+git stash clear
+
+# 创建一个新分支并将某个 stash 的变更应用到新分支上。这样可以在一个干净的环境中继续开发。
+git stash branch <branchname> <stash>]
+
+
+
+# 拓展
+
+① tag & branch 区别：
+	tag 是一系列 commit 中的一个点，只能查看，不能移动，tag 是静态的。
+	branch 是一系列串联的 commit 的线，branch 是动态的。
+
+
+② fetch & pull 区别：
+	fetch 从远程获取代码库。
+	pull 从远程获取代码并合并本地的版本。
+	git pull = git fetch + git merge
+
+
+③ merge & rebase 区别：  
+	merge & rebase 都是合并分支到当前分支。
+	merge 合并分支会新增一个 merge commit，对现有分支不会以任何方式被更改。
+	rebase 会将整个分支移动到另一个分支上，整合了所有分支上的提交。rebase 主要的好处是历史记录更加清晰，在原有提交的基础上合并了分支每次的提交历史，并消除了 git merge 合并提交。
+
