@@ -1,0 +1,18 @@
+Nodejs Http 服务器：
+
+
+# http-server
+
+npm install -g http-server
+http-server dist
+# http-server -p 8081 dist
+
+
+
+# serve
+
+npm install -g serve
+serve dist
+serve -l 8081 dist
+
+
