@@ -198,6 +198,17 @@ git stash branch <branchname> <stash>]
 
 
 
+# diff
+
+# 列出分支差异文件
+git diff master dev --stat
+# 列出某文件差异
+git diff master dev -- ${fileName}
+# 列出所有差异
+git diff master dev
+
+
+
 # 拓展
 
 ① tag & branch 区别：
