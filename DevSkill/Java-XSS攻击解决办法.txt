@@ -1,0 +1,28 @@
+XSS攻击防范及解决方案：
+
+1.后端在处理前端用户提交的数据，要进行转义处理。
+
+	org.nutz:nutz包：
+
+		//转义
+		System.out.println(Strings.escapeHtml("<code> <script type=\"text/javascript\"> alert(\"110\"); </script> </code>"));
+		System.out.println(Strings.escapeHtmlQuick("<code> <script type=\"text/javascript\"> alert(\"110\"); </script> </code>"));
+
+
+	org.apache.commons:commons-text 包：
+
+		//转义
+		System.out.println(StringEscapeUtils.escapeHtml4("<code> <script type=\"text/javascript\"> alert(\"110\"); </script> </code>"));
+
+		//反转义
+		System.out.println(StringEscapeUtils.unescapeHtml4("&lt;code&gt; &lt;script type=&quot;text/javascript&quot;&gt; alert(&quot;110&quot;); &lt;/script&gt; &lt;/code&gt;"));
+
+2.当出现某些字段的后端储存已经存在 JS 脚本时，前端在显示该字段时可以使用<xmp></xmp>标签处理。
+
+	String input = "<script type=\"text/javascript\">alert(\"110\");</script>";
+
+	<xmp>
+		${input}
+	</xmp>
+
+
