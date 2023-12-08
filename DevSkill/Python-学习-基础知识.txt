@@ -25,9 +25,10 @@ Python-学习-基础知识：
 	2> pip list
 	3> pip uninstall redis
 
+	注：`pip uninstall xxx`，只会卸载指定的包，指定包的依赖不能被卸载。
+
 
 3.pip 离线安装依赖
-
 	1> 导出依赖库：
 		pip freeze > lib/requirements.txt
 
@@ -38,6 +39,8 @@ Python-学习-基础知识：
 	3> 无网设备离线安装：
 		cd lib
 		pip install --no-index --find-links=./ -r requirements.txt
+	
+	注：经测试验证(pip-V18.1)，`pip install -r requirements.txt` 执行过程中某个包安装失败，`requirements.txt` 里的其他依赖均不会被安装。
 
 
 4.包模块(导入)
@@ -83,7 +86,6 @@ Python-学习-基础知识：
 
 
 9.Python 语法提示基础：
-	
 	obj = list(["a", "b", "c"])
 
 	# ① 获取对象类型
@@ -107,5 +109,12 @@ Python-学习-基础知识：
 
 	# ⑥ 启动一个 HTTP 服务展示说明文档。
 	python -m pydoc -p 1234
+
+
+10.Python 启用一个简单的 Web 服务 或 文件服务器：
+	# Python3
+	python -m http.server [端口号，默认8000]
+	# Python2
+	python -m SimpleHTTPServer [端口号，默认8000]
 
 
