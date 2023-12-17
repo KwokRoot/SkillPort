@@ -1,0 +1,48 @@
+Git 代码量统计
+
+# 使用 Git 命令，统计代码量
+(注：打开 Git Bash 窗口，切换到操作项目的根目录<即`.git`文件夹所在目录>)。
+
+
+1.统计当前项目代码行数
+git ls-files | xargs cat | wc -l
+
+
+2.统计每个文件的代码行数
+git ls-files | xargs wc -l
+
+
+3.统计`*.后缀名`代码总行数
+find . "(" -name "*.java"  -or -name "*.xml" ")" -print | xargs cat | wc -l
+
+
+4.每人的代码量统计
+git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+
+
+5.根据时间，每人的代码量统计
+git log --format='%aN' | sort -u | while read name; do echo -en "$name\t"; git log --since="2023-01-01" --before="2023-12-31" --author="$name" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }' -; done
+
+注：git log 参数说明：
+	`--author` 或 `--committer`	代码提交人用户名
+	`--since`  或 `--after` 	统计开始时间
+	`--until`  或 `--before`	统计结束时间
+
+
+6.查看排名前 5 的仓库提交者
+git log --pretty='%aN' | sort | uniq -c | sort -k1 -n -r | head -n 5
+
+
+7.指定作者, 指定时间的代码量统计
+git log --since="2023-01-01" --before="2023-12-31" --author="username" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc }'
+
+
+8.输出【分支】 提交记录(短commitHash，提交人，提交时间，提交说明)
+git log --pretty=format:"%h - %an, %ar : %s"
+git log master --pretty=format:"%h - %an, %ar : %s"
+
+注：参数(PRETTY FORMATS)说明：
+	`%ar` 时间相对表达(2 weeks ago)
+	`%ai` 时间数字表达(2023-12-16 18:00:00)
+
+
