@@ -1,0 +1,128 @@
+Linux-rsync服务器客户端模式同步
+
+rsync（Remote Sync，远程同步）
+rsync 两种认证协议：
+	① SSH 协议(默认)
+	② rsync 协议。C/S架构(客户端-服务器模式)，默认端口 873。
+
+
+# 安装
+rpm -qa |grep rsync
+yum -y install rsync
+rsync --version
+
+
+
+① 使用方式1：SSH 协议
+
+### 本地目录同步到远程
+rsync -avz source/ username@remote_host:destination
+### 远程目录同步到本地
+rsync -av username@remote_host:source/ destination
+
+### `-e` 指定 SSH 端口
+rsync -avz -e 'ssh -p 22' source/ user@remote_host:/destination
+
+
+
+② 使用方式2：rsync协议(rsync-daemon模式)
+
+## rsync 协议服务端配置
+
+vim /etc/rsyncd.conf
+
+```
+log file = /var/log/rsyncd.log
+pidfile = /var/run/rsyncd.pid
+lock file = /var/run/rsync.lock
+secrets file = /etc/rsync.pass
+
+uid = root
+gid = root
+port = 873
+ignore errors
+use chroot = no
+read only = no
+list = no
+max connections = 300
+timeout = 600
+auth users = backup
+hosts allow = 192.168.10.0/24,192.168.20.0/24
+dont compress = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2
+
+[logSync]
+path=/opt/backup/logs
+comment=sync logs from client
+```
+
+echo 'backup:123456' > /etc/rsync.pass
+chmod 600 /etc/rsync.pass
+
+
+systemctl start rsyncd
+systemctl restart rsyncd
+systemctl enable rsyncd
+
+### 开启 rsync 服务端端口
+# firewall-cmd --zone=public --add-port=873/tcp --permanent && firewall-cmd --reload
+iptables -I INPUT -p tcp --dport 873 -j ACCEPT
+service iptables save
+
+
+### 查看模块列表(需要服务端配置：list = yes)
+rsync rsync://192.168.110.100
+
+
+
+## rsync协议客户端配置：
+echo '123456' > /etc/rsync.pass
+chmod 600 /etc/rsync.pass
+
+
+### rsync 协议客户端命令格式1：
+sudo rsync -avH --port 873 --progress --delete /opt/app/logs/{xxx}/ backup@192.168.110.100::logSync/{xxx}/192.168.10.11 --password-file=/etc/rsync.pass
+
+### rsync 协议客户端命令格式2：
+sudo rsync -avH --port 873 --progress --delete /opt/app/logs/{xxx}/ rsync://backup@192.168.110.100/logSync/{xxx}/192.168.10.11 --password-file=/etc/rsync.pass
+
+
+
+# 拓展
+
+## 定时同步(与crontab结合)
+crontab -e
+```
+*/5 * * * * rsync -aq --port 873 --progress --delete /opt/app/logs/{xxx}/ backup@192.168.110.100::logSync/{xxx}/192.168.10.11 --password-file=/etc/rsync.pass
+```
+
+
+## 实时备份(inotify)：
+
+rpm -qa inotify-tools
+yum install -y inotify-tools
+
+vim /opt/inotify.sh
+```
+#!/bin/bash
+INOTIFY_CMD="inotifywait -mrq -e modify,create,attrib,move,delete /opt/app/logs/"
+RSYNC_CMD="rsync -azH --delete --password-file=/etc/rsync.pass /opt/app/logs/ backup@192.168.110.100::logSync/{xxx}/192.168.10.11"
+#使用while、read持续获取监控结果，根据结果可以作进一步判断是否读取到输出的监控记录
+$INOTIFY_CMD | while read DIRECTORY FILE EVENT
+do
+    if [ $(pgrep rsync | wc -l) -le 0 ] ; then
+	#如果rsync未在执行，则立即启动
+        $RSYNC_CMD
+    fi
+done
+```
+
+
+## Nginx 配置日志目录示例：
+
+location /{xxx} {
+	root /opt/backup/logs;
+	autoindex on;				# 显示目录
+	autoindex_exact_size off;	# 显示文件大小
+	autoindex_localtime on;		# 显示文件时间为服务器时间格式
+}
+
