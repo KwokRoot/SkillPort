@@ -1,0 +1,32 @@
+# Maven-项目中输出Maven打包时间
+
+
+① pom.xml
+```
+<properties>
+    <!--指定时间格式-->
+    <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss.SSS'Z'</maven.build.timestamp.format>
+    <!--maven.build.timestamp maven 编译时间戳(UTC)-->
+    <timestamp>${maven.build.timestamp}</timestamp>
+</properties>
+
+<build>
+    <resources>
+        <resource>
+            <directory>src/main/resources/</directory>
+            <filtering>true</filtering>
+        </resource>
+    </resources>
+</build>
+```
+
+② 创建：src/main/resources/maven.properties
+```
+# maven 打包时间
+maven.package_time=@timestamp@
+# 经测试 SpringBoot 不支持 `${}` 形式。
+# maven.package_time=${timestamp}
+```
+
+③ 编译后 `target\classes` 或 打包后 `JAR` 文件中的 `maven.properties` 中的值引用会被替换。也可在程序中读取 `maven.properties` 通过 http 接口方式返回。 
+
