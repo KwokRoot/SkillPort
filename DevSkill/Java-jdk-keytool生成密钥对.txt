@@ -1,0 +1,25 @@
+keytool 生成密钥对：
+
+
+# 生成 keystore
+keytool -genkeypair -alias testkey -keyalg RSA -validity 36500 -keysize 2048 -keystore testkeystore.jks
+
+# 格式化 testkeystore.jks 到行业标准 `PKCS12` 格式
+keytool -importkeystore -srckeystore testkeystore.jks -destkeystore testkeystore.jks -deststoretype pkcs12
+
+
+# 查看 keystore 信息
+keytool -list -v -keystore testkeystore.jks
+
+
+# 导出自签公钥证书
+keytool -export -alias testkey -keystore testkeystore.jks -rfc -file testcert.cer
+
+
+# 从 公钥证书 testcert.cer 导出 truststore
+keytool -import -alias testkey -file testcert.cer -keystore testtruststore.jks
+
+
+# 查看 testtruststore 信息
+keytool -list -v -keystore testtruststore.jks
+
