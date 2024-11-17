@@ -1,0 +1,136 @@
+Linux-服务器-辨别实体机OR虚拟机:
+
+
+# 快速命令
+① lscpu(查看CPU信息)
+lscpu
+Hypervisor vendor: KVM (超管理器厂商：KVM。虚拟机：KVM / VMware)
+Virtualization: VT-x（虚拟化：VT-x。实体机：VT-x / AMD-V）
+
+② systemd-detect-virt(检测当前系统是否正在运行于虚拟机)
+systemd-detect-virt
+实体机：none
+虚拟机：KVM / VMware
+
+
+
+# 其他命令
+① lshw 命令
+lshw（ls hardware）是一个提取机器硬件配置详细信息的工具，它能为我们提供内存配置、固件版本、主板配置信息、cpu版本和速度、cache信息、总线速度等。并且能将结果输出成HTML、XML、json等格式。
+
+yum install -y lshw
+
+lshw -class system
+实体机示例：
+description: Rack Mount Chassis
+    product: PowerEdge R440 (SKU=xxx;ModelName=PowerEdge R440)
+    vendor: Dell Inc.
+    serial: xxxxxx
+    width: 64 bits
+    capabilities: smbios-3.2.0 dmi-3.2.0 smp vsyscall38
+
+虚拟机示例：
+description: Computer
+    product: VMware Virtual Platform
+    vendor: VMware, Inc.
+    version: None
+    serial: VMware-42 1e xx xx xx
+    width: 64 bits
+    capabilities: smbios-2.4 dmi-2.4 smp vsyscall38
+
+
+② dmidecode 命令
+dmidecode命令可以让你在Linux系统下获取有关硬件方面的信息。dmidecode的作用是将DMI数据库中的信息解码，以可读的文本方式显示。由于DMI信息可以人为修改，因此里面的信息不一定是系统准确的信息。dmidecode遵循SMBIOS/DMI标准，其输出的信息包括BIOS、系统、主板、处理器、内存、缓存等。
+
+dmidecode -t [类型]
+[类型]：
+baseboard：获取主板信息，包括制造商、型号、序列号等。
+bios：获取BIOS信息。
+processor：获取处理器信息。
+memory：获取内存信息。
+system：获取系统信息。
+
+
+dmidecode -t system
+
+实体机示例：
+System Information
+        Manufacturer: Dell Inc.
+        Product Name: PowerEdge R440
+        Version: Not Specified
+        Serial Number: *******
+        UUID: xxx-xxx
+        Wake-up Type: Power Switch
+        SKU Number: SKU=xxx;ModelName=PowerEdge R440
+        Family: PowerEdge
+
+
+虚拟机示例：
+System Information
+        Manufacturer: VMware, Inc.
+        Product Name: VMware Virtual Platform
+        Version: None
+        Serial Number: VMware-42 1e xx xx xx
+        UUID: xxx-xxx
+        Wake-up Type: Power Switch
+        SKU Number: Not Specified
+        Family: Not Specified
+
+虚拟机示例：
+System Information
+    Manufacturer: innotek GmbH
+    Product Name: VirtualBox
+    Version: 1.2
+    Serial Number: 0
+    UUID: xxx-xxx
+    Wake-up Type: Power Switch
+    SKU Number: Not Specified
+    Family: Virtual Machine
+
+
+dmidecode -s system-manufacturer(`-s` 或 `--string`：显示指定关键字的字符串值)
+实体机示例：
+Dell Inc.
+
+虚拟机示例：
+VMware, Inc.
+
+
+dmidecode -s system-product-name
+实体机示例：
+PowerEdge R440
+
+虚拟机示例：
+VMware Virtual Platform
+
+虚拟机示例：
+VirtualBox
+
+
+③ dmesg 命令
+dmesg 命令在 Linux 系统中用于显示和控制内核的环形缓冲区，内核在启动过程中会将信息存储在这个缓冲区中。使用 dmesg 可以有效诊断机器硬件故障或者添加硬件出现的问题。另外，使用 dmesg 可以确定服务器安装了哪些硬件。每次系统重启，系统都会检查所有硬件并将信息记录下来。开机信息会保存在 /var/log/dmesg 文件里，执行 dmesg 命令可以查看该记录。
+
+
+dmesg | grep -i virtual  或 grep -i virtual /var/log/dmesg
+
+实体机示例：
+[    0.000000] Booting paravirtualized kernel on bare hardware
+[    2.584051] systemd[1]: Starting Setup Virtual Console...
+[  978.947822] usb 1-14.2: Product: DRAC 5 Virtual Keyboard and Mouse
+[  978.959173] input: DELLEMC DRAC 5 Virtual Keyboard and Mouse as /devices/pci0000:00/0000:00:14.0/usb1/1-14/1-14.2/1-14.2:1.0/input/input2
+[  978.959398] hid-generic 0003:xxx:0000.0001: input,hidraw0: USB HID v1.01 Mouse [DELLEMC DRAC 5 Virtual Keyboard and Mouse] on usb-0000:00:14.0-14.2/input0
+[  978.966059] input: DELLEMC DRAC 5 Virtual Keyboard and Mouse as /devices/pci0000:00/0000:00:14.0/usb1/1-14/1-14.2/1-14.2:1.1/input/input3
+[  979.017077] hid-generic 0003:xxx:0000.0002: input,hidraw1: USB HID v1.01 Keyboard [DELLEMC DRAC 5 Virtual Keyboard and Mouse] on usb-0000:00:14.0-14.2/input1
+
+虚拟机示例：
+[    0.000000] DMI: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 12/12/2018
+[    0.000000] Booting paravirtualized kernel on VMware hypervisor
+[    0.987151] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input2
+[    0.987368] input: VirtualPS/2 VMware VMMouse as /devices/platform/i8042/serio1/input/input3
+[    0.999709] systemd[1]: Detected virtualization vmware.
+[    1.027810] systemd[1]: Starting Setup Virtual Console...
+[    1.195212] scsi 0:0:0:0: Direct-Access     VMware   Virtual disk     1.0  PQ: 0 ANSI: 2
+[    1.196792] VMware vmxnet3 virtual NIC driver - version 1.4.16.0-k-NAPI
+[    1.376914] ata2.00: ATAPI: VMware Virtual IDE CDROM Drive, 00000001, max UDMA/33
+
+
