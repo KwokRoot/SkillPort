@@ -1,0 +1,52 @@
+Nginx正向代理配置：
+
+# Nginx 正向代理默认只支持 http 协议，不支持 https 协议，需借助 "ngx_http_proxy_connect_module" 模块实现 https 正向代理：
+https://github.com/chobits/ngx_http_proxy_connect_module
+
+# 安装Nginx某些模块会用到的系统类库
+yum install -y dnf install libxml2 libxml2-devel libxslt-devel gcc gcc-c++ make pcre pcre-devel zlib zlib-devel openssl openssl-devel patch perl-ExtUtils-Embed gd-devel geoip-devel gperftools gperftools-devel
+
+# 下载 nginx
+mkdir -p /opt/nginx && cd /opt/nginx
+wget http://nginx.org/download/nginx-1.22.1.tar.gz
+tar -xzvf nginx-1.22.1.tar.gz
+
+# 下载 ngx_http_proxy_connect_module 模块
+mkdir -p /opt/packages && cd /opt/packages
+unzip ngx_http_proxy_connect_module-master.zip
+mv ngx_http_proxy_connect_module-master /opt/packages/ngx_http_proxy_connect_module
+
+# 编译安装 nginx
+cd /opt/nginx/nginx-1.22.1/
+patch -p1 < /opt/packages/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_102101.patch
+./configure --add-module=/opt/packages/ngx_http_proxy_connect_module ...
+make && make install
+
+# 配置 nginx
+vim conf/nginx.conf
+```
+    server {
+        listen 8888;
+        resolver 8.8.8.8 ipv6=off;
+        proxy_connect;
+        proxy_connect_allow 443 80;
+        location / {
+            proxy_pass $scheme://$http_host$request_uri;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_connect_timeout 10;
+            proxy_send_timeout 600;
+            proxy_read_timeout 600;
+
+        }
+    }
+```
+
+# 重启 nginx。（注：`/sbin/nginx -s reload` 新增模块时重启有时不生效。）
+cd /opt/nginx/
+./sbin/nginx -s stop
+./sbin/nginx
+
+
