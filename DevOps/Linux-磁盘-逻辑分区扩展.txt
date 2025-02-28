@@ -1,0 +1,26 @@
+# 磁盘逻辑分区扩展
+
+
+1、查看磁盘容量
+fdisk -l 或 lsblk
+
+2、安装工具
+yum install -y cloud-utils-growpart
+
+3、扩展分区
+growpart /dev/vdb 1
+
+4、根据文件系统类型，刷新文件系统容量‌
+
+### 查看文件系统类型：
+df -T 或 lsblk -f
+
+## ext4 文件系统
+resize2fs /dev/vdb1
+
+## xfs 文件系统：
+xfs_growfs /dev/vdb1
+
+5、确认磁盘大小
+df -h
+

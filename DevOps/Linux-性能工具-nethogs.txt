@@ -1,0 +1,26 @@
+# nethogs
+
+
+# 安装 nethogs，nethogs 不在官方发行版默认安装包内
+# EPEL（Extra Packages for Enterprise Linux）仓库
+yum install -y epel-release
+yum install -y nethogs
+
+
+# 可查看指定网络
+nethogs ens33 
+
+
+
+# 常用参数如下：
+
+-d：设置刷新的时间间隔，默认为 1s。
+-t：开启跟踪模式。
+-c：设置更新次数。
+device：设置要监测的网卡，默认是eth0。
+运行时可以输入以下参数完成相应的操作：
+- q：退出nethogs工具。
+- s：按发送流量大小的顺序排列进程列表。
+- r：按接收流量大小的顺序排列进程列表。
+- m：切换显示计量单位，切换顺序依次为KB/s、KB、B、MB。
+

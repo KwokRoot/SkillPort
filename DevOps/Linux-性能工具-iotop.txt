@@ -1,0 +1,15 @@
+# iotop
+
+
+# 安装 iotop
+yum install -y iotop
+
+# 显示活跃I/O进程 
+iotop -oP
+
+# 列出进程打开的文件
+lsof -p ${pid}
+
+# 查看文件描述符指向的具体文件
+ls -l /proc/${pid}/fd
+

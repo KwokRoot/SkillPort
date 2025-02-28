@@ -1,0 +1,27 @@
+# 本地分支维护
+
+### 创建新分支
+git branch new
+
+### copy 分支到新分支
+git branch -c old new
+
+### 切换到新的分支
+git checkout new
+
+### 列出所有分支
+git branch -a
+
+
+
+# 本地 Git 库推送到远程仓库
+
+### 设置远程分支地址
+git remote add origin https://github.com/KwokRoot/xxx.git
+
+### 推送本地分支 dev 到远程分支
+git push origin dev
+
+### 推送本地所有分支到远程分支
+git push --all origin
+
