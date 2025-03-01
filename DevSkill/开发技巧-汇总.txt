@@ -835,6 +835,65 @@ Stream.generate(() -> 1).limit(3).forEach(System.out::println);
 
 90.JAVA switch (flag){...} 语句中 `flag` 不能为 null，否则抛 NullPointerException 异常。
 
-91.
+91.JAVA 双括号初始化(Double Brace Initialization)，是一种创建匿名子类并添加实例初始化块的方式。外层的大括号表示匿名类的开始，内部的大括号是实例初始化块。这种方法允许你在声明集合的同时初始化它，使得代码看起来更加简洁。然而，从Java 9 开始，这种初始化方式在某些情况下已经被标记为过时(deprecated)。
+	用法示例：
+		List<String> list = new ArrayList<String>() {{
+		    add("Element 1");
+		    add("Element 2");
+		}};
 
+92.Maven 命令下载源码、下载 javadocs、导出依赖
+	mvn dependency:sources
+	mvn dependency:resolve -Dclassifier=javadoc
+	mvn dependency:copy-dependencies -DoutputDirectory=libs
+
+93.MySQL 大小写不敏感模式
+	① MySQL 大小写不敏感模式查询(0 代表敏感，1 代表不敏感)：
+		show variables like 'lower_case_table_names';
+	
+	② 修改默认模式为不敏感(Linux 默认为敏感模式)：
+		vim /etc/my.cnf
+		```
+		[mysqld]
+		
+		lower_case_table_names = 1
+		```
+
+94.SQL中 数据定义语言(DDL)，数据操纵语言(DML)，数据控制语言(DCL) 和 事务控制语言(TCL):
+	DDL（Data Definition Language）数据定义语言：CREATE、ALTER、DROP 等
+	DML（Data Manipulation Languag）数据操纵语言：SELECT、UPDATE、INSERT、DELETE 等
+	DCL（Data Control Language）数据库控制语言：GRANT、DENY、REVOKE 等
+	TCL (Transaction Control Language) 事务控制语言：COMMIT、ROLLBACK 等
+
+95.数据库隔离级别
+
+SQL标准中支持 4 种事务隔离级别：
+	READ_UNCOMMITTED(读未提交)
+	READ_COMMITTED(读已提交)
+	REPEATABLE_READ(可重复读)
+	SERIALIZABLE(串行读)
+
+MySQL innodb引擎支持全部这4种事务隔离级别，MySQL 数据库默认的事务隔离级别是 REPEATABLE_READ (可重复读)。
+	通过查询数据库提供的系统变量 tx_isolation 或 transaction_isolation 的值即可获取当前的事务隔离级别。
+	show variables like 'tx_isolation';
+	SELECT @@tx_isolation;
+	
+	show variables like 'transaction_isolation';
+	SELECT @@transaction_isolation;
+
+Spring 修改某 service 隔离级别：
+	@Transactional(isolation = Isolation.READ_COMMITTED)
+
+96.JAVA 服务器常见启动参数解释：
+	-server 
+		① `-server`参数‌用于指定JVM（Java虚拟机）以服务器模式运行。服务器模式启动速度较慢，因为它需要加载更多的优化代码和库，占用内存较多，但它提供更好的性能，特别是在长时间运行的服务器应用程序中。适合于生产环境，尤其是在需要高吞吐量和低延迟的场景。‌
+		② 从JDK 5开始，-server模式成为了默认的JVM模式。与之对应的有`-client`参数。
+		③ 服务器模式（-server）‌：启动速度较慢，但提供更好的性能，适合于生产环境，尤其是在需要高吞吐量和低延迟的场景。客户端模式（client）‌：启动速度更快，占用的内存较少，适合于客户端应用程序或在资源受限的环境中运行，通常用于开发和测试环境。‌
+	-Djava.awt.headless=true
+		① Java 的无头模式（Headless Mode），这种模式适用于那些不需要图形用户界面（GUI）的应用程序。在无头模式下，Java应用程序可以在没有显示器、键盘或鼠标的环境中运行，通常用于服务器端应用程序。
+		② 许多服务器端应用程序不需要图形界面，但在运行时可能需要使用 AWT 的功能，如生成图片验证码等。在这些情况下，使用无头模式以避免因缺少图形环境而导致的错误‌。在进行批处理任务时，通常不需要图形界面，使用无头模式可以提高效率和稳定性。
+	-Djava.security.egd=file:/dev/./urandom
+		Linux 或者部分 unix 系统提供随机数设备是 /dev/random 和/dev/urandom ，两个有区别，urandom 安全性没有 random 高，但 random需要时间间隔生成随机数。可能在生成随机数的时候卡住了,导致 tomcat 启动不了。在服务器启动时也可以加上参数`-Djava.security.egd=file:/dev/./urandom`，无论使用什么平台（DRBG），都可以利用最强大的 SecureRandom实现，避免使代码意外阻塞。
+
+97.
 

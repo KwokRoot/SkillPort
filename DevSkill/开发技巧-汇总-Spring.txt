@@ -20,4 +20,19 @@
     		@Scheduled(cron = "${task.cron:-}")
 	注：可参考 `org.springframework.scheduling.annotation.Scheduled#CRON_DISABLED` 实现
 
+5.SpringBoot 配置不自动装配某些模块。
+	/**
+	 * DataSourceAutoConfiguration.class	DataSource 模块配置
+	 * SecurityAutoConfiguration.class 		SpringSecurity 模块配置
+	 * ManagementWebSecurityAutoConfiguration.class		actuator 安全模块配置
+	 */
+	@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class, ManagementWebSecurityAutoConfiguration.class})
+	public class ServerStart {
+	    public static void main(String[] args) {
+	        SpringApplication.run(ServerStart.class, args);
+	    }
+	    
+	}
+6.
+
 
