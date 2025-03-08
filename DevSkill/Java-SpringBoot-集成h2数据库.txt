@@ -1,0 +1,38 @@
+# SpringBoot 集成 h2 数据库
+
+① `pom.xml` 配置
+```
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+
+② `application.properties` 配置
+```
+# DataSource settings: set URL for embedded database H2
+spring.datasource.url=jdbc:h2:D:/h2db/h2test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=root
+spring.datasource.password=123456
+
+# H2 Console settings
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+```
+
+③ SpringSecurity 放行 h2 数据库管理台地址。
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+		http.authorizeRequests().antMatchers("/h2/**").permitAll();
+		http.csrf().ignoringAntMatchers("/h2/**");
+		http.headers().frameOptions().sameOrigin();
+	}
+}
+
