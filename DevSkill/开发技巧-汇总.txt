@@ -895,5 +895,19 @@ Spring 修改某 service 隔离级别：
 	-Djava.security.egd=file:/dev/./urandom
 		Linux 或者部分 unix 系统提供随机数设备是 /dev/random 和/dev/urandom ，两个有区别，urandom 安全性没有 random 高，但 random需要时间间隔生成随机数。可能在生成随机数的时候卡住了,导致 tomcat 启动不了。在服务器启动时也可以加上参数`-Djava.security.egd=file:/dev/./urandom`，无论使用什么平台（DRBG），都可以利用最强大的 SecureRandom实现，避免使代码意外阻塞。
 
-97.
+97.while(true) 与 for(;;) 均可用于无限循环代码块，JAVA 中两者编译后的字节码完全一致，性能无差异。Netty 和 JDK 源码中 for(;;) 更常见。使用时避免空转CPU，无限循环内必须包含 Thread.sleep() 或阻塞操作（如队列等待）。
+
+98.Executors.newFixedThreadPool(10) 创建固定个数的线程池，一定注意该线程池的等待队列是没有长度限制的(Integer.MAX_VALUE)，没有确定的任务数，而使用 while(true) 通过线程池的线程数来限制执行频率方式不可取。
+	优化方案：
+	① 增加对线程等待队列的长度限制 `if(threadPoolExecutor.getQueue().size() < 1000){} else {sleep}` 的方式，来防止内存溢出。
+	② 使用 `new ThreadPoolExecutor()` 自定义线程池的方式，限制队列长度。
+	③ 使用 google guava 中 RateLimiter 工具类限制执行频率。
+
+99.创建线程池 `new ThreadPoolExecutor(24, 96, 1, TimeUnit.MINUTES, new LinkedBlockingDeque<>());` 代码中，`maximumPoolSize` 并不会被触发。因为设置的等待队列 `new LinkedBlockingDeque<>()` 是没有长度限制的。建议使用 `new LinkedBlockingDeque<>(1000)` 或 `new ArrayBlockingQueue<>(1000)` 有界等待队列。
+	注：ThreadPoolExecutor 线程扩容逻辑如下：
+    ① 新任务提交时，优先使用 `corePoolSize` 内的线程。
+    ② 当 `corePoolSize` 线程全忙，任务进入队列。
+    ③ 仅当队列已满且线程数小于 `maximumPoolSize` 时，才会创建新线程。
+
+100.JAVA中也有字符串格式化工具：`String.format(String format, Object... args)，通过占位符和参数组合，控制数据输出类型、对齐方式、宽度、精度等实现文本的格式化输出。
 
