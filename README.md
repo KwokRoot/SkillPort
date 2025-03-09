@@ -8,17 +8,26 @@
 │  README.md
 │
 ├─DevIdea
+│  │  JAVA三大特性.txt
 │  │  JAVA开发中为什么经常把JSON字符串反序列化为对应的结构化实体而不直接转JSONObject对象.txt
 │  │  Python优缺点总结.txt
+│  │  VCS-SVN&Git对比.txt
 │  │  Web用户身份识别机制.txt
+│  │  代理服务器.txt
 │  │  前端趋势思考-LayUI官网下线公告.png
 │  │  后台多接口合并遇到的问题.txt
 │  │  多维度标识单值表示法.txt
+│  │  工具类的意义.txt
+│  │  延迟与吞吐量关系.txt
+│  │  开发运维警示录.txt
+│  │  德·摩根定律在编程领域的应用.txt
 │  │  掌握一门编程开发语言的层级步骤.txt
 │  │  接手旧系统维护策略.txt
 │  │  接手旧系统重构策略.txt
 │  │  测试线、灰度线、正式线.txt
+│  │  程序员自我修养-思考度.txt
 │  │  第三方外部系统接入接口设计.md
+│  │  系统部署架构-分布式&集群.txt
 │  │  系统间数据更新策略.txt
 │  │  系统间消息同步策略.txt
 │  │  系统高可用实现方案.txt
@@ -31,8 +40,11 @@
 │  │  面对紧急临时需求应对策略.txt
 │  │
 │  └─image
+│          Git仅clone某个分支最后文件版本.png
 │          sign验证模式时序图.jpg
 │          token验证模式时序图.jpg
+│          论软件开发中记录异常外日志的重要性(2-1).jpg
+│          论软件开发中记录异常外日志的重要性(2-2).jpg
 │
 ├─DevOps
 │  │  DB-H2DB-H2Database使用.txt
@@ -50,7 +62,19 @@
 │  │  Eclipse-注释模版.txt
 │  │  Eclipse-设置编码格式、字体、启动虚拟机.txt
 │  │  Eclipse-设置默认编码.txt
+│  │  Git-分支模型-01(master).jpg
+│  │  Git-分支模型-02(master-dev).jpg
+│  │  Git-分支模型-03(TDB++).png
+│  │  Git-分支模型-03.png
+│  │  Git-分支模型.jpg
+│  │  Git-分支模型.txt
+│  │  Git-基本命令+.txt
+│  │  Git-基本命令.txt
+│  │  Git-基本命令视图.png
+│  │  Git-常用命令.txt
+│  │  Git-常用命令速查表.jpg
 │  │  Git-特殊命令.txt
+│  │  Git-统计命令.txt
 │  │  Gradle-打包为可执行的单独JAR包.txt
 │  │  Gradle-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
 │  │  IDEA-使用技巧.txt
@@ -58,6 +82,7 @@
 │  │  IDEA-常用插件.jpg
 │  │  IDEA-常用插件.txt
 │  │  Java-Arthas-临时执行线上SpringBoot项目Jar包的静态方法.txt
+│  │  JAVA-jenv-JDK版本管理.txt
 │  │  Java-SpringBoot-依赖本地Jar包pom.xml配置.txt
 │  │  Linux-Alpine-apk命令的使用.txt
 │  │  Linux-Audit-Linux审计服务Audit监控目录内文件变化.txt
@@ -65,22 +90,44 @@
 │  │  Linux-CentOS-安装配置JDK.txt
 │  │  Linux-CentOS-设置静态IP.txt
 │  │  Linux-CentOS-首次使用配置项.txt
+│  │  Linux-rsync服务器客户端模式同步.txt
+│  │  Linux-rsyslog服务.txt
 │  │  Linux-Shell脚本.txt
 │  │  Linux-Swap交换分区设置.txt
 │  │  Linux-Vim常用命令.txt
+│  │  Linux-Vim常用跳转命令汇总.txt
 │  │  Linux-修改JAR包配置文件.txt
 │  │  Linux-创建共享目录.txt
 │  │  Linux-命令-chroot.txt
 │  │  Linux-常用命令.txt
+│  │  Linux-性能工具-iotop.txt
+│  │  Linux-性能工具-nethogs.txt
 │  │  Linux-时间同步配置.txt
+│  │  Linux-服务器-辨别实体机OR虚拟机.txt
+│  │  Linux-杀死进程命令汇总.txt
 │  │  Linux-清理磁盘空间.txt
+│  │  Linux-磁盘-逻辑分区扩展.txt
+│  │  Maven-依赖-导出依赖JAR包，下载源码、javadoc.txt
 │  │  Maven-外置配置文件到项目config目录.txt
 │  │  Maven-打包为可执行的单独JAR包.txt
 │  │  Maven-打包为可执行的配置文件、依赖JAR包外置JAR包.txt
 │  │  Maven-插件-运行Maven插件的命令提示插件版本在仓库中找不到.txt
+│  │  Maven-项目中输出Maven打包时间.txt
+│  │  MongoDB-部署-tar包方式部署.txt
+│  │  MongoDB-部署-yum方式部署.txt
 │  │  MySQL-部署-mysqldump与binlog协同备份策略.txt
+│  │  MySQL-部署-tar包方式部署.txt
+│  │  MySQL-部署-yum方式部署.txt
+│  │  Nginx-代理-正向代理配置.txt
+│  │  Node.js-npm-http服务器.txt
+│  │  Node.js-npm-安装环境配置.txt
 │  │  OS-关于文件描述符(文件句柄).txt
 │  │  Python-pip-pip镜像源配置.txt
+│  │  Python-pip-修改pip缓存目录.txt
+│  │  Python-pip-搭建本地局域网镜像源.txt
+│  │  Python-pyenv-Python版本管理.txt
+│  │  Python-使用-创建Python虚拟环境.txt
+│  │  Python-安装-源码安装.txt
 │  │  Python-文件上传-快速搭建文件上传服务器.txt
 │  │  Salt-学习-基础知识.txt
 │  │  SpringBoot-JPA-@Query注解关联查询分页返回Map结构.txt
@@ -196,6 +243,7 @@
         IDE-基本配置-Java开发.txt
         IDE-常用操作.txt
         Java-Https-服务器自签名证书不被信任的解决办法.txt
+        Java-jdk-keytool生成密钥对.txt
         Java-JShell-Java交互式命令行工具JShell首次使用.txt
         Java-JVM-jps、jstack、jstat、jmap、jhat实践案例.txt
         Java-JVM-汇总.md
@@ -204,7 +252,10 @@
         Java-SpringBoot-SpringBoot依赖JAR包外置的2种方案.txt
         Java-SpringBoot-SpringSecurity相关问题.txt
         Java-SpringBoot-使用RedisTemplate乱码.txt
+        Java-SpringBoot-集成h2数据库.txt
         Java-WindowsService-把Jar包服务安装为Windows系统服务.txt
+        Java-XSS攻击解决办法.txt
+        Python-Django-基础命令.txt
         Python-学习-基础知识.txt
         Python-开发技巧.txt
         VM-VMwareWorkstation-首次使用.txt
