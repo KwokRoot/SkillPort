@@ -1,3 +1,28 @@
+# 工作区常用操作
+
+# 新建Git项目
+git init dir
+
+# 初始化当前目录为Git项目
+git init
+
+## 当前工作区状态(当前分支、文件状态[未跟踪文件、暂存文件])
+git status
+
+## 显示当前分支的提交记录(git log --all: 所有分支的提交记录)
+git log
+
+## 提交详情或文件差异
+git show
+
+## 比较文件或提交间的差异(比较工作区与暂存区的差异)
+git diff
+
+## 将暂存区内容提交到本地仓库
+git commit
+
+
+
 # 本地分支维护
 
 ### 创建新分支
@@ -24,4 +49,42 @@ git push origin dev
 
 ### 推送本地所有分支到远程分支
 git push --all origin
+
+
+
+# 分支合并常用操作
+
+# 将其他分支的所有提交合并到当前分支，并生成一个新的合并提交。`--squash` 合并其他分支的所有提交到暂存区，不提交。
+git merge [--squash] <其他分支名>
+
+# 将其他分支的所有提交合并到当前分支，修改当前分支的提交记录。
+git rebase <其他分支名>
+
+# 将其他分支的特定某次提交合并到当前分支。
+git cherry-pick <commit-hash>
+
+使用建议：
+团队协作：优先使用 merge，保留完整协作记录。
+个人分支：使用 rebase 整理提交历史，提升可读性。
+
+
+
+# 从远程仓库拉取分支
+
+# 仅下载远程更新，本地分支保持不变，需本地手工执行 git merge 或 git rebase 合并。
+git fetch origin main
+
+# 将远程某分支的所有提交合并到当前分支，fetch + merge
+git pull origin main
+
+
+
+# 撤销操作
+
+# 当前分支撤销最近 n 次提交，提交的内容放到工作区(未跟踪文件)。
+git reset HEAD~n
+
+# 当前分支撤销最近 n 次提交，提交的内容清空。
+git reset --hard head~n
+
 
