@@ -911,3 +911,6 @@ Spring 修改某 service 隔离级别：
 
 100.JAVA中也有字符串格式化工具：`String.format(String format, Object... args)，通过占位符和参数组合，控制数据输出类型、对齐方式、宽度、精度等实现文本的格式化输出。
 
+101.redis `blpop`,`brpop` 命令，以阻塞的方式消费队列，如果 timeout 设置为 0, 表示没有元素将无限期等待，直到有元素进入消费。
+
+

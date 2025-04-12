@@ -51,6 +51,12 @@ git restore <file>
 # 重置暂存区的指定文件，与上一次 commit 保持一致，但工作区不变
 git reset [file]
 
+# 预删除未跟踪文件列表(模拟操作，并不真正删除)
+git clean -n
+
+# 强制删除所有未跟踪文件
+git clean -f
+
 # 提交代码到本地仓库，并写提交注释
 git commit -m "<注释>"
 
