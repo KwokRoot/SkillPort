@@ -5,8 +5,11 @@ Maven 导出依赖的 JAR 包，下载依赖的源码、下载依赖的 javadoc:
 mvn dependency:copy-dependencies -DoutputDirectory=libs
 
 # 下载依赖的源码
-mvn dependency:sources
+mvn dependency:sources【推荐】
+或：
+mvn dependency:resolve -Dclassifier=sources
 
 # 下载依赖的 javadoc
 mvn dependency:resolve -Dclassifier=javadoc
+
 
