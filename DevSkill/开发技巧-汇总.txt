@@ -914,4 +914,18 @@ Spring 修改某 service 隔离级别：
 
 101.redis `blpop`,`brpop` 命令，以阻塞的方式消费队列，如果 timeout 设置为 0, 表示没有元素将无限期等待，直到有元素进入消费。
 
+102.正则字符串在正则表达式开头添加 (?i)标志，表示后续匹配不区分大小写。`java.util.regex.Pattern`JAVA Doc 文档：`(?flags)`​​全局​​ 设置或清除 匹配标志（影响之后所有匹配）,`(?flags:X)` 定义一个​​非捕获分组​​ X，并为​​该分组内部​​设置特定的（​​局部​​）匹配标志 (flags)，分组外的匹配行为保持不变。flags 有多种 Mode (i d m s u x U)，有设置【例(?i)​​，开启“忽略大小写”模式】或 清除【例(?-i)​​，关闭“忽略大小写”模式，恢复到“大小写敏感”模式（case-sensitive）】 两种状态。
+	例：java.lang.String#replaceAll(String regex, String replacement) 中 `regex` 参数：
+	    public static long parseToMillis(String timeStr) {
+	            // 格式化为标准 Duration 格式（如PT1H），根据时间间隔字符串描述转化为毫秒。
+	            timeStr = timeStr.replaceAll("(?i)(\\d+)([smhd])", "PT$1$2")
+	                             .replace("s", "S")
+	                             .replace("m", "M")
+	                             .replace("h", "H")
+	                             .replace("d", "D");
+	            return Duration.parse(timeStr).toMillis();
+	    }
+
+103.
+
 
