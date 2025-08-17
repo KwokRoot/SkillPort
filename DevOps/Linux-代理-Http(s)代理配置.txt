@@ -1,0 +1,19 @@
+Linux-代理-Http(s)代理配置：
+
+
+# # 临时设置(环境变量)
+# 设置
+export http_proxy=http://192.168.1.10:7890
+export https_proxy=htpp://192.168.1.10:7890
+
+# 查看
+echo $http_proxy
+echo $https_proxy
+
+# 测试
+curl -i google.com
+
+# 取消临时设置
+unset http_proxy
+unset https_proxy
+
