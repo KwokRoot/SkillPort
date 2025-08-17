@@ -1,0 +1,139 @@
+JAVA-SpringBoot-集成XXL-JOB：
+
+pom.xml
+```
+<dependency>
+    <groupId>com.xuxueli</groupId>
+    <artifactId>xxl-job-core</artifactId>
+    <version>2.5.0</version>
+</dependency>
+```
+
+
+application.properties
+```
+### xxl-job admin address list, such as "http://address" or "http://address01,http://address02"
+xxl.job.admin.addresses=http://10.10.10.10:8080/xxl-job-admin
+### xxl-job, access token
+xxl.job.admin.accessToken=xxljob
+### xxl-job timeout by second, default 3s
+xxl.job.admin.timeout=3
+
+### xxl-job executor appname
+xxl.job.executor.appname=appName
+### xxl-job executor registry-address: default use address to registry , otherwise use ip:port if address is null
+xxl.job.executor.address=
+### xxl-job executor server-info
+xxl.job.executor.ip=
+xxl.job.executor.port=9898
+### xxl-job executor log-path
+xxl.job.executor.logpath=/opt/devops/xxl-job/jobhandler
+### xxl-job executor log-retention-days
+xxl.job.executor.logretentiondays=30
+```
+
+
+XxlJobConfig.java
+```
+package com.devops.config;
+
+import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * xxl-job config
+ */
+@Configuration
+public class XxlJobConfig {
+    private Logger logger = LoggerFactory.getLogger(XxlJobConfig.class);
+
+    @Value("${xxl.job.admin.addresses}")
+    private String adminAddresses;
+
+    @Value("${xxl.job.admin.accessToken}")
+    private String accessToken;
+
+    @Value("${xxl.job.admin.timeout}")
+    private int timeout;
+
+    @Value("${xxl.job.executor.appname}")
+    private String appname;
+
+    @Value("${xxl.job.executor.address}")
+    private String address;
+
+    @Value("${xxl.job.executor.ip}")
+    private String ip;
+
+    @Value("${xxl.job.executor.port}")
+    private int port;
+
+    @Value("${xxl.job.executor.logpath}")
+    private String logPath;
+
+    @Value("${xxl.job.executor.logretentiondays}")
+    private int logRetentionDays;
+
+
+    @Bean
+    public XxlJobSpringExecutor xxlJobExecutor() {
+        logger.info(">>>>>>>>>>> xxl-job config init.");
+        XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
+        xxlJobSpringExecutor.setAdminAddresses(adminAddresses);
+        xxlJobSpringExecutor.setAppname(appname);
+        xxlJobSpringExecutor.setAddress(address);
+        xxlJobSpringExecutor.setIp(ip);
+        xxlJobSpringExecutor.setPort(port);
+        xxlJobSpringExecutor.setAccessToken(accessToken);
+        xxlJobSpringExecutor.setTimeout(timeout);
+        xxlJobSpringExecutor.setLogPath(logPath);
+        xxlJobSpringExecutor.setLogRetentionDays(logRetentionDays);
+
+        return xxlJobSpringExecutor;
+    }
+
+}
+```
+
+
+TaskConfig.java
+```
+@Component
+public class TaskConfig {
+
+    private static Logger logger = LoggerFactory.getLogger(TaskConfig.class);
+
+
+    @XxlJob(value = "demoJobHandler", init = "init", destroy = "destroy")
+    public void demoJobHandler() throws Exception {        
+		JSONObject jobParam = null;
+        String jobParamStr = XxlJobHelper.getJobParam();
+        if (JSONUtil.isTypeJSONObject(jobParamStr)){
+            jobParam = JSONUtil.parseObj(jobParamStr);
+        }else {
+            jobParam = new JSONObject();
+        }
+        String apiMark = jobParam.getStr("apiMark");
+
+		String apiMarks = CustomSettings.systemProperties.getProperty("api.mark","");
+        List<String> apiMarkList = StrUtil.split(apiMarks, ",");
+        if (!apiMarkList.contains(apiMark)){
+            throw new Exception("参数错误，请传入`apiMark`参数");
+        }
+
+        XxlJobHelper.log("XXL-JOB, Hello World.");
+    }
+
+    public void init(){
+        logger.info("init");
+    }
+    public void destroy(){
+        logger.info("destroy");
+    }
+
+}
+```
