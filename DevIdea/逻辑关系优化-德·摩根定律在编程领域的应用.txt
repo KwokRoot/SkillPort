@@ -1,0 +1,38 @@
+德·摩根定律在编程领域的应用
+
+  -- 德·摩根定律（De Morgan's laws）是逻辑学与集合论中的基本定律，描述了否定运算与合取（“与”）、析取（“或”）之间的对偶关系。
+
+
+
+逻辑关系等式(德·摩根定律)
+非(P 且 Q) = (非 P) 或 (非 Q)
+非(P 或 Q) = (非 P) 且 (非 Q)
+
+
+编程应用：
+非（A and B) = (非A)  or (非B)
+非（A or B)  = (非A) and (非B)
+
+
+
+示例：
+① if 判断优化：
+	if (!(A && B)) 等价于 if (!A || !B)
+
+# 原始条件：禁止同时经过节点A和B
+if not (visited_A and visited_B):
+    proceed()
+# 转换后：直接排除任一节点
+if not visited_A or not visited_B:
+    proceed()
+
+② SQL 查询优化：
+	-- 原始查询：排除同时满足两个条件的记录
+	SELECT * FROM users 
+	WHERE NOT (age > 18 AND status = 'active');
+	
+	-- 转换后：拆解为两个条件的否定或关系
+	SELECT * FROM users 
+	WHERE age <= 18 OR status != 'active';
+
+

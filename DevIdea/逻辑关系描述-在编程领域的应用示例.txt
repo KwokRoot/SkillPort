@@ -1,0 +1,51 @@
+# `等于`关系判断：
+
+等于A 或 B	即：(V == A) OR (V == B)
+当：V=A  true 
+当：V=B	 true
+当：V!=A AND V!=B  false
+
+
+`不等于 A或B` 等价于 `不等于A 和 不等于B` 即：V != (A OR B)  <=>  (V != A) AND (V != B)
+当：V=A  false
+当：V=B	 false
+当：V!=A AND V!=B  true
+
+
+`不等于 A和B` 等价于 `不等于A 或 不等于B` 即：V != (A AND B)  <=>  (V != A) OR (V != B)  恒成立(一个值不会即等于A又等于B)，正常逻辑用不到，估计想描述为： `不等于：A 或 B`
+当：V=A  true
+当：V=B	 true
+当：V!=A AND V!=B  true
+
+
+
+# `包含`关系判断：
+
+包含A 或 B	即：(A in V) OR (B in V)
+当：A in V AND B not in V  true 
+当：B in V AND A not in V  true
+当：A in V AND B in V  true
+当：A not in V AND B not in V  false
+
+
+`不包含 A或B` 等价于 `不包含A 和 不包含B` 即：not (A in V OR B in V)  <=>  not (A in V) AND not (B in V)
+当：A in V AND B not in V  false
+当：B in V AND A not in V  false
+当：A in V AND B in V  false
+当：A not in V AND B not in V  true
+
+
+`不(同时)包含 A和B` 等价于 `不包含A 或 不包含B` 即：not (A in V AND B in V)  <=>  not (A in V) OR not (B in V)
+当：A in V AND B not in V  true
+当：B in V AND A not in V  true
+当：A in V AND B in V  false
+当：A not in V AND  B not in V  true
+
+
+
+编程领域应用示例：
+
+程序处理监控逻辑 转 SQL 语句时：
+k1 != (v1 or v2 or v3) 时告警，可设计为 k1 != v1 && k1 != v2 && k1 != v3 时告警。
+
+
