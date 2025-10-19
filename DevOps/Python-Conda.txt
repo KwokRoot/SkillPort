@@ -1,0 +1,68 @@
+Anaconda
+https://www.anaconda.com
+
+
+# 安装 conda：
+Miniconda 与 Miniforge 区别
+
+Miniconda 官方版本，Anaconda 公司维护，软件来源 Anaconda 官方仓库。
+conda-forge 社区版本，Conda-Forge 社区维护，软件来源 conda-forge 社区仓库。
+
+
+# 配置
+设置包缓存目录
+conda config --add pkgs_dirs D:\Kwok\Work\Conda\pkgs
+设置环境目录
+conda config --add envs_dirs D:\Kwok\Work\Conda\envs
+
+查看配置
+conda config --show
+查看更改的配置
+conda config --show-sources
+
+conda 环境信息
+conda info
+
+
+# Python 环境管理
+
+创建 Python 虚拟环境
+conda create -n myenv python=3.7
+列出 Python 虚拟环境
+conda env list
+激活虚拟环境
+conda activate myenv
+退出当前虚拟环境
+conda deactivate
+移除 Python 虚拟环境
+conda env remove -n myenv
+
+导出环境到yml文件（便于共享和复现）：
+conda env export > env.yml
+根据yml文件创建环境
+conda env create -f env.yml
+conda env create -f env.yml -n myenv
+
+
+# Python 依赖包管理
+
+安装依赖包
+conda install numpy
+conda install numpy=1.19.2
+从特定的channel安装依赖包
+conda install -c conda-forge numpy
+移除依赖包
+conda remove numpy
+列出当前环境中已安装依赖包
+conda list
+搜索包
+conda search numpy
+
+
+# conda 清理
+
+清理所有缓存
+conda clean -a
+清理未使用的包
+conda clean -p
+

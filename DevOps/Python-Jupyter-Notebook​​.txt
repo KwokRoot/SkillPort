@@ -1,0 +1,38 @@
+​Jupyter
+官网：https://jupyter.org
+
+
+# Jupyter 项目【开源】，产品：
+
+​1、Jupyter Notebook：经典的交互式笔记本，将代码、文本、公式、图表结合在单一文档中，适合快速原型设计、数据分析和教学。
+​2、JupyterLab​​：下一代集成开发环境，模块化设计，可在一个窗口内同时打开笔记本、文本编辑器、终端、数据文件查看器等，功能更强大。
+​3、JupyterHub​​：多用户服务平台，	
+用于机构或团队，能为多个用户创建和管理各自的 Jupyter 环境，常见于大学、研究机构或企业内部平台。
+4、Voilà​​：隐藏代码，只展示结果​​，让 Jupyter Notebook 变成一个干净、专业的数据仪表板或 Web 应用。
+
+
+
+# 安装 Notebook​​
+
+pip install notebook
+# conda install notebook
+启动 Notebook​​：
+jupyter notebook
+
+
+# 安装 JupyterLab
+
+pip install jupyterlab
+# conda install jupyterlab
+启动 JupyterLab：
+jupyter lab
+
+
+# 安装 Voilà​​
+
+pip install voila
+# conda install voila
+启动 voila：
+voila
+
+

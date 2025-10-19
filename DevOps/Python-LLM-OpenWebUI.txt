@@ -1,0 +1,8 @@
+Open WebUI
+https://github.com/open-webui/open-webui
+
+
+# 确保 Python 版本为 3.11 避免兼容问题。(注：经测试 3.12，有些包依赖编译有异常)
+pip install open-webui
+open-webui serve
+

@@ -1,0 +1,15 @@
+Ollama
+官网：https://ollama.com
+
+
+# 配置 Ollama 模型下载目录
+环境变量：OLLAMA_MODELS=D:\Kwok\Work\ollama\models
+
+
+# 下载模型
+ollama pull deepseek-r1:1.5b
+
+
+# 运行模型
+ollama run deepseek-r1:1.5b
+

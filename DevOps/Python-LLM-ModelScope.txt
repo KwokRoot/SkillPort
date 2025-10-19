@@ -1,0 +1,27 @@
+# 创建 Python 虚拟环境
+python -v venv modelscope
+cd modelscope
+activate modelscope
+
+
+# 安装 modelscope 包
+pip install modelscope
+
+
+# modelscope 命令下载模型
+modelscope download --model="damo/nlp_structbert_sentence-similarity_chinese-tiny" --cache_dir F:\opt\LLM\models
+
+
+
+# 根据模型的训练框架，安装深度学习框架
+
+1、安装 PyTorch
+pip install torch torchvision torchaudio
+
+2、安装 TensorFlow​​
+pip install tensorflow
+
+3、安装 Flax
+pip install flax jax jaxlib
+
+

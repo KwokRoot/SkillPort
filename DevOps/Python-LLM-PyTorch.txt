@@ -1,0 +1,41 @@
+# PyTorch CPU 版本安装
+pip3 install torch torchvision torchaudio
+
+
+> python
+import torch
+print(torch.__version__)
+
+
+# 查看电脑显卡 CUDA 版本：
+nvidia-smi
+```
+NVIDIA-SMI 576.02                 Driver Version: 576.02         CUDA Version: 12.9
+```
+
+nvcc --version
+```
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2025 NVIDIA Corporation
+Built on Wed_Apr__9_19:29:17_Pacific_Daylight_Time_2025
+Cuda compilation tools, release 12.9, V12.9.41
+Build cuda_12.9.r12.9/compiler.35813241_0
+```
+
+
+# PyTorch GPU 版本安装
+如果运行 `print(torch.__version__)` 结果为 `2.6.0+cpu`，则是因为 torch 版本不正确。正常应该为 `2.7.0+cu128`。
+
+卸载：
+pip3 uninstall torch torchvision torchaudio
+
+根据 CUDA 版本重新安装(https://pytorch.org/get-started/locally/)：
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu129
+
+
+> python
+import torch
+torch.cuda.is_available()
+
+如果运行 `torch.cuda.is_available()` 结果为 True，则安装 PyTorch GPU 版本成功。
+
