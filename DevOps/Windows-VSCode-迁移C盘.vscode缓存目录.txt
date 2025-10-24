@@ -1,0 +1,15 @@
+VSCode迁移C盘.vscode缓存目录
+
+
+方式一【推荐，修改更彻底】：
+① 迁移 C盘 VSCode 目录
+剪切 C:\Users\${user}\.vscode\extensions 到 D:\Kwok\Data\VSCode
+② 创建快捷方式[mklink：/D 创建目录符号链接而不是文件符号链接（默认为文件符号链接）]
+mklink /D "C:\Users\${user}\.vscode\extensions" "D:\Kwok\Data\VSCode\extensions"
+
+
+方式二：
+启动快捷方式添加 `--extensions-dir "D:\Kwok\Data\VSCode\extensions"` 参数
+"D:\Kwok\Soft\Microsoft VS Code\Code.exe" --extensions-dir "D:\Kwok\Data\VSCode\extensions"
+
+
