@@ -1,0 +1,38 @@
+Linux-文件换行符问题
+
+
+# 问题
+Linux 执行 bash 脚本文件出现 `No such file or directory`，如果确认执行的脚本及目录没问题，可以检查下脚本文件编码格式及换行符。
+
+
+# 检查
+命令：`file xxx.sh`，输出：'xxx.sh: UTF-8 Unicode text executable, with very long lines, with CRLF line terminators'。
+
+
+# 原因
+换行符问题，CRLF(\r\n)Windows换行符 需转换为 LF(\n)Unix换行符。
+
+
+# 解决方式
+方式一：
+vi 编辑器对 Linux 文件格式(fileformat)查看及修改：
+
+1、vi 编辑器 查看 文件格式即换行符
+    ① `vi file.conf`，进入 vi 编辑器，如果不是`unix`格式文件，文件底部就会有 [dos] 提示。
+    ② `:set ff` (:set fileformat)
+
+2、vi 编辑器 修改 文件格式即换行符
+    ① `:set ff=unix` (`:set fileformat=unix`)
+    ② `:wq`
+
+方式二：
+tr 命令 CRLF(\r\n)换行符 转换为 LF(\n)换行符。【tr -d [字符集]，删除输入文本中所有属于字符集的字符】
+tr -d '\r' < file_CRLF.txt > file-new_LF.txt
+
+
+
+# 拓展
+LF(\n)换行 转换为 CRLF(\r\n)换行
+awk '{printf "%s\r\n", $0}' file_LF.txt > file-new_CRLF.txt
+
+
