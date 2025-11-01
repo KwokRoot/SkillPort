@@ -57,6 +57,10 @@ conda remove numpy
 conda list
 搜索包
 conda search numpy
+查看所有可用的 Python 版本
+conda search python
+查看特定版本的 Python 版本
+conda search "python=3.7*"
 
 
 # conda 清理

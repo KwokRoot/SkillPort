@@ -77,6 +77,9 @@ git fetch origin main
 # 将远程某分支的所有提交合并到当前分支，fetch + merge
 git pull origin main
 
+# 自动完成 fetch + merge，但跳过自动提交步骤，需手动 git commit 完成合并。
+git pull --no-commit origin main
+
 
 
 # 撤销操作
@@ -86,5 +89,4 @@ git reset HEAD~n
 
 # 当前分支撤销最近 n 次提交，提交的内容清空。
 git reset --hard head~n
-
 

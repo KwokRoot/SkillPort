@@ -1,0 +1,55 @@
+mvnw 命令运行
+
+
+# 配置本地jar包储存路径与远程仓库镜像源
+vi C:\Users\${用户名}\.m2\settings.xml
+① 配置 Maven 本地仓库路径
+    <localRepository>D:\Kwok\Data\maven\repo</localRepository>
+② 配置 Maven 远程仓库镜像源
+    <mirror>
+        <id>aliyunmaven</id>
+        <mirrorOf>*</mirrorOf>
+        <name>阿里云公共仓库</name>
+        <url>https://maven.aliyun.com/repository/public</url>
+    </mirror>
+
+
+
+# mvnw 配置修改
+vi .mvn\wrapper\maven-wrapper.properties
+```
+distributionUrl=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip
+wrapperUrl=https://repo.maven.apache.org/maven2/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar
+修改为：
+distributionUrl=https://maven.aliyun.com/repository/central/org/apache/maven/apache-maven/3.9.6/apache-maven-3.9.6-bin.zip
+wrapperUrl=https://maven.aliyun.com/repository/central/org/apache/maven/wrapper/maven-wrapper/3.2.0/maven-wrapper-3.2.0.jar
+```
+
+
+
+# mvnw 运行
+
+① 根据需求临时设置运行时JDK版本
+set JAVA_HOME=D:\kwok\soft\jdk-17.0.1
+
+② ./mvnw -T1C --batch-mode --also-make --projects module-01,module-02 -DskipTests clean package
+-T1C：可能表示使用1个线程乘以核心数（C代表核心）
+--batch-mode[-B]：批处理模式，避免交互式提示。
+--also-make[-am]：如果指定了项目列表，还会构建这些项目所依赖的项目。
+--projects[-pl]： 构建指定的项目模块，可以使用 `,` 指定多个模块。
+-DskipTests：属性参数，跳过测试。
+clean package​​：Maven 生命周期中常用的命令。
+
+
+
+# 拓展
+
+异常1：
+[ERROR] Could not acquire lock(s)
+[ERROR] java.lang.IllegalStateException: Could not acquire lock(s)
+
+问题：Maven 文件锁问题，通常发生在多模块项目中当多个进程尝试同时访问相同资源时。
+
+解决：避免并行构建​​，在多模块项目中尽量使用单线程构建，去除 -T1C、--batch-mode[-B] 参数。
+
+

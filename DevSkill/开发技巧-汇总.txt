@@ -926,6 +926,49 @@ Spring 修改某 service 隔离级别：
 	            return Duration.parse(timeStr).toMillis();
 	    }
 
-103.
+103.jedis  zset 结构中的 `zpopmin`、`zpopmax` 类命令是 Redis 5.0.0 版本中引入的，Redis 低版本中可以使用 Lua 脚本封装 `ZRANGE` 和 `ZREM` 命令的方式实现。
+```
+	public class JedisUtil {
+
+		private static final String ZPOPMIN_LUA_SCRIPT =
+		    "local key = KEYS[1]\n" +
+		    "local count = tonumber(ARGV[1])\n" +
+		    "local members = redis.call('ZRANGE', key, 0, count-1, 'WITHSCORES')\n" +
+		    "if #members > 0 then\n" +
+		    "    local del_args = {}\n" +
+		    "    for i = 1, #members, 2 do\n" +
+		    "        table.insert(del_args, members[i])\n" +
+		    "    end\n" +
+		    "    redis.call('ZREM', key, unpack(del_args))\n" +
+		    "end\n" +
+		    "return members";
+		
+		
+		public static Set<Tuple> zpopminWithLua(final Jedis jedis, final String key, final int count) {
+		
+		    Set<Tuple> tupleSet = new HashSet<>();
+		    if (count <= 0) {
+		        return tupleSet;
+		    }
+		
+		    Object result = jedis.eval(ZPOPMIN_LUA_SCRIPT, 1, key, String.valueOf(count));
+		    List<String> resultList = (List<String>) result;
+		
+		    if (resultList != null && !resultList.isEmpty()) {
+		        // 结果列表([member1, score1, member2, score2, ...])转换为 Set<Tuple>
+		        for (int i = 0; i < resultList.size(); i += 2) {
+		            String member = resultList.get(i);
+		            double score = Double.parseDouble(resultList.get(i + 1));
+		            tupleSet.add(new Tuple(member, score));
+		        }
+		    }
+		    return tupleSet;
+		}
+
+	}
+	```
+	使用：
+		# jedis.zpopmin("test", 3);
+		zpopminWithLua(jedis, "test", 10)
 
 
