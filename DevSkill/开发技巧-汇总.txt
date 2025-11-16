@@ -971,4 +971,12 @@ Spring 修改某 service 隔离级别：
 		# jedis.zpopmin("test", 3);
 		zpopminWithLua(jedis, "test", 10)
 
+104.JAVA 获取变量及其引用对象占用的内存空间(深堆)：
+	① 方式一：OpenJDK 官方开源工具 JOL (Java Object Layout)：org.openjdk.jol:jol-core:0.17
+		System.out.println(String.format("占用空间: %s MB", GraphLayout.parseInstance(rangeMap).totalSize() / 1000_000));
+
+	② 方式二：JDK8 及以下版本使用 `ObjectSizeCalculator`，`jdk.nashorn.internal.ir.debug.ObjectSizeCalculator` 是随 Nashorn JavaScript 引擎一起提供的，JDK 9 引入模块化系统后需手工引入`nashorn-core`依赖及启动参数配置，而 Nashorn 引擎已经从 JDK15 移除。推荐使用 `JOL` 工具类。
+		System.out.println(String.format("占用空间: %s MB", ObjectSizeCalculator.getObjectSize(rangeMap) / 1000_000));
+
+105.
 
