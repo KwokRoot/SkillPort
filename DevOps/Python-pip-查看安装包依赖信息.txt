@@ -1,0 +1,39 @@
+Python-pip-查看安装包依赖信息
+
+
+① 方式一：pip 命令。
+
+查看所有安装包。
+pip list
+
+查看指定包的信息，能展示 Requires 及 Required-by 信息。
+pip show xxx
+
+查看安装包版本是否互相兼容冲突。
+pip check
+
+
+② 方式二：使用 pipdeptree 类库。
+
+pip install pipdeptree
+
+查看完整依赖树​
+pipdeptree
+	
+查看指定包依赖树​
+pipdeptree -p xxx
+	
+查看指定包的被依赖树​
+pipdeptree -r -p xxx
+
+检测依赖冲突​
+pipdeptree --warn silence
+
+生成依赖图​
+注：需要安装 Graphviz 软件并配置环境变量。
+pipdeptree --graph-output png > deps.png
+或 pipdeptree -o graphviz-png > deps.png
+
+依赖导出格式 freeze、json、 json-tree、 mermaid、 text、graphviz-*
+pipdeptree -o json
+

@@ -1,0 +1,22 @@
+# HuggingFace
+官网：https://huggingface.co
+
+
+# HuggingFace Hub
+## 安装 huggingface-cli：hf
+pip install huggingface_hub
+
+## 配置镜像源环境变量
+### Windows PowerShell
+$env:HF_ENDPOINT='https://hf-mirror.com'
+
+### Windows CMD
+set HF_ENDPOINT=https://hf-mirror.com
+
+### Linux
+export HF_ENDPOINT=https://hf-mirror.com
+
+
+## 下载嵌入模型
+hf download sentence-transformers/all-MiniLM-L6-v2 --local-dir ../models/all-MiniLM-L6-v2
+hf download Qwen/Qwen2.5-0.5B-Instruct --local-dir ../models/Qwen2.5-0.5B-Instruct
