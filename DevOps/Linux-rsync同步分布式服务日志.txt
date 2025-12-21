@@ -1,0 +1,68 @@
+rsync 实现 2台服务器通过 SSH方式 互相备份日志目录
+
+
+# 安装 rsync 服务
+yum install -y rsync
+
+
+# 配置 ssh 免密登录
+useradd synclog
+passwd synclog
+******
+
+su synclog
+
+# 192.168.110.11 上执行
+ssh-keygen -t rsa -b 2048 -N '' -f ~/.ssh/id_rsa
+ssh-copy-id synclog@192.168.110.12
+
+ssh synclog@192.168.110.12 "echo SSH successful"
+
+# 创建同步日志目录
+mkdir -p /opt/services/xxx/synclogs
+chown synclog:synclog -R /opt/services/xxx/synclogs
+
+
+# 测试：
+# 远程同步
+sudo -u synclog rsync -avz --bwlimit=5000 --exclude='*.tmp' --exclude='*.swp' -e ssh /opt/services/xxx/logs synclog@192.168.110.12:/opt/services/xxx/synclogs/192.168.110.11
+
+# 本地同步
+sudo -u synclog rsync -avz --bwlimit=5000 --exclude='*.tmp' --exclude='*.swp' -e ssh /opt/services/xxx/logs /opt/services/xxx/synclogs/192.168.110.11
+
+
+# 执行脚本
+vi /opt/services/xxx/synclogs.sh
+```
+#!/bin/bash
+
+LOCAL_IP="192.168.110.11"
+REMOTE_IP="192.168.110.12"
+REMOTE_USER="synclog"
+
+SRC_DIR="/opt/services/xxx/logs"
+DIST_DIR="/opt/services/xxx/synclogs"
+
+LOG_FILE="/opt/services/xxx/synclogs/synclogs.log"
+RSYNC_OPTIONS="-avz --bwlimit=5000 --exclude='*.tmp' --exclude='*.swp'"
+
+echo "=========================================" >> $LOG_FILE
+echo "同步开始: $(date)" >> $LOG_FILE
+echo "[1] 同步本地 -> 远程 ($REMOTE_IP)" >> $LOG_FILE
+sudo -u $REMOTE_USER rsync $RSYNC_OPTIONS -e ssh $SRC_DIR $REMOTE_USER@$REMOTE_IP:$DIST_DIR/$LOCAL_IP >> $LOG_FILE 2>&1
+
+echo "[2] 同步本地 -> 本地 ($LOCAL_IP)" >> $LOG_FILE
+sudo -u $REMOTE_USER rsync $RSYNC_OPTIONS -e ssh $SRC_DIR $DIST_DIR/$LOCAL_IP >> $LOG_FILE 2>&1
+
+echo "同步完成: $(date)" >> $LOG_FILE
+echo "=========================================" >> $LOG_FILE
+```
+
+chmod +x /opt/services/xxx/synclogs.sh
+
+
+# 定时执行脚本
+crontab -e
+# 添加以下行（每1小时同步一次）
+0 */1 * * * /opt/services/xxx/synclogs.sh
+

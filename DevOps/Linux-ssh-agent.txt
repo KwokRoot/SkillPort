@@ -1,0 +1,41 @@
+SSH Agent：密钥管理器，在内存中安全存储 SSH 私钥的密码，避免每次使用密钥时重复输入密码。
+
+
+# 安装
+Linux
+	yum install openssh-clients
+
+Windows
+	Git Bash：随Git for Windows安装，自带ssh-agent
+
+# 启动 ssh-agent，注：不能直接使用 `ssh-agent -s` 执行。
+eval "$(ssh-agent -s)"
+
+# 添加私钥到 agent
+ssh-add ~/.ssh/id_rsa
+
+# 查看已添加密钥
+ssh-add -l  # 列出指纹
+ssh-add -L  # 列出公钥内容
+
+# Linux 开机自启
+vim ~/.bashrc
+```
+# SSH Agent 自启
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/id_rsa 2>/dev/null
+fi
+```
+
+或
+
+cat >> ~/.bashrc << 'EOF'
+# SSH Agent 自启
+if [ -z "$SSH_AUTH_SOCK" ]; then
+  eval "$(ssh-agent -s)" > /dev/null
+  ssh-add ~/.ssh/id_rsa 2>/dev/null
+fi
+EOF
+
+
