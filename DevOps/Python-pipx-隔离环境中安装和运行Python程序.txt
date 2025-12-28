@@ -1,7 +1,7 @@
 # pipx
 	隔离环境中安装和运行 Python 程序，类似于 node 下的 npx。
 
-官网：
+源码：
 	https://github.com/pypa/pipx
 
 

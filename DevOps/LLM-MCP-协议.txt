@@ -1,0 +1,37 @@
+MCP(Model Context Protocol)：模型上下文协议。
+
+官网：
+	https://modelcontextprotocol.io
+SDK：
+	https://github.com/modelcontextprotocol
+
+
+MCP 的传输协议有:
+Stdio：标准输入/输出。
+SSE(Server-Sent Events)：已废弃！基于持久 HTTP 连接的服务器推送协议。
+Streamable HTTP：推荐，支持请求-响应和流式传输。
+
+
+
+# 与 MCP Server 交互
+
+## 方式一：MCP inspector 客户端：
+
+源码：
+	https://github.com/modelcontextprotocol/inspector
+
+环境：Node.js: v22.7.5+
+
+### MCP Proxy (MCPP)【可视化界面，推荐】
+export ALLOWED_ORIGINS=http://localhost:6274,http://localhost:8000
+npx @modelcontextprotocol/inspector
+# 注：客户端 UI默认端口 6274，MCP 代理（MCPP）服务器默认端口 6277。
+
+### MCP Inspector Client (MCPI)【命令行界面】
+npx @modelcontextprotocol/inspector --cli http://127.0.0.1:8000/mcp --method tools/list
+
+
+## 方式二：MCP 协议基于 JSON-RPC 2.0，直接构造符合协议规范的 JSON 请求与 MCP 服务器进行交互。【经测试，以下直接请求有问题】
+curl -X POST http://localhost:8000/mcp -H "Content-Type: application/json" -d '{"jsonrpc": "2.0", "method": "tools/list", "params": {}, "id": 1}'
+
+

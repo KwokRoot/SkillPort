@@ -2,6 +2,7 @@ uv (v0.9.18)
 
 官网：
 	https://astral.sh
+源码：
 	https://github.com/astral-sh/uv
 
 
@@ -123,5 +124,4 @@ python-install-mirror="https://registry.npmmirror.com/-/binary/python-build-stan
 url = "https://pypi.tuna.tsinghua.edu.cn/simple"
 default = true
 ```
-
 

@@ -28,7 +28,7 @@ NODE_PATH
 
 
 ### 配置 npm 仓库地址
-npm config set registry https://registry.npm.taobao.org/
+npm config set registry https://registry.npmmirror.com
 ### 删除 npm 代理
 npm config delete proxy
 npm config delete https-proxy
@@ -47,7 +47,7 @@ npm config ls -l
 
 # cnpm 安装
 npm -v
-npm install -g cnpm@<npm主版本> --registry=https://registry.npm.taobao.org
+npm install -g cnpm@<npm主版本> --registry=https://registry.npmmirror.com
 
 ### 配置 cnpm 缓存目录，全局模块目录
 cnpm config set prefix "D:\kwok\data\cnpm\node_global"
@@ -59,7 +59,7 @@ cnpm config set cache "D:\kwok\data\cnpm\node_cache"
 npm install -g yarn
 
 # 配置 registry
-yarn config set registry https://registry.npm.taobao.org
+yarn config set registry https://registry.npmmirror.com
 # 删除 proxy 配置项
 yarn config delete proxy
 
