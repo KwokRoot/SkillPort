@@ -1,0 +1,32 @@
+# pipx
+	隔离环境中安装和运行 Python 程序，类似于 node 下的 npx。
+
+官网：
+	https://github.com/pypa/pipx
+
+
+一、安装
+
+python3 -m pip install --user pipx
+
+# 把工具加入 PATH
+python3 -m pipx ensurepath
+pipx ensurepath
+
+
+二、配置
+
+# 配置缓存目录
+PIPX_HOME=D:\Kwok\Store\pipx
+
+# PIPX_VENV_CACHEDIR=D:\Kwok\Store\pipx\cache
+# PIPX_LOCAL_VENVS=D:\Kwok\Store\pipx\venvs
+# PIPX_SHARED_LIBS=D:\Kwok\Store\pipx\shared
+
+# 查看环境变量
+pipx environment
+
+
+三、使用
+pipx run pycowsay moo
+

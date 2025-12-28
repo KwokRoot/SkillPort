@@ -1,0 +1,127 @@
+uv (v0.9.18)
+
+官网：
+	https://astral.sh
+	https://github.com/astral-sh/uv
+
+
+
+一、安装
+# macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# pip
+pip install uv
+
+# 下载安装包，配置环境变量。
+
+
+二、配置
+
+# 默认配置文件：
+Windows：C:\Users\Administrator\AppData\Roaming\uv\uv.toml
+Linux：~/.config/uv/uv.toml
+
+
+# 配置缓存：
+默认缓存目录：C:\Users\Administrator\AppData\Local\uv\cache 或 ~/.config/uv/cache
+
+设置：
+set UV_CACHE_DIR=D:\kwok\data\uv\cache
+export UV_CACHE_DIR='D:\kwok\data\uv\cache'
+查询缓存目录：
+uv cache dir
+
+
+# 配置镜像地址：
+### pypi 依赖包镜像地址
+set UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
+export UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
+
+### Python 安装包镜像地址
+set UV_PYTHON_INSTALL_MIRROR="https://registry.npmmirror.com/-/binary/python-build-standalone/"
+export UV_PYTHON_INSTALL_MIRROR='https://registry.npmmirror.com/-/binary/python-build-standalone/'
+
+
+vi C:\Users\Administrator\AppData\Roaming\uv\uv.toml
+```
+cache-dir="D:\\kwok\\data\\uv\\cache"
+python-install-mirror="https://registry.npmmirror.com/-/binary/python-build-standalone/"
+
+[[index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+
+[pip]
+index-url="https://pypi.tuna.tsinghua.edu.cn/simple"
+
+```
+注：配置中的`[[xx]]`配置项，代表可配置多个相同的配置名。
+
+
+# 配置 Python 安装目录
+
+Python 安装目录，目前仅支持环境变量配置
+set UV_PYTHON_INSTALL_DIR=D:\kwok\data\uv_python
+export UV_PYTHON_INSTALL_DIR='D:\kwok\data\uv_python'
+uv python dir
+
+
+关键配置汇总：
+UV_CACHE_DIR=D:\kwok\data\uv\cache
+UV_PYTHON_INSTALL_DIR=D:\kwok\data\uv\python
+UV_TOOL_DIR=D:\kwok\data\uv\tool
+UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple
+UV_PYTHON_INSTALL_MIRROR='https://registry.npmmirror.com/-/binary/python-build-standalone/'
+
+
+三、使用
+
+# 版本
+uv --version 或 uv self version
+
+# Python 环境管理命令：
+uv python list
+uv python install 3.12
+
+指定 python 版本
+uv python pin 3.10
+
+使用特定 python 版本创建虚拟环境
+uv venv my-project --python 3.10 
+
+uv venv 
+uv pip 
+
+
+# 项目命令：
+uv init
+uv sync
+uv run
+
+uv add requests
+uv add --default-index https://pypi.tuna.tsinghua.edu.cn/simple requests
+uv remove requests
+uv tree
+uv lock
+
+uv build
+uv publish
+
+
+
+项目中设置：
+vi pyproject.toml
+```
+[tool.uv]
+python-install-mirror="https://registry.npmmirror.com/-/binary/python-build-standalone/"
+
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
+```
+
+
