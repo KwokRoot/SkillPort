@@ -1,0 +1,25 @@
+Docker-DockerDesktop-安装配置
+
+
+# 由于 Windows DockerDesktop 默认安装在 C 盘，安装之前创建相关的链接目录。
+
+mklink /J "C:\Program Files\Docker" "D:\Program Files\Docker"
+mklink /J "C:\Users\KwokAdmin\AppData\Local\Docker" "D:\Kwok\Data\Docker\AppData\Docker"
+
+
+# 可视化设置项：
+
+① Disk image location 设置为 D:\Kwok\Data\Docker\vm，用于保存 DockerDesktop\DockerDesktop.vhdx Docker 镜像(设置可能会失败，需要重启尝试设置)。
+
+② Docker Engine 设置镜像仓库源地址：
+```
+{
+  "registry-mirrors":
+    [
+        "https://docker.xuanyuan.me",
+        "https://docker.1ms.run",
+        "https://docker.nju.edu.cn"
+    ]
+}
+```
+
