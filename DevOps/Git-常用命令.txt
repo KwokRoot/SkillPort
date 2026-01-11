@@ -31,8 +31,14 @@ git branch new
 ### copy 分支到新分支
 git branch -c old new
 
+### 从某次提交创建新分支
+git branch ${branch-name} ${commitHash}
+
 ### 切换到新的分支
 git checkout new
+
+### 从某次提交创建新分支并切换到该分支
+git checkout -b ${branch-name} ${commitHash}
 
 ### 列出所有分支
 git branch -a

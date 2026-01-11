@@ -11,7 +11,7 @@ git branch -r
 # 创建新分支
 git branch ${branch-name}
 
-# 某次提交创建新分支
+# 从某次提交创建新分支
 git branch ${branch-name} ${commitHash}
 
 # 切换分支
@@ -19,6 +19,9 @@ git checkout ${branch-name}
 
 # 创建并切换到该分支
 git checkout -b ${branch-name}
+
+# 从某次提交创建新分支并切换到该分支
+git checkout -b ${branch-name} ${commitHash}
 
 # 合并分支
 git merge ${branch-name}
