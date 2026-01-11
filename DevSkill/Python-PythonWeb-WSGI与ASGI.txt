@@ -1,0 +1,38 @@
+# WSGI 与 ASGI
+WSGI（Web Server Gateway Interface）、ASGI（Asynchronous Server Gateway Interface）是用于 Python Web 应用程序的两种接口标准，它们的主要区别在于是否支持异步编程。
+
+
+# WSGI：同步标准
+
+## 特点：
+    同步模式：基于阻塞式的请求处理方式，每个请求在处理完成前会占用一个线程或进程的工作模式。
+    适用场景：适合传统的 Web 应用程序，比如 Python 以 Django 和 Flask 为代表的框架。
+## 限制：
+    无法处理 WebSocket。
+    对于高并发和异步需求的场景支持较差。
+## 工作流程：
+    客户端发送 HTTP 请求到 Web 服务器（如 Gunicorn）。
+    Web 服务器通过 WSGI 调用 Python 应用程序。
+    应用程序处理请求并返回响应。
+
+
+# ASGI：异步标准
+
+## 特点：
+    异步模式：支持异步非阻塞编程，可同时处理多个任务（如 HTTP 和 WebSocket）。
+    适用场景：适合实时性要求高的应用，如 WebSocket、长连接、和实时数据传输。
+## 优势：
+    支持多协议（HTTP、WebSocket、gRPC等）。
+    对高并发和异步任务的支持更好。
+## 工作流程：
+    客户端发送 HTTP 或 WebSocket 请求到 ASGI 服务器（如 Uvicorn 或 Daphne）。
+    ASGI 服务器根据协议和路由调用相应 FastAPI、Django（支持 ASGI 的版本）的应用程序。
+    应用程序通过异步方式处理任务并返回响应。
+
+
+# 什么时候用 ASGI 或 WSGI？
+    使用 WSGI：如果你的应用是传统的Web应用（如表单提交、页面渲染等），并且不需要实时通讯或异步处理。
+    使用 ASGI：如果你的应用需要 WebSocket 支持、实时数据更新、或需要优化高并发性能。
+    两者可以共存，比如 Django 3.0之后同时支持 WSGI 和 ASGI，可以根据具体需求选择使用哪种模式。
+
+
