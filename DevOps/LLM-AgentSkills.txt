@@ -1,0 +1,78 @@
+AgentSkills
+
+# 官网
+https://agentskills.io
+https://github.com/agentskills/agentskills
+
+
+### 特点：AgentSkills 获取静态指令规范。
+	- 专业工作流
+	- 捆绑资源（脚本、模板、参考资料）
+	- 渐进式信息披露
+	- 静态、可复用模式
+
+### 拓展：MCP（模型上下文协议）连接外部工具和数据源的协议，获取动态资源数据。
+	- 数据库连接
+	- API 集成
+	- 实时数据获取
+	- 外部服务集成
+
+### 关系：
+	AgentSkills 和 MCP 互补，用 AgentSkills 获取知识，用 MCP 扩展功能。
+
+
+# 目录规范
+my-skill/
+├── SKILL.md          # Required: instructions + metadata
+├── scripts/          # Optional: executable code
+├── references/       # Optional: documentation
+└── assets/           # Optional: templates, resources
+
+
+# 内容规范
+SKILL.md
+```
+---
+name: skill-name
+description: A description of what this skill does and when to use it.
+---
+```
+
+
+# Skills 加载器：openskills
+-- OpenSkills 将 Anthropic 的技能系统 引入到所有 AI 编码代理中（Claude Code、Cursor、Windsurf、Aider）
+
+### 工具地址
+https://github.com/numman-ali/openskills
+
+### 安装工具
+npm i -g openskills
+
+### 安装技能
+Claude 示例技能：https://github.com/anthropics/skills
+
+openskills install anthropics/skills [--global] [--universal]
+
+openskills install anthropics/skills --global --universal
+openskills install https://gitcode.com/GitHub_Trending/skills3/skills.git --global --universal
+
+```
+异常：Security error: Installation path outside target directory
+解决：
+① git clone https://gitcode.com/GitHub_Trending/skills3/skills.git 
+② 复制：skills/* 到 .agent\skills/ 或 .claude/skills/
+```
+
+### 同步至 AGENTS.md，默认生成 AGENTS.md 文件
+openskills sync
+
+
+### 其他命令
+openskills install <source> [options]  # Install from GitHub, local path, or private repo
+openskills sync [-y] [-o <path>]       # Update AGENTS.md (or custom output)
+openskills list                        # Show installed skills
+openskills read <name>                 # Load skill (for agents)
+openskills manage                      # Remove skills (interactive)
+openskills remove <name>               # Remove specific skill
+
+

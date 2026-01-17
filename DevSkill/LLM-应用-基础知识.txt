@@ -1,6 +1,11 @@
 LLM(Large Language Model)：大语言模型。
 
 
+# NLP(Natural Language Processing)：自然语言处理，是人工智能的核心研究方向之一，致力于实现机器对人类语言的理解、生成与交互。
+## 基础处理，有 分词、词性标注、命名实体识别、词嵌入。
+## 核心算法，从 处理文本顺序依赖的 `序列模型` 到 自注意力机制的 `Transformer模型`。
+
+
 # LLM 基础知识
 
 ## LLM 对话交互的核心角色
@@ -35,6 +40,7 @@ assistant(助手)：理解需求，生成回复（执行者）。
 ## 模型处理请求外部数据的方式
 Tools/Function Calling
 MCP
+AgentSkills
 
 
 ## 模型微调
