@@ -39,6 +39,7 @@ description: A description of what this skill does and when to use it.
 ```
 
 
+
 # Skills 加载器：openskills
 -- OpenSkills 将 Anthropic 的技能系统 引入到所有 AI 编码代理中（Claude Code、Cursor、Windsurf、Aider）
 
@@ -74,5 +75,31 @@ openskills list                        # Show installed skills
 openskills read <name>                 # Load skill (for agents)
 openskills manage                      # Remove skills (interactive)
 openskills remove <name>               # Remove specific skill
+
+
+
+# Skills 加载器：add-skill
+
+### 工具地址
+https://github.com/vercel-labs/add-skill
+
+
+### 安装工具
+
+npm install -g add-skill
+add-skill xxx-skills
+或
+npx add-skill xxx-skills
+
+
+### 其他命令
+
+-g, --global 				# Install to user directory instead of project
+-a, --agent <agents...> 	# Target specific agents (e.g., claude-code, codex). See Available Agents
+-s, --skill <skills...> 	# Install specific skills by name
+-l, --list 					# List available skills without installing
+-y, --yes 					# Skip all confirmation prompts
+-V, --version 				# Show version number
+-h, --help 					# Show help
 
 

@@ -1,0 +1,12 @@
+# yum 离线安装包
+
+
+### 下载 yum 安装包及相关依赖包【在相同系统，能联网的服务器上执行】
+###### yum install yum-utils
+yumdownloader --resolve --destdir=/opt/packages/temp zlib-devel pam-devel libxml2-devel libxslt-devel openldap-devel python-devel gcc-c++ openssl-devel cmake
+
+
+### 本地包离线安装【在限制网络的服务器上执行】
+yum localinstall *.rpm
+
+

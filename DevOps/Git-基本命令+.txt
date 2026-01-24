@@ -45,6 +45,30 @@ git push origin --delete [分支]
 
 
 
+# worktree
+### 高效处理同一仓库的不同分支
+
+
+# 在指定路径为新分支创建一个工作树
+git worktree add -b <新分支名> <路径> <分支 或 commitHash>
+### 例：基于 main 分支创建一个名为 "new-feature" 的新分支，放在 `../project/worktree/new-feature` 目录
+git worktree add -b new-feature ../project/worktree/new-feature main
+
+# 清理工作树
+git worktree remove <路径>
+
+# 移动工作树：
+git worktree move <旧路径> <新路径>
+
+# 查看所有工作树
+git worktree list
+
+### 注：
+1.一个分支只能在一个工作树中检出
+2.与 git clone 最大区别，git worktree 多个工作目录共享同一个 .git 仓库，只增加工作文件的开销。
+
+
+
 # tag
 
 # 创建新标签
