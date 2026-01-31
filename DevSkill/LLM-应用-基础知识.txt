@@ -51,6 +51,20 @@ TPM（Tokens Per Minute）:每分钟 Token 数，计费依据。
 RPM（Requests Per Minute）：每分钟请求数，并发控制。
 
 
+# 模型能力
+
+### Function Calling、MCP、Agent、AgentSkills
+
+Function Calling（函数调用）：LLM 调用外部工具/函数的能力，模型需支持 Tools/Functions 能力，当前主流大模型已普遍支持 Tools/Functions 能力。
+
+Function Calling 是 LLM 模型调用外部能力的一种标准化方式。MCP 目前是 Function Calling 的标准化协议，解决各平台工具格式不统一问题。AgentSkills 是封装功能模块的能力单元。Agent（智能体）：由 LLM 模型驱动，可以调用工具、记忆历史、规划任务，并自主与外部环境交互完成复杂任务的程序系统。
+
+
+### LLM 模型的推理策略机制，即思考执行方式。
+ReAct：推理（Reason）+ 行动（Act）的迭代范式，更具逻辑性，循环往复解决复杂问题。
+Reflexion：ReAct + 自我反思机制（Self-Reflection） = Reflexion 的迭代范式。
+
+
 
 # AI领域开源工具
 

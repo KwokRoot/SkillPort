@@ -1,0 +1,53 @@
+# Bash、CMD、PowerShell 环境变量设置和使用
+
+
+## Linux
+
+### BashShell
+
+查看环境变量
+echo $PATH
+
+临时设置环境变量
+export JAVA_HOME=/opt/java/jdk-17.0.1
+
+添加PATH环境变量
+export PATH=$PATH:/usr/local/mytools
+
+永久设置(写入配置文件：～/.bashrc、～/.bash_profile、/etc/profile)
+echo "export PATH=$PATH:/usr/local/mytools" >> /etc/profile
+
+
+
+## Windows
+
+### CMD
+
+查看环境变量
+echo %PATH%
+
+临时设置环境变量
+set JAVA_HOME=D:\kwok\soft\jdk-17.0.1
+
+添加PATH环境变量
+set PATH=%PATH%;C:\my\tools
+
+
+### PowerShell
+
+查看所有环境变量
+Get-ChildItem env:
+
+查看环境变量（如 PATH）
+$env:PATH
+
+临时设置环境变量
+$env:JAVA_HOME = "D:\kwok\soft\jdk-17.0.1"
+
+添加PATH环境变量
+$env:PATH += ";C:\my\tools"
+
+
+### Windows 图形界面永久设置环境变量
+Win + R → sysdm.cpl → 高级 → 环境变量 → 用户/系统变量 → 编辑 PATH
+
