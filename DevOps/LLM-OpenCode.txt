@@ -1,0 +1,92 @@
+# 安装
+npm install -g opencode-ai
+# pnpm install -g opencode-ai
+
+
+# 运行命令行工具
+opencode
+
+
+# 运行 Web 工具
+opencode web --hostname 0.0.0.0 --port 4096
+
+或 
+
+opencode.json
+```
+{
+  "server": {
+    "port": 4096,
+    "hostname": "0.0.0.0",
+    "mdns": true,
+    "cors": ["https://example.com"]
+  }
+}
+```
+opencode web
+
+
+# opencode 配置
+
+配置文件：
+
+全局：
+~/.config/opencode/opencode.json
+
+项目：
+opencode.json
+
+
+# 本地 MCP 服务配置
+```
+{
+    "$schema": "https://opencode.ai/config.json",
+    "mcp":
+    {
+        "mcp-server-chart":
+        {
+            "type": "remote",
+            "url": "http://localhost:1122/mcp",
+            "enabled": true
+        }
+    }
+}
+```
+
+opencode mcp list
+
+
+# OpenCode 对接本地 Provider (提供商)、Model (模型)
+
+opencode.json
+
+```
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "my-custom-provider": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "My Custom Provider",
+      "options": {
+        "baseURL": "https://api.your-/co/service.com/v1"
+      },
+      "models": {
+        "llama3.2": {
+          "name": "llama3.2:latest"
+        },
+        "qwen:7b": {
+          "name": "qwen2.5:7b"
+        },
+        "custom-model": {
+          "name": "your-model-name",
+          "limit": {
+            "context": 128000,
+            "output": 4096
+          }
+        }
+      }
+    }
+  }
+}
+```
+
