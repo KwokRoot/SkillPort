@@ -1,0 +1,27 @@
+使用 `git-filter-repo` 对勿提交的配置文件进行彻底删除(包含reflog历史记录)
+
+
+！！！注：
+1、必须备份重要数据及原仓库。
+2、本地所有未推送的修改、stash、临时分支等可能会丢失。
+3、操作不可逆！
+
+
+1、安装 git-filter-repo
+pip install git-filter-repo
+
+2、备份原仓库所有目录及文件，包含 `.git`目录 及 源码、配置等相关文件到其他目录
+
+3、删除指定文件
+git filter-repo --path application.yml --invert-paths  --force
+
+4、强制推送到远程（覆盖历史）
+git push origin --force --all
+git push origin --force --tags
+
+--path file.txt	只保留该文件（配合 --invert-paths 可删除）
+--invert-paths	反向选择（即“排除”指定路径）
+
+5、协助者需要重新 clone 仓库，不能使用原有的本地仓库 pull
+
+

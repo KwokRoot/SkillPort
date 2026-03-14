@@ -416,4 +416,13 @@ with open(r"F:\opt\123.txt") as f:
 iter → Tab
 # 注：为什么不是 `for`，因为 `for` 是关键字，输入 `for` 会产生歧义使之变得不快捷。
 
+43.python `global` 使用场景。当需要在函数内部​​修改全局变量​​时，必须用 `global` 声明该变量，否则 Python 会将其视为局部变量。如果函数内部仅​​读取​​全局变量的值（不修改），则无需 `global` 声明。
+例：
+```
+x = 10  # 全局变量
+def modify_x():
+    global x  # 声明 x 是全局变量
+    x = 20
+```
+
 
