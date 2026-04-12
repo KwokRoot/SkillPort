@@ -1,0 +1,62 @@
+认证(Authentication)与授权(Authorization)
+
+
+## 专业术语
+Authentication：认证。解决 你是谁的 问题
+Authorization：授权。解决 你能做什么 问题
+OAuth(Open Authorization)：如何安全地授予权限
+OIDC(OpenID Connect)：授权时，如何知道你是谁
+JWT(JSON Web Token)：JWT 格式的 ID令牌
+ID Token：如何安全地表示一个声明/令牌
+
+
+## JAVA 两大框架：
+Apache Shiro：Subject + SecurityManager + Realm（简洁三层）
+Spring Security：过滤器链（Filter Chain）+ AuthenticationManager + AccessDecisionManager
+
+
+## 访问控制模型：谁可以访问什么资源
+ACL（Access Control List）: 访问控制列表。特点：以资源为中心，直观灵活的控制用户对资源的读写等权限，权限分散在资源上，是实现层面的访问控制机制/数据结构。如 Linux/Windows文件系统 权限。
+DAC（Discretionary Access Control）：自主访问控制。DAC 是一种安全策略模型。
+RBAC（Role-Based Access Control）: 基于角色的访问控制。特点：权限随角色批量分配，用户 → 角色 → 权限模式，便于管理。
+ABAC（Attribute-Based Access Control）：基于属性的访问控制。特点：根据属性动态判断是否授权。开源策略引擎：OPA(Open Policy Agent)。
+MAC（Mandatory Access Control）：强制访问控制。特点：访问决策不由资源所有者决定，而是由系统安全策略强制实施，用户不能自主更改权限。使用场景：SELinux（Security-Enhanced Linux）、Windows Mandatory Integrity Control (MIC)等。
+关系：ACL 是 DAC 最常见的实现方式，RBAC 是对 DAC 的优化，避免为每个用户单独设 ACL。ABAC 是 DAC/RBAC 的超集，支持更复杂场景, 一般不使用传统 ACL 静态的“主体-操作”列表。MAC 是最严格的模型。
+
+
+## Spring Authorization Server 的默认端点[支持 JDK8 的 Spring Boot 2.7.x 兼容 Spring Authorization Server 0.4.x 版本]：
+/oauth2/authorize	授权端点，成功返回：302 重定向到 redirect_uri?code=AUTHORIZATION_CODE&state=...， 失败返回：重定向到 redirect_uri?error=...。
+/oauth2/token	令牌端点，后端通过 code 换取 access_token、refresh_token。token 也可以解析出部分用户信息。
+/userinfo	OIDC 用户信息端点（启用 OIDC 后），通过 access_token 换取用户详细信息。
+/tokeninfo	令牌信息端点（非标准提供）
+/oauth2/revoke	令牌撤销端点
+/oauth2/introspect	令牌自省端点，用来验证一个 Token 是否有效，并获取其元数据（标准替代 /tokeninfo）
+/oauth2/jwks	JSON Web Key Set 公钥端点，暴露授权服务器用于签名 ID Token 和 Access Token 的公钥，验证 JWT 签名的真实性，防止伪造令牌。
+/.well-known/openid-configuration	OIDC 发现端点，提供授权服务器的完整能力清单和端点地址。
+
+
+# OAuth2 授权类型：
+AUTHORIZATION_CODE：客户端认证（用户登录）。
+CLIENT_CREDENTIALS：服务间认证（服务接口调用）。M2M（Machine-to-Machine/Man）：服务之间的安全通信，AuthorizationGrantType.CLIENT_CREDENTIALS。
+REFRESH_TOKEN：客户端认证后的access_tokens刷新(记住我，等长期会话场景)。注：REFRESH_TOKEN 仅存在 AUTHORIZATION_CODE 模式的返回，在 CLIENT_CREDENTIALS 模式没有 REFRESH_TOKEN 的返回。
+
+
+# 关于 spring-boot-starter-security、spring-boot-starter-oauth2-client、spring-boot-starter-oauth2-authorization-server、spring-boot-starter-oauth2-resource-server 中 spring-boot-starter 启动器的关系。
+
+① spring-boot-starter-security: Spring Boot 应用安全的基础启动器。它提供了 Spring Security 的核心功能，如认证、授权、防止CSRF攻击等。
+② spring-boot-starter-oauth2-client: OAuth2 客户端，实现“第三方登录”客户端功能。
+③ spring-boot-starter-oauth2-authorization-server: 授权服务器 (Authorization Server) 用于构建 OAuth2 授权中心的独立项目。它负责用户登录认证、颁发和管理令牌（Access Token, Refresh Token）等。
+④ spring-boot-starter-oauth2-resource-server: 资源服务器 (Resource Server)保护 API 接口。负责校验客户端请求中携带的访问令牌（如 JWT）是否有效、是否过期、是否有足够的权限。只有令牌验证通过，请求才能访问受保护的资源。
+
+常见场景组合：
+① 搭建认证中心：authorization-server + resource-server
+② 第三方登录：security + oauth2-client
+③ 保护自身API：security + oauth2-resource-server
+
+
+
+# 扩展说明
+OIDC（OpenID Connect）是一种基于 OAuth 2.0 协议的身份认证标准，通过引入 ID Token 机制实现用户身份的安全验证。OIDC 在 OAuth 2.0 基础上，增加用户身份认证能力。
+PKCE（Proof Key for Code Exchange）是OAuth 2.0的一个关键安全扩展，专门用于增强授权码流程的安全性，特别是在公共客户端（如移动应用、单页应用）中防止授权码拦截攻击
+。
+

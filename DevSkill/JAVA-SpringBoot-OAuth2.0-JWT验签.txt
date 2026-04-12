@@ -1,0 +1,88 @@
+# OAuth2.0 JWT 验签
+
+标准的 OAuth2.0 会提供 /oauth2/jwks 接口，接口返回 JWKS（JSON Web Key Set） Keys：
+
+{
+  "keys":
+  [
+    {
+      "kty": "RSA",
+      "e": "AQAB",
+      "kid": "rsa-key-20260412",
+      "n": "xoBoNkuTD5ycEZG1FSwF9EgpbvXivtoCPzRXm2uiva3VQOrqdn_ApfpUSH17unVwkBEz1gJnRQrAffkl-G767QmAgC4yrT8iV5M55e4zahKNNNJQVKjt4e_0sWN3_pFvMuulDNLqYoi_d_mFRIBt_qNx4YnwfdYVtxYZmF5hcu9eVpHNGFjhPzc7DO8lAasrRAhsHeHb9OFBvh1g8ukkHQ3nwpg3dWnhUsxTl9MGi5kdWOOacT_NksRku9OYbGM7x8CN5o-J4GfwMgG8xZ7Wz3GoO2u_n7zZgqwt_Gwhn1NypsMUnCJ8lCzgVmKYEE3M_Tx8Rd39_yxGowZJld5GRQ"
+    }
+  ]
+}
+
+利用 jwks key 转化为公钥，并进行验签：
+`n`：Base64 编码的 modulus（模数 N）
+`e`: Base64 编码的 exponent（指数 e，通常是 65537）
+
+
+步骤：
+
+① 使用 模数`n`、指数`e` 生成公钥：
+
+### Hutool 工具类
+	PublicKey publicKey = KeyUtil.getRSAPublicKey(new BigInteger(1, Base64.decode(n)), new BigInteger(1, Base64.decode(e)));
+
+### 原生 JAVA
+	KeyFactory factory = KeyFactory.getInstance("RSA");
+	RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(1, java.util.Base64.getUrlDecoder().decode(n)), new BigInteger(1, java.util.Base64.getUrlDecoder().decode(e)));
+	PublicKey publicKey = factory.generatePublic(publicKeySpec);
+
+### 注释：`n` 是一个 2048/4096 位的正整数，必须使用 BigInteger modulus = new BigInteger(1, nBytes); 强制转为正数。
+
+
+② JWT 验签
+
+  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiIxMDAwMDEiLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiIiwiZW1wbG95ZWVfbm8iOiIxMDAwMDEiLCJjbGllbnRfaWQiOiJ4eHhfNDUzN2FmZmFiNzZhNDg5MiIsImF1ZCI6Inh4eF80NTM3YWZmYWI3NmE0ODkyIiwidXNlcl9pZCI6IjIiLCJncmFudF90eXBlIjoiYXV0aG9yaXphdGlvbl9jb2RlIiwiYXpwIjoieHh4XzQ1MzdhZmZhYjc2YTQ4OTIiLCJuYW1lIjoiYWRtaW4iLCJleHAiOjE3NzU3MzcwMDcsImRlcGFydG1lbnQiOiLmioDmnK_pg6giLCJpYXQiOjE3NzU3MzUyMDcsImVtYWlsIjoiYWRtaW5AMTIzLmNvbSIsInVzZXJuYW1lIjoiMTAwMDAxIiwic3RhdHVzIjoiQUNUSVZFIn0.BjfBYrjVCqya3IFB0ykL8Bqb3BoCUIfNCBxnvVQBxVInpQEY6Sp5XynauwbxVzkgCrvLSwx8ZWSDL-2U96MyOVeVqx-QbHeckmev8_YXS6Yfhu9GMLNGTo73XBs8aI1Eazuyvr4iIRy40nUtpieH6HmU6y_-wNNtPrMVuhtaXW7uTRIpIoaJQJfFGnIBW1BfA9zez3ZLBgt6Ef_jCRDSlxTg1p6dKJ3sOPCymqcbsQb1MGnlvrgwh0W-VuMlPCgbEDKkntDOFUddvVNfqeD_a58ajbOOjl2fJhG3H0mdqn1IYVq_JyQCJo9Q0PxydwgjwrpAPV73Gd3qRowRqS8XzQ";
+
+### Hutool 工具类
+	JWTSigner jwtSigner = JWTSignerUtil.rs256(publicKey);
+    System.out.println(JWTUtil.verify(token, jwtSigner));
+
+### 原生 JAVA
+    String[] parts = token.split("\\.");
+    String header = parts[0];
+    String payload = parts[1];
+    String signature = parts[2];
+
+    // 构造待验签数据：header.payload
+    String signInput = header + "." + payload;
+    byte[] data = signInput.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+
+    // 解码 Base64Url 签名（注意：JWT 使用 URL 安全编码）
+    byte[] signatureBytes = java.util.Base64.getUrlDecoder().decode(signature);
+
+    // 初始化 SHA256withRSA 验签器
+    Signature verifier = Signature.getInstance("SHA256withRSA");
+    verifier.initVerify(publicKey);
+    verifier.update(data);
+    System.out.println(verifier.verify(signatureBytes));
+
+
+
+### 扩展：
+
+	公钥 转 公钥字符串：
+		### 原生 JAVA
+			String publicKeyStr = java.util.Base64.getEncoder().encodeToString(publicKey.getEncoded())
+		
+	公钥字符串 转 公钥：
+
+      String publicKeyStr = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxoBoNkuTD5ycEZG1FSwF9EgpbvXivtoCPzRXm2uiva3VQOrqdn/ApfpUSH17unVwkBEz1gJnRQrAffkl+G767QmAgC4yrT8iV5M55e4zahKNNNJQVKjt4e/0sWN3/pFvMuulDNLqYoi/d/mFRIBt/qNx4YnwfdYVtxYZmF5hcu9eVpHNGFjhPzc7DO8lAasrRAhsHeHb9OFBvh1g8ukkHQ3nwpg3dWnhUsxTl9MGi5kdWOOacT/NksRku9OYbGM7x8CN5o+J4GfwMgG8xZ7Wz3GoO2u/n7zZgqwt/Gwhn1NypsMUnCJ8lCzgVmKYEE3M/Tx8Rd39/yxGowZJld5GRQIDAQAB";
+
+    ### Hutool 工具类
+			PublicKey publicKey = new RSA(null, publicKeyStr).getPublicKey();
+			或：
+      PublicKey publicKey = KeyUtil.generateRSAPublicKey(Base64.decode(publicKeyStr));
+      或：
+			PublicKey publicKey = SecureUtil.generatePublicKey("RSA", Base64.decode(publicKeyStr));
+		### 原生 JAVA
+			PublicKey publicKey = factory.generatePublic(new X509EncodedKeySpec(java.util.Base64.getDecoder().decode(publicKeyStr)));
+
+  关于 Base64Url：
+    `+` 在 URL 查询参数中会被解码为空格（application/x-www-form-urlencoded）,`/` 是路径分隔符，`=` 是键值对赋值符号，在某些上下文中需转义。Base64Url 编码时进行如下转换，去掉填充字符 `=`，将 `+` 替换为 `-`，将 `/` 替换为 `_` 。简单处理：n = n.replace('=', '').replace('+', '-').replace('/', '_')。Java 8+ 提供了 Base64.getUrlDecoder()，原生支持 Base64Url 解码，自动将 `-` 替换为 `+`，`_` 替换为 `/`，自动补足缺失的 `=` 填充。简单处理：n = n.replace('-', '+').replace('_', '/');
+
+
