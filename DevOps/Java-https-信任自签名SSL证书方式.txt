@@ -1,0 +1,28 @@
+# JAVA信任自签名SSL证书方式
+
+方式一：启动参数指定证书：
+	注：该方式指定的信任库（trustStore）会覆盖 JDK 自带的默认信任库（通常是 $JAVA_HOME/jre/lib/security/cacerts）。
+	java -Djavax.net.ssl.trustStore=/path/to/trustStore.jks -Djavax.net.ssl.trustStorePassword=your_password -jar app.jar
+
+
+方式二：将自签名 trustStore 证书导入到 JDK 默认 cacerts 中的根证书
+
+## JDK 的默认 cacerts 路径
+	JDK 8-
+		$JAVA_HOME/jre/lib/security/cacerts
+	JDK 9+
+		$JAVA_HOME/lib/security/cacerts
+
+## 备份原始 cacerts
+	cp -ap cacerts cacerts.bak
+
+## 导入自签名证书
+	keytool -importcert -alias xxx-ca -file /path/to/mycert.crt -keystore cacerts -storepass changeit
+
+## 验证导入
+	keytool -list -v -keystore /path/to/truststore.jks -storepass your_password | grep "xxx-ca"
+
+## 列出所有证书别名
+	keytool -list -keystore "$JAVA_HOME/lib/security/cacerts" -storepass changeit
+	keytool -list -keystore "C:\Program Files\Java\jre1.8.0_192\lib\security\cacerts" -storepass changeit
+
