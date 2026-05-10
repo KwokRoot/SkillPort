@@ -1,0 +1,73 @@
+Nginx-单页SPA应用Nginx配置
+
+
+# SPA(Single Page Application): 单页应用。相对于传统 MPA-多页应用，跳转路由由前端框架控制（如 Vue Router、React Router），体验更像原生 App，流畅、快速无整页刷新。
+
+# 单页SPA应用 Nginx 经典配置
+```
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    # SPA 根目录
+    root /path/to/your/dist;
+    index index.html;
+
+    location / {
+        try_files $uri /index.html;
+    }
+
+}
+```
+
+# 单页SPA应用 Nginx 带缓存优化配置
+```
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    root /path/to/your/dist;
+    index index.html;
+
+    # 1. 静态资源：长期缓存（适用于带 hash 的文件）
+    location /xx/assets/ {
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+        try_files $uri =404;
+    }
+
+
+    # 2. SPA 主入口：所有非文件请求回退到 index.html
+    location /xx {
+        try_files $uri /xx/index.html;
+    }
+
+    # 3. 代理后端
+    location /xx/api {
+
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Port $server_port;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+        proxy_pass http://127.0.0.1:8080;
+    }
+
+}
+```
+
+总结以上配置：文件就返，非文件就回 index.html；资源缓存，目录不查。
+
+
+
+# 拓展：
+1、问题：请求 xx/yy，Nginx 会 location  xx/yy/ (“幽灵 301”问题)
+定位：
+	location /xx {
+        try_files $uri $uri/ /xx/index.html;
+    } 
+分析：配置中的 `$uri/` 会检查 $uri 是否为目录，如果是且请求没带 /，触发 301 重定向到 /xx/
+
+

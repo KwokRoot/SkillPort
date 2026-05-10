@@ -1,0 +1,92 @@
+# 配置及现象
+server {
+        listen       18186;
+        access_log  /var/log/nginx/access-$server_port.log  main;
+        
+        location / {
+
+            proxy_set_header Host abc.com;
+            
+            proxy_set_header X-Forwarded-Host $http_host;
+			proxy_set_header X-Forwarded-Port $server_port;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+                        
+            proxy_buffering off;
+            proxy_http_version 1.1;
+            proxy_connect_timeout 60s;
+            proxy_read_timeout 300s;
+        
+            proxy_pass http://10.10.10.111;
+        }
+
+        #error_page  404              /404.html;
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+}
+
+
+请求及响应头：
+Request URL http://10.10.10.110:18186/oauth/login?client_id=xxx_yyy&redirect_uri=http%3A%2F%2F10.10.10.110%3A18182%2Fapi%2Fopen%2Foauth2%2Fcallback&state=oauth2
+Request Method  GET
+Status Code 301 Moved Permanently (from disk cache)
+Remote Address  10.10.10.110:18186
+Referrer Policy strict-origin-when-cross-origin
+content-length  169
+content-type    text/html
+date    Mon, 20 Apr 2026 08:32:18 GMT
+location    http://abc.com/oauth/login/?client_id=xxx_yyy&redirect_uri=http%3A%2F%2F10.10.10.110%3A18182%2Fapi%2Fopen%2Foauth2%2Fcallback&state=oauth2
+server  nginx/1.20.1
+x-authserver-version  2026-05-10-xxx
+x-onegate-upstream-service-time 0
+
+
+# 核心矛盾：
+① 下游根据 nginx server_name abc.com 做的分发，所以必须设置 proxy_set_header Host abc.com;
+② 后端用这个 Host 生成重定向 URL → 导致 301 跳转到 http://abc.com/... → 客户端无法解析
+
+问题1: 为什么 会出现 301 的重定向？
+回答1: 很多 Web 框架（如 Spring MVC、Flask、Django）对 末尾斜杠敏感：
+        /login → 被视为“文件”
+        /login/ → 被视为“目录”
+    如果路由定义为 /login/，但用户访问 /login，框架会自动 Location 301 到 /login/。这是正常行为。
+
+
+# 解决方案：
+
+server {
+    listen 18186;
+
+    access_log /var/log/nginx/access-$server_port.log main;
+
+    location / {
+        proxy_set_header Host abc.com;
+
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Forwarded-Port $server_port;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        proxy_buffering off;
+        proxy_http_version 1.1;
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 300s;
+
+        proxy_redirect ~^http://abc\.com(?::\d+)?(/.*)$ http://$host:$server_port$1;
+        proxy_redirect ~^https://abc\.com(?::\d+)?(/.*)$ http://$host:$server_port$1;  # 如果有 HTTPS 也加
+
+        proxy_pass http://10.205.229.104;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root html;
+    }
+}
+

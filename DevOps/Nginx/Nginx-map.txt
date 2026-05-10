@@ -1,0 +1,66 @@
+Nginx-map 模块
+
+# Nginx-map 模块(ngx_http_map_module): 主要用于根据某个变量的值动态生成另一个自定义变量的值。它常用于条件判断、请求分流、访问控制、灰度发布等场景，默认已编译进 Nginx（除非手动 --without-xxx 排除）。
+
+## 语法：
+map $source_variable $new_variable {
+    default     value_if_no_match;
+    pattern1    value1;
+    pattern2    value2;
+    ...
+}
+
+## 示例：
+map $http_user_agent $device {
+    default       "pc";
+    ~*mobile      "mobile";
+    ~*android     "android";
+    ~*iphone      "ios";
+}
+
+## 说明
+1、map 块必须在 http {} 上下文中。
+2、匹配顺序：精确 > 前缀通配符 > 后缀通配符 > 正则（按配置顺序）。当多个规则可能匹配时，Nginx 按以下顺序选择第一个匹配项：
+    精确字符串匹配（如 debug）
+    最长前缀通配符（如 *.example.com）
+    最长后缀通配符（如 mail.*）
+    按配置顺序的第一个正则匹配（如 ~ ^/api/v1）
+3、变量惰性求值，只有被引用时才计算，性能开销低。
+
+
+## 案例
+
+如果请求头中存在 X-Forwarded-Port（值非空），则 $fwd_port = $http_x_forwarded_port；如果 X-Forwarded-Port 不存在或为空字符串（""），则使用 Nginx 自身监听的端口 $server_port（这里是 1818）。
+如果请求头中有 X-Forwarded-Proto（如 https），则 $fwd_proto = $http_x_forwarded_proto；如果该头不存在或为空，则使用 Nginx 接收请求时使用的协议 $scheme（即当前 server 的协议）。
+
+
+```
+map $http_x_forwarded_port $fwd_port {
+    default $http_x_forwarded_port;
+    ""      $server_port;
+}
+
+map $http_x_forwarded_proto $fwd_proto {
+    default $http_x_forwarded_proto;
+    ""      $scheme;
+}
+
+
+server {
+    listen 1818;
+
+    location / {
+        proxy_pass http://后端应用;
+
+		proxy_set_header Host              $http_host;
+        proxy_set_header X-Forwarded-Host  $host;
+        proxy_set_header X-Forwarded-Port  $fwd_port;
+        proxy_set_header X-Forwarded-Proto $fwd_proto;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        # ...
+    }
+}
+```
+
+

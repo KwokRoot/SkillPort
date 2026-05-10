@@ -1,0 +1,54 @@
+Nginx-sub_filter 模块: Nginx 实现轻量级响应内容修改工具。
+	
+# 使用场景：
+  	协议修正（HTTP → HTTPS）
+   	域名替换
+   	敏感信息脱敏
+
+
+# 查看是否启用 ngx_http_sub_module 模块
+./sbin/nginx -V | grep -- '--with-http_sub_module'
+
+
+# 编译配置 http_sub_module 模块
+./configure --with-http_sub_module
+
+
+# 整体编译配置命令
+cd /data/nginx/nginx-1.22.1
+./configure --prefix=/data/nginx --with-http_ssl_module --add-module=/opt/packages/nginx-module-vts-0.2.2 --with-http_sub_module
+make && make install
+
+
+# 配置示例
+location /.well-known/openid-configuration {
+
+            proxy_pass http://127.0.0.1:8080/.well-known/openid-configuration;
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forwarded-Host $host;
+            proxy_set_header X-Forwarded-Port $server_port;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+
+            # 启用响应体替换
+            sub_filter_types application/json;
+            sub_filter 'http://10.10.10.110:1818' 'https://10.10.10.110:2828';
+            sub_filter_once off;
+
+            # 关键！禁用 gzip。后端返回 gzip 压缩内容，Nginx 无法解压并替换
+            proxy_set_header Accept-Encoding "";
+            
+            # 禁用缓冲，确保 sub_filter 生效
+            proxy_buffering off;
+            
+}
+
+
+
+# 拓展【与 Nginx-sub_filter 模块 无关】
+
+### 注：OIDC `id_token` 为 `jwt` 加密 Token，从加密字符串 `id_token` 中解析出的 `issuer` 无法通过 ngx_http_sub_module 模块 响应体内容替换，所以在 OAuth2.0 OIDC 认证场景中，只对 `.well-known/openid-configuration` 替换对外地址的方案行不通。
+
+

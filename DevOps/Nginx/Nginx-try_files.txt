@@ -1,0 +1,30 @@
+Nginx-try_files
+
+
+# try_files: 按顺序检查文件或目录是否存在，返回第一个找到的资源；如果都找不到，则内部重定向到最后一个参数。
+
+# 语法：
+try_files file1 [file2 ...] final;
+
+# 示例：
+location / {
+	root /app/dist;
+    try_files $uri $uri/ /index.html;
+    # 或 try_files $uri $uri/ =404;
+}
+
+## 注：
+	1、确保 index.html 一定存在，否则再次 try_files... 死循环！
+	2、每个 try_files 参数都会触发一次磁盘检查，尽可能少。
+## 说明：当请求：`/xx/yy` 时
+    step01: 检查 $uri → 是否存在物理文件 `/xx/yy` 。
+	step02: 检查 $uri/ → 是否存在目录 `/xx/yy/` 。
+	step03: 内部重定向(对客户端透明)到 `/index.html` 。
+
+
+# 单页SPA应用配置（避免目录检查）
+
+location / {
+    try_files $uri /index.html;   # ← 直接去掉 $uri/
+}
+

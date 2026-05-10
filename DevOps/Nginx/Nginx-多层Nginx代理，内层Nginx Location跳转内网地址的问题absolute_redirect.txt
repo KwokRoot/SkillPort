@@ -1,0 +1,21 @@
+Nginx-多层Nginx代理，内层 Nginx Location 跳转内网地址的问题
+
+Nginx 301 的 Location 的问题：
+
+多层 Nginx：HTTPS:2828 -> HTTP:1818
+默认开启的 absolute_redirect on，一旦内层发 301 并生成绝对地址的 Location，就会把 http:// 写进响应头——你就看到「HTTPS 访问却 301 到 HTTP」，内层 Nginx，监听的是 listen 1818，参与拼 Location 时往往会用到 $server_port。
+
+
+# 使用相对路径重定向
+absolute_redirect off;
+# 避免用 server_name 生成 Location
+server_name_in_redirect off;
+# 是否在 Location 中包含端口
+port_in_redirect off;
+
+
+# 拓展：
+1、与 `proxy_redirect` 区别：
+	Nginx 自己发的重定向问题，使用 `absolute_redirect`，一般应用于纯静态 SPA 服务配置；后端重定向替换，使用 `proxy_redirect`，一般应用于后端的反向代理配置。
+
+
