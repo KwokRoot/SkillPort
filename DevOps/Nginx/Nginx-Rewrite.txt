@@ -1,0 +1,49 @@
+# Nginx rewrite
+
+## 模块名：ngx_http_rewrite_module(依赖操作系统PCRE类库)，编译源码安装默认包含该模块。该模块有 return、rewrite 等指令。
+
+## return 指令
+
+### 协议跳转（HTTP 转 HTTPS）
+if ($scheme = http) {
+    return 301 https://$host$request_uri;
+}
+
+
+## rewrite 指令
+
+## 基础语法：
+rewrite 正则表达式 替换后的URL [flag标记];
+
+### 地址重写
+	upstream elasticsearch {
+    	server 10.10.10.111:9200;
+	}
+
+
+	location /es {
+			proxy_buffering off;
+            proxy_pass http://elasticsearch/;
+	}
+
+	等价于使用 `rewrite`
+
+	location /es {
+	
+			proxy_buffering off;
+            rewrite ^/es/(.*) /$1 break;
+            proxy_pass http://elasticsearch;
+
+	}
+
+
+### 伪静态化
+
+rewrite ^/detail/(\d+)\.html$ /api/detail?id=$1 last;
+
+
+## rewrite_log 指令
+
+rewrite_log on;
+error_log /var/log/nginx/rewrite.log debug;
+

@@ -1,0 +1,43 @@
+Nginx-echo三方模块示例
+
+# --add-module=/opt/packages/echo-nginx-module-0.63
+
+
+# 配置
+location /test {
+    set $flag '';
+    if ( $http_route_id = "6" ) {
+        echo_before_body "ok";
+        echo_before_body $http_route_id;
+        set $flag "header: ";
+    }
+    if ( $arg_route_id = "9" ) {
+        echo_before_body "ok";
+        echo_before_body $arg_route_id;
+        set $flag "args: ";
+    }
+    echo $flag "hello world";
+}
+
+
+# 请求：
+① curl -X GET -i 'http://10.10.90.118/test?route_id=9'
+ok
+9
+args:  hello world
+② curl -X GET -H 'route-id: 6' -i 'http://10.10.90.118/test'
+ok
+6
+header:  hello world
+③ curl -X GET -H 'route-id: 6' -i 'http://10.10.90.118/test?route_id=9'
+ok
+9
+args:  hello world
+
+
+
+注：
+① 请 求 头：`route-id` 在 Nginx 中通过内置变量 `http_route_id`(即：http_xxx) 能够获取到。
+② 请求参数：`route_id` 在 Nginx 中通过内置变量 `arg_route_id`(即：arg_xxx) 能够获取到。
+③ 更多请参考：Nginx 内置变量。
+

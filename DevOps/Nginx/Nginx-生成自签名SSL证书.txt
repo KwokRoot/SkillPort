@@ -1,0 +1,88 @@
+# Nginx-生成自签名SSL证书
+
+
+# 创建证书
+mkdir -p /etc/nginx/ssl
+
+## 生成 CN（Common Name）证书【已废弃】
+openssl req -x509 -nodes -days 36500 \
+  -newkey rsa:2048 \
+  -keyout /etc/nginx/ssl/nginx-sys.key \
+  -out /etc/nginx/ssl/nginx-sys.crt \
+  -subj "/C=CN/ST=ShangHai/L=ShangHai/O=DevOps/CN=10.10.10.110"
+
+## 生成 SAN（Subject Alternative Name）证书（现代浏览器和 Java 要求 SAN 来验证主机名/IP）
+vim ssl/san.cnf
+cat > /etc/nginx/ssl/san.cnf <<EOF
+[req]
+default_bits = 2048
+prompt = no
+distinguished_name = dn
+req_extensions = v3_req
+
+[dn]
+C=CN
+ST=ShangHai
+L=ShangHai
+O=DevOps
+CN=Multiple IPS Common Name
+
+[v3_req]
+basicConstraints = CA:FALSE
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 10.10.10.110
+IP.2 = 10.10.10.111
+EOF
+
+
+openssl req -x509 -nodes -days 36500 \
+  -newkey rsa:2048 \
+  -keyout /etc/nginx/ssl/nginx-sys.key \
+  -out /etc/nginx/ssl/nginx-sys.crt \
+  -config /etc/nginx/ssl/san.cnf \
+  -extensions v3_req
+
+
+# 查看证书内容：
+openssl x509 -in /etc/nginx/ssl/nginx-sys.crt -text -noout
+
+# 配置 Nginx
+server {
+    listen 443;
+    server_name 10.10.10.110;
+
+    ssl  on;
+    ssl_certificate /etc/nginx/ssl/nginx-sys.crt;
+    ssl_certificate_key /etc/nginx/ssl/nginx-sys.key;
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+    }
+}
+
+
+
+# JAVA 程序证书验证异常：
+
+I/O error on POST request for \"https://10.10.10.110:2828/sys/oauth2/token\": sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target; nested exception is javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+
+# 导出自签名证书：
+openssl s_client -connect 10.10.10.110:2828 </dev/null 2>/dev/null | openssl x509 > nginx-sys.crt
+
+查看证书：
+openssl x509 -in nginx-sys.crt -text -noout
+
+# 以 管理员身份运行命令提示符（CMD）或 PowerShell，导入证书到信任库
+keytool -import -alias nginx-sys -file nginx-sys.crt -keystore 'C:\Program Files\Java\jdk1.8.0_192\jre\lib\security\cacerts' -storepass changeit
+# 查看信任库中是的有导入证书
+keytool -list -keystore "C:\Program Files\Java\jdk1.8.0_192\jre\lib\security\cacerts" -storepass changeit | findstr nginx-sys
+
+# 注：Java 在启动时才加载信任库，运行中的 JVM 不会动态重新加载 cacerts！
+
